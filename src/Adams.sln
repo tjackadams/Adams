@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EDEBFA1F-04C2-4469-BD1B-2DBD2A17C2CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A82629EE-C1AD-407F-85AF-0729205FE2E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{173F483F-0579-44B3-8086-30FAC63368E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{B8C3E40E-0B61-4AB9-B5D1-7765FE59BE7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Smoker", "Smoker", "{8C0C58E6-1D5B-4743-B279-87A6E06D6D40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{6F72079A-8E21-4980-A896-79FADBA657F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C2FD0D6-D878-4C2D-9DDC-9C4AAA249419}"
+	ProjectSection(SolutionItems) = preProject
+		tye.production.yaml = tye.production.yaml
+		tye.yaml = tye.yaml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Api", "Services\Identity\Identity.Api\Identity.Api.csproj", "{C3F89BFD-6694-4ED4-8E83-7865AADEEB50}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adams.AspNetCore.Extensions", "Shared\Adams.AspNetCore.Extensions\Adams.AspNetCore.Extensions.csproj", "{C70ADA48-4FD6-4602-920F-52C1200B2CE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStatus", "Web\WebStatus\WebStatus.csproj", "{4DCBDA9D-C8DC-4BAD-A40B-C21D09B41662}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3F89BFD-6694-4ED4-8E83-7865AADEEB50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F89BFD-6694-4ED4-8E83-7865AADEEB50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F89BFD-6694-4ED4-8E83-7865AADEEB50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F89BFD-6694-4ED4-8E83-7865AADEEB50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C70ADA48-4FD6-4602-920F-52C1200B2CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70ADA48-4FD6-4602-920F-52C1200B2CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70ADA48-4FD6-4602-920F-52C1200B2CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70ADA48-4FD6-4602-920F-52C1200B2CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DCBDA9D-C8DC-4BAD-A40B-C21D09B41662}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DCBDA9D-C8DC-4BAD-A40B-C21D09B41662}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DCBDA9D-C8DC-4BAD-A40B-C21D09B41662}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DCBDA9D-C8DC-4BAD-A40B-C21D09B41662}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A82629EE-C1AD-407F-85AF-0729205FE2E4} = {EDEBFA1F-04C2-4469-BD1B-2DBD2A17C2CD}
+		{173F483F-0579-44B3-8086-30FAC63368E4} = {EDEBFA1F-04C2-4469-BD1B-2DBD2A17C2CD}
+		{B8C3E40E-0B61-4AB9-B5D1-7765FE59BE7B} = {A82629EE-C1AD-407F-85AF-0729205FE2E4}
+		{8C0C58E6-1D5B-4743-B279-87A6E06D6D40} = {A82629EE-C1AD-407F-85AF-0729205FE2E4}
+		{6F72079A-8E21-4980-A896-79FADBA657F4} = {EDEBFA1F-04C2-4469-BD1B-2DBD2A17C2CD}
+		{C3F89BFD-6694-4ED4-8E83-7865AADEEB50} = {B8C3E40E-0B61-4AB9-B5D1-7765FE59BE7B}
+		{C70ADA48-4FD6-4602-920F-52C1200B2CE8} = {173F483F-0579-44B3-8086-30FAC63368E4}
+		{4DCBDA9D-C8DC-4BAD-A40B-C21D09B41662} = {6F72079A-8E21-4980-A896-79FADBA657F4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {107D7EFD-324E-42AD-9C05-EC642BBEE485}
+	EndGlobalSection
+EndGlobal

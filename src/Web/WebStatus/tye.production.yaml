@@ -1,0 +1,23 @@
+﻿name: adams
+
+services:
+
+- name: webstatus
+  dockerFile: Web/WebStatus/Dockerfile
+  dockerFileContext: .
+
+  env:
+  - name: ASPNETCORE_ENVIRONMENT
+    value: Production
+  - name: ASPNETCORE_URLS
+    value: http://0.0.0.0:80
+  - name: HealthChecksUI__HealthChecks__1__Name
+    value: Identity HTTP Check
+  - name: HealthChecksUI__HealthChecks__1__Uri
+    value: http://identity-api/hc
+  - Serilog__SeqServerUrl
+  - OrchestratorType
+  bindings:
+  - name: http
+    port: 80
+    protocol: http

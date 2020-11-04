@@ -1,0 +1,19 @@
+﻿name: adams
+
+services:
+- name: identity-api
+  dockerFile: Services/Identity/Identity.Api/dockerFile
+  dockerFileContext: .
+
+  env:
+  - name: ASPNETCORE_ENVIRONMENT
+    value: Production
+  - name: ASPNETCORE_URLS
+    value: http://0.0.0.0:80
+  - ConnectionStrings__Identity
+  - Serilog__SeqServerUrl
+  - OrchestratorType
+  bindings:
+  - name: http
+    port: 80
+    protocol: http

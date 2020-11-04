@@ -1,0 +1,21 @@
+﻿name: adams
+
+services:
+
+- name: webstatus
+  project: WebStatus.csproj
+  env:
+  - name: ASPNETCORE_ENVIRONMENT
+    value: Development
+  - name: ASPNETCORE_URLS
+    value: http://0.0.0.0:80
+  - name: HealthChecksUI__HealthChecks__1__Name
+    value: Identity HTTP Check
+  - name: HealthChecksUI__HealthChecks__1__Uri
+    value: http://localhost:5105/hc
+  - name: OrchestratorType
+    value:
+  bindings:
+  - name: http
+    port: 5107
+    protocol: http

@@ -1,0 +1,15 @@
+﻿name: adams
+
+services:
+- name: identity-api
+  project: Identity.Api.csproj
+  env:
+  - name: ASPNETCORE_ENVIRONMENT
+    value: Development
+  - name: ASPNETCORE_URLS
+    value: http://0.0.0.0:80
+  - name: OrchestratorType
+    value:   
+  bindings:
+  - name: http-binding
+    port: 5105

@@ -1,0 +1,38 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  name: 'Laptop'
+
+steps:
+    
+- task: Kubernetes@1
+  displayName: 'Test K3s connection'
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'Local K3S'
+    command: 'get'
+    arguments: 'nodes'
+    outputFormat: none
+
+- task: Docker@2
+  displayName: 'Docker login'
+  inputs:
+    containerRegistry: 'DockerHub'
+    command: 'login'
+  
+- task: DotNetCoreCLI@2
+  displayName: 'Install Tye global tool'
+  inputs:
+    command: 'custom'
+    custom: 'tool'
+    arguments: 'update Microsoft.Tye --version "0.5.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json --tool-path $(Agent.BuildDirectory)/tools'
+
+- script: $(Agent.BuildDirectory)/tools/tye deploy tye.production.yaml
+  workingDirectory: 'src'
+  displayName: 'Build and deploy'

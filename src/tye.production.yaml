@@ -1,0 +1,21 @@
+name: adams
+registry: tjackadams
+
+ingress:
+  - name: ingress
+    bindings:
+      - port: 80
+    rules:
+      - host: identity.itadams.co.uk
+        service: identity-api
+      - host: status.itadams.co.uk
+        service: webstatus
+
+services:
+
+- name: identity-api
+  include: Services/Identity/Identity.Api/tye.production.yaml
+
+- name: webstatus
+  include: Web/WebStatus/tye.production.yaml
+  dockerFileContext: .

@@ -1,0 +1,13 @@
+name: adams
+registry: tjackadams
+
+extensions:
+- name: seq
+  logPath: ./.logs
+
+services:
+- name: identity-api
+  include: Services/Identity/Identity.Api/tye.yaml
+
+- name: webstatus
+  include: Web/WebStatus/tye.yaml
