@@ -17,6 +17,7 @@ services:
     value: http://identity-api/hc
   - Serilog__SeqServerUrl
   - OrchestratorType
+  - IsClusterEnv
   bindings:
   - name: http
     port: 80
