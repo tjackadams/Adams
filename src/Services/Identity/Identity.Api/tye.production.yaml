@@ -11,8 +11,10 @@ services:
   - name: ASPNETCORE_URLS
     value: http://0.0.0.0:80
   - ConnectionStrings__Identity
+  - ConnectionStrings__Redis
   - Serilog__SeqServerUrl
   - OrchestratorType
+  - IsClusterEnv
   bindings:
   - name: http
     port: 80
