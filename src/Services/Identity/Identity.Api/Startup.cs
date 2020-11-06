@@ -48,7 +48,7 @@ namespace Adams.Services.Identity.Api
             if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
             {
                 services.AddDataProtection(opts => { opts.ApplicationDiscriminator = "adams.identity"; })
-                    .PersistKeysToStackExchangeRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]),
+                    .PersistKeysToStackExchangeRedis(ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis")),
                         "DataProtection-Keys");
             }
 
