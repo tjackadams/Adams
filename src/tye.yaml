@@ -1,13 +1,25 @@
 name: adams
 registry: tjackadams
 
-extensions:
-- name: seq
-  logPath: ./.logs
-
 services:
+- name: redis
+  image: redis:alpine
+  bindings:
+  - port: 6379
+    connectionString: "${host}:${port}"
+
 - name: identity-api
   include: Services/Identity/Identity.Api/tye.yaml
+  liveness:
+    http:
+      path: /liveness
+  readiness:
+    http:
+      path: /hc
+    initialDelay: 1
 
 - name: webstatus
   include: Web/WebStatus/tye.yaml
+  liveness:
+    http:
+      path: /liveness

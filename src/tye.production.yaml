@@ -15,7 +15,16 @@ services:
 
 - name: identity-api
   include: Services/Identity/Identity.Api/tye.production.yaml
+  liveness:
+    http:
+      path: /liveness
+  readiness:
+    http:
+      path: /hc
+    initialDelay: 1
 
 - name: webstatus
   include: Web/WebStatus/tye.production.yaml
-  dockerFileContext: .
+  liveness:
+    http:
+      path: /liveness

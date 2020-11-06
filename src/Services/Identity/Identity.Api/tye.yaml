@@ -11,5 +11,5 @@ services:
   - name: OrchestratorType
     value:   
   bindings:
-  - name: http-binding
+  - name: http
     port: 5105

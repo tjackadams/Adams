@@ -1,7 +1,6 @@
 ﻿name: adams
 
 services:
-
 - name: webstatus
   project: WebStatus.csproj
   env:

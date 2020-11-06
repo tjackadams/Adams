@@ -56,7 +56,10 @@ namespace Adams.Services.Identity.Api
                 .AddCheck("self", () => HealthCheckResult.Healthy())
                 .AddSqlServer(Configuration.GetConnectionString("Identity"),
                     name: "IdentityDB-check",
-                    tags: new[] {"IdentityDB"});
+                    tags: new[] {"IdentityDB"})
+                .AddRedis(Configuration.GetConnectionString("redis"),
+                    name: "redis-check",
+                    tags: new [] {"redis"});
 
             services.AddTransient<ILoginService<ApplicationUser>, LoginService>();
             services.AddTransient<IRedirectService, RedirectService>();
