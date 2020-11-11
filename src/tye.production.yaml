@@ -5,11 +5,14 @@ ingress:
   - name: ingress
     bindings:
       - port: 80
+      - port: 443
     rules:
       - host: identity.itadams.co.uk
         service: identity-api
       - host: status.itadams.co.uk
         service: webstatus
+      - host: app.itadams.co.uk
+        service: webblazor
 
 services:
 
@@ -28,3 +31,6 @@ services:
   liveness:
     http:
       path: /liveness
+
+- name: webblazor
+  include: Web/WebBlazor/Server/tye.production.yaml

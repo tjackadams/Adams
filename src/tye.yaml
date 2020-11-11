@@ -10,6 +10,7 @@ services:
 
 - name: identity-api
   include: Services/Identity/Identity.Api/tye.yaml
+
   liveness:
     http:
       path: /liveness
@@ -23,3 +24,6 @@ services:
   liveness:
     http:
       path: /liveness
+
+- name: webblazor
+  include: Web/WebBlazor/Server/tye.yaml

@@ -2,80 +2,65 @@
 using System.Reflection;
 using Adams.Services.Identity.Api.Data;
 using Adams.Services.Identity.Api.Models;
-using Adams.Services.Identity.Api.Services;
 using HealthChecks.UI.Client;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 
 namespace Adams.Services.Identity.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
+            Environment = environment;
             Configuration = configuration;
         }
 
+        public IWebHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Identity"),
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("Identity"),
                     sqlOptions =>
                     {
                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                        //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
                         sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
                     }));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.SignIn.RequireConfirmedAccount = true;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
-            {
-                services.AddDataProtection(opts => { opts.ApplicationDiscriminator = "adams.identity"; })
-                    .PersistKeysToStackExchangeRedis(ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis")),
-                        "DataProtection-Keys");
-            }
-
-            services.AddHealthChecks()
-                .AddCheck("self", () => HealthCheckResult.Healthy())
-                .AddSqlServer(Configuration.GetConnectionString("Identity"),
-                    name: "IdentityDB-check",
-                    tags: new[] {"IdentityDB"})
-                .AddRedis(Configuration.GetConnectionString("redis"),
-                    name: "redis-check",
-                    tags: new [] {"redis"});
-
-            services.AddTransient<ILoginService<ApplicationUser>, LoginService>();
-            services.AddTransient<IRedirectService, RedirectService>();
 
             var connectionString = Configuration.GetConnectionString("Identity");
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            // Adds IdentityServer
-            services.AddIdentityServer(x =>
+            var builder = services.AddIdentityServer(options =>
                 {
-                    x.IssuerUri = "null";
-                    x.Authentication.CookieLifetime = TimeSpan.FromHours(2);
+                    options.Events.RaiseErrorEvents = true;
+                    options.Events.RaiseInformationEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseSuccessEvents = true;
+
+                    options.EmitStaticAudienceClaim = true;
                 })
-                .AddDeveloperSigningCredential()
-                // .AddSigningCredential(Certificate.Get())
-                .AddAspNetIdentity<ApplicationUser>()
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
@@ -94,45 +79,57 @@ namespace Adams.Services.Identity.Api
                             sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
                         });
                 })
-                .Services.AddTransient<IProfileService, ProfileService>();
+                .AddAspNetIdentity<ApplicationUser>();
 
-            services.AddControllers();
-            services.AddControllersWithViews();
-            services.AddRazorPages();
+            if (Environment.IsDevelopment())
+            {
+                builder.AddDeveloperSigningCredential();
+            }
+            else
+            {
+                builder.AddSigningCredentialsFromAzureKeyVault(options =>
+                {
+                    Configuration.Bind("AzureKeyVault", options);
+                });
+            }
+            
+
+            services.AddAuthentication();
+
+            if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
+            {
+                services.AddDataProtection(opts => { opts.ApplicationDiscriminator = "adams.identity"; })
+                    .PersistKeysToStackExchangeRedis(
+                        ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis")),
+                        "DataProtection-Keys");
+            }
+
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddSqlServer(Configuration.GetConnectionString("Identity"),
+                    name: "IdentityDB-check",
+                    tags: new[] {"IdentityDB"})
+                .AddRedis(Configuration.GetConnectionString("redis"),
+                    "redis-check",
+                    tags: new[] {"redis"});
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
-            var pathBase = Configuration["PATH_BASE"];
-            if (!string.IsNullOrEmpty(pathBase))
-            {
-                loggerFactory.CreateLogger<Startup>().LogDebug("Using PATH BASE '{pathBase}'", pathBase);
-                app.UsePathBase(pathBase);
-            }
 
             app.UseStaticFiles();
 
-            app.UseForwardedHeaders();
-            // Adds IdentityServer
-            app.UseIdentityServer();
-
-            app.UseCookiePolicy(new CookiePolicyOptions {MinimumSameSitePolicy = SameSiteMode.Lax});
             app.UseRouting();
+            app.UseIdentityServer();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapControllers();
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions
                 {
                     Predicate = _ => true,

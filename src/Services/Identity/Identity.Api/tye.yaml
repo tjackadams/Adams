@@ -2,14 +2,12 @@
 
 services:
 - name: identity-api
-  project: Identity.Api.csproj
+  dockerFile: Services/Identity/Identity.Api/DockerFile
+  dockerFileContext: .
+
   env:
-  - name: ASPNETCORE_ENVIRONMENT
-    value: Development
-  - name: ASPNETCORE_URLS
-    value: http://0.0.0.0:80
-  - name: OrchestratorType
-    value:   
+  - ASPNETCORE_ENVIRONMENT=Development
+  
   bindings:
-  - name: http
-    port: 5105
+  - port: 5105
+    protocol: https

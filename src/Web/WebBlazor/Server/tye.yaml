@@ -1,0 +1,13 @@
+﻿name: adams
+
+services:
+- name: webblazor
+  dockerFile: Web/WebBlazor/Server/DockerFile
+  dockerFileContext: .
+
+  env:
+  - ASPNETCORE_ENVIRONMENT=Development
+
+  bindings:
+  - port: 5100
+    protocol: https

@@ -2,20 +2,23 @@
 
 services:
 - name: identity-api
-  dockerFile: Services/Identity/Identity.Api/dockerFile
+  dockerFile: Services/Identity/Identity.Api/DockerFile
   dockerFileContext: .
 
   env:
-  - name: ASPNETCORE_ENVIRONMENT
-    value: Production
-  - name: ASPNETCORE_URLS
-    value: http://0.0.0.0:80
+  - ASPNETCORE_ENVIRONMENT=Production
   - ConnectionStrings__Identity
   - ConnectionStrings__Redis
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv
+  - SendGrid__Key
+  - AZURE_CLIENT_ID
+  - AZURE_CLIENT_SECRET
+  - AZURE_TENANT_ID
+  - AzureKeyVault__VaultUri
+  - AzureKeyVault__CertificateName
+
   bindings:
-  - name: http
-    port: 80
-    protocol: http
+  - port: 443
+    protocol: https

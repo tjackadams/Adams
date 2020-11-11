@@ -1,5 +1,5 @@
 using System;
-using Adams.Services.Identity.Api.Models;
+using Adams.Services.Identity.Api.Controllers.Account;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,14 +1,17 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
+using System.Linq;
 using Adams.Services.Identity.Api.Data;
+using Adams.Services.Identity.Api.Models;
+using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 using ILogger = Serilog.ILogger;
 
 namespace Adams.Services.Identity.Api
@@ -35,14 +38,41 @@ namespace Adams.Services.Identity.Api
 
                 Log.Information("Applying migrations ({ApplicationContext})...", AppName);
                 host.MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
-                    .MigrateDbContext<ApplicationDbContext>((context, services) =>
+                    .MigrateDbContext<ApplicationDbContext>(async (_, services) =>
                     {
-                        var env = services.GetService<IWebHostEnvironment>();
-                        var logger = services.GetService<ILogger<ApplicationDbContextSeed>>();
+                        using (var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                        {
+                            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                            var tom = await userManager.FindByEmailAsync("tjackadams@itadams.co.uk");
+                            if (tom == null)
+                            {
+                                tom = new ApplicationUser
+                                {
+                                    UserName = "tjackadams@itadams.co.uk",
+                                    Email = "tjackadams@itadams.co.uk",
+                                    EmailConfirmed = true
+                                };
 
-                        new ApplicationDbContextSeed()
-                            .SeedAsync(context, logger)
-                            .Wait();
+                                var result = await userManager.CreateAsync(tom, "Jasper2854");
+                                if (!result.Succeeded)
+                                {
+                                    throw new Exception(result.Errors.First().Description);
+                                }
+
+                                result = await userManager.AddClaimsAsync(tom, new[]
+                                {
+                                    new System.Security.Claims.Claim(JwtClaimTypes.Name, "Thomas Adams"),
+                                    new System.Security.Claims.Claim(JwtClaimTypes.GivenName, "Thomas"),
+                                    new System.Security.Claims.Claim(JwtClaimTypes.FamilyName, "Adams"),
+                                    new System.Security.Claims.Claim(JwtClaimTypes.WebSite,
+                                        "https://blog.itadams.co.uk")
+                                });
+                                if (!result.Succeeded)
+                                {
+                                    throw new Exception(result.Errors.First().Description);
+                                }
+                            }
+                        }
                     })
                     .MigrateDbContext<ConfigurationDbContext>((context, services) =>
                     {
@@ -86,7 +116,7 @@ namespace Adams.Services.Identity.Api
                 .MinimumLevel.Verbose()
                 .Enrich.WithProperty("ApplicationContext", AppName)
                 .Enrich.FromLogContext()
-                .WriteTo.Console()
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
                 .WriteTo.Seq(string.IsNullOrWhiteSpace(seqServerUrl) ? "http://seq" : seqServerUrl)
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();

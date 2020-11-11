@@ -1,0 +1,16 @@
+﻿name: adams
+
+services:
+- name: webblazor
+  dockerFile: Web/WebBlazor/Server/DockerFile
+  dockerFileContext: .
+
+  env:
+  - ASPNETCORE_ENVIRONMENT=Production
+  - Serilog__SeqServerUrl
+  - OrchestratorType
+  - IsClusterEnv
+
+  bindings:
+  - port: 443
+    protocol: https
