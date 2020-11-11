@@ -5,7 +5,9 @@ ingress:
   - name: ingress
     bindings:
       - port: 80
+        name: http
       - port: 443
+        name: https
     rules:
       - host: identity.itadams.co.uk
         service: identity-api
