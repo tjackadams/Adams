@@ -6,8 +6,6 @@ ingress:
     bindings:
       - port: 80
         name: http
-      - port: 443
-        name: https
     rules:
       - host: identity.itadams.co.uk
         service: identity-api
@@ -19,7 +17,7 @@ ingress:
 services:
 
 - name: identity-api
-  include: Services/Identity/Identity.Api/tye.production.yaml
+  include: Services/Identity/Identity.Api/Identity.Api.csproj
   liveness:
     http:
       path: /liveness
@@ -27,12 +25,49 @@ services:
     http:
       path: /hc
     initialDelay: 1
+  env:
+  - ASPNETCORE_ENVIRONMENT
+  - ConnectionStrings__Identity
+  - ConnectionStrings__Redis
+  - Serilog__SeqServerUrl
+  - OrchestratorType
+  - IsClusterEnv
+  - SendGrid__Key
+  - AZURE_CLIENT_ID
+  - AZURE_CLIENT_SECRET
+  - AZURE_TENANT_ID
+  - AzureKeyVault__VaultUri
+  - AzureKeyVault__CertificateName
+  bindings:
+    - name: http
+      port: 80
 
 - name: webstatus
-  include: Web/WebStatus/tye.production.yaml
+  project: Web/WebStatus/WebStatus.csproj
   liveness:
     http:
       path: /liveness
+  env:
+  - ASPNETCORE_ENVIRONMENT
+  - HealthChecksUI__HealthChecks__0__Name="WebBlazor HTTP Check""
+  - HealthChecksUI__HealthChecks__0__Uri=http://webblazor/hc
+  - HealthChecksUI__HealthChecks__1__Name="Identity HTTP Check"
+  - HealthChecksUI__HealthChecks__1__Uri=http://identity-api/hc
+  - Serilog__SeqServerUrl
+  - OrchestratorType
+  - IsClusterEnv
+  bindings:
+  - port: 80
+    protocol: http
 
 - name: webblazor
-  include: Web/WebBlazor/Server/tye.production.yaml
+  include: Web/WebBlazor/Server/WebBlazor.Server.csproj
+  env:
+  - ASPNETCORE_ENVIRONMENT
+  - Serilog__SeqServerUrl
+  - OrchestratorType
+  - IsClusterEnv
+  - IdentityUrlHC="http://identity-api/hc",
+  bindings:
+    - name: http
+      port: 80

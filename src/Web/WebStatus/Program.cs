@@ -23,6 +23,8 @@ namespace WebStatus
 
             Log.Logger = CreateSerilogLogger(configuration);
 
+            Log.Information("{@Configuration}",configuration["HealthChecksUI:HealthChecks:0"]);
+
             try
             {
                 Log.Information("Configuring web host ({ApplicationContext})...", AppName);

@@ -9,8 +9,7 @@ services:
     connectionString: "${host}:${port}"
 
 - name: identity-api
-  include: Services/Identity/Identity.Api/tye.yaml
-
+  project: Services/Identity/Identity.Api/Identity.Api.csproj
   liveness:
     http:
       path: /liveness
@@ -18,12 +17,21 @@ services:
     http:
       path: /hc
     initialDelay: 1
+  bindings:
+  - port: 5105
+    protocol: http
 
 - name: webstatus
-  include: Web/WebStatus/tye.yaml
+  project: Web/WebStatus/WebStatus.csproj
   liveness:
     http:
       path: /liveness
+  bindings:
+  - port: 5107
+    protocol: http
 
 - name: webblazor
-  include: Web/WebBlazor/Server/tye.yaml
+  project: Web/WebBlazor/Server/WebBlazor.Server.csproj
+  bindings:
+  - port: 5100
+    protocol: http

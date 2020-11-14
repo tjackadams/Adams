@@ -3,9 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>e60bf281-c944-4e4b-a111-68f02334c091</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
+
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Release'">
+      <PropertyGroup>
+        <RuntimeIdentifier>linux-arm</RuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+  </Choose>
 
 <ItemGroup>
   <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.1.2" />

@@ -6,6 +6,14 @@
     <UserSecretsId>1bd1efc2-c1f7-4c76-80f2-a78dcc111294</UserSecretsId>
   </PropertyGroup>
 
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Release'">
+      <PropertyGroup>
+        <RuntimeIdentifier>linux-arm</RuntimeIdentifier>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="3.1.2" />
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="3.1.1" />
@@ -13,7 +21,7 @@
 
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.0.0" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.1" />
-    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
 
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="3.1.9" />
 
