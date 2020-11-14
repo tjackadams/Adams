@@ -17,7 +17,8 @@ ingress:
 services:
 
 - name: identity-api
-  project: Services/Identity/Identity.Api/Identity.Api.csproj
+  dockerFile: Services/Identity/Identity.Api/Dockerfile
+  dockerFileContext: .
   liveness:
     http:
       path: /liveness
@@ -43,7 +44,8 @@ services:
       port: 80
 
 - name: webstatus
-  project: Web/WebStatus/WebStatus.csproj
+  dockerFile: Web/WebStatus/Dockerfile
+  dockerFileContext: .
   liveness:
     http:
       path: /liveness
@@ -61,7 +63,8 @@ services:
     protocol: http
 
 - name: webblazor
-  project: Web/WebBlazor/Server/WebBlazor.Server.csproj
+  dockerFile: Web/WebBlazor/Server/DockerFile
+  dockerFileContext: .
   env:
   - ASPNETCORE_ENVIRONMENT
   - Serilog__SeqServerUrl
