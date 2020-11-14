@@ -17,7 +17,7 @@ ingress:
 services:
 
 - name: identity-api
-  include: Services/Identity/Identity.Api/Identity.Api.csproj
+  project: Services/Identity/Identity.Api/Identity.Api.csproj
   liveness:
     http:
       path: /liveness
@@ -61,7 +61,7 @@ services:
     protocol: http
 
 - name: webblazor
-  include: Web/WebBlazor/Server/WebBlazor.Server.csproj
+  project: Web/WebBlazor/Server/WebBlazor.Server.csproj
   env:
   - ASPNETCORE_ENVIRONMENT
   - Serilog__SeqServerUrl
