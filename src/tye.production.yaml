@@ -19,13 +19,6 @@ services:
 - name: identity-api
   dockerFile: Services/Identity/Identity.Api/Dockerfile
   dockerFileContext: .
-  liveness:
-    http:
-      path: /liveness
-  readiness:
-    http:
-      path: /hc
-    initialDelay: 1
   env:
   - ASPNETCORE_ENVIRONMENT
   - ConnectionStrings__Identity
@@ -46,9 +39,6 @@ services:
 - name: webstatus
   dockerFile: Web/WebStatus/Dockerfile
   dockerFileContext: .
-  liveness:
-    http:
-      path: /liveness
   env:
   - ASPNETCORE_ENVIRONMENT
   - HealthChecksUI__HealthChecks__0__Name="WebBlazor HTTP Check""
