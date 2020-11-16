@@ -60,7 +60,7 @@ services:
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv
-  - IdentityUrlHC="http://identity-api/hc",
+  - IdentityUrlHC="http://identity-api/hc"
   bindings:
     - name: http
       port: 80
