@@ -46,5 +46,5 @@ steps:
    action: patch
    kind: ingress
    name: ingress
-   patch: '{ "metadata": { "annotations": { "cert-manager.io/cluster-issuer" : "letsencrypt-production" }} }'
+   patch: '{ "metadata": { "annotations": { "cert-manager.io/cluster-issuer" : "letsencrypt-production" }, "spec": { "tls": [{ "hosts": "app.itadams.co.uk", "secretName": "webblazor-production"} ]}} }'
    kubernetesServiceConnection: 'Local K3S'
