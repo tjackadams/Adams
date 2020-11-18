@@ -31,13 +31,6 @@ steps:
   inputs:
     containerRegistry: 'DockerHub'
     command: 'login'
-  
-- task: DotNetCoreCLI@2
-  displayName: 'Install Tye global tool'
-  inputs:
-    command: 'custom'
-    custom: 'tool'
-    arguments: 'update Microsoft.Tye --version "0.6.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json --tool-path $(Agent.BuildDirectory)/tools'
 
 - script: $(Agent.BuildDirectory)/tools/tye undeploy tye.production.yaml --verbosity debug 
   workingDirectory: 'src'
