@@ -29,12 +29,6 @@ services:
   - AZURE_TENANT_ID
   - AzureKeyVault__VaultUri
   - AzureKeyVault__CertificateName
-  bindings:
-  - name: http
-    port: 80
-  - port: 443
-    protocol: https
-    name: https
 
 - name: webstatus
   dockerFile: Web/WebStatus/Dockerfile
@@ -48,12 +42,6 @@ services:
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv
-  bindings:
-  - name: http
-    port: 80
-  - port: 443
-    protocol: https
-    name: https
 
 - name: webblazor
   dockerFile: Web/WebBlazor/Server/DockerFile
@@ -64,9 +52,3 @@ services:
   - OrchestratorType
   - IsClusterEnv
   - IdentityUrlHC="http://identity-api/hc"
-  bindings:
-  - name: http
-    port: 80
-  - port: 443
-    protocol: https
-    name: https
