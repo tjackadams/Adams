@@ -32,10 +32,6 @@ steps:
     containerRegistry: 'DockerHub'
     command: 'login'
 
-- script: $(Agent.BuildDirectory)/tools/tye undeploy tye.production.yaml --verbosity debug 
-  workingDirectory: 'src'
-  displayName: 'Undeploy'
-
 - script: $(Agent.BuildDirectory)/tools/tye deploy tye.production.yaml --verbosity debug 
   workingDirectory: 'src'
   displayName: 'Build and deploy'
@@ -46,5 +42,5 @@ steps:
    action: patch
    kind: ingress
    name: ingress
-   patch: "$(cat ingress-ssl-patch.yaml)"
+   patch: '{"metadata":{"annotations":{"cert-manager.io/cluster-issuer":"letsencrypt-production"}},"spec":{"tls":[{"hosts":["app.itadams.co.uk"],"secretName":"webblazor-production-tls"},{"hosts":["identity.itadams.co.uk"],"secretName":"identity-api-production-tls"},{"hosts":["status.itadams.co.uk"],"secretName":"webstatus-production-tls"}]}}'
    kubernetesServiceConnection: 'Local K3S'
