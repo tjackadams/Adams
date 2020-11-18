@@ -30,7 +30,8 @@ services:
   - AzureKeyVault__VaultUri
   - AzureKeyVault__CertificateName
   bindings:
-  - protocol: http
+  - name: http
+    protocol: http
   - name: https
     protocol: https
 
@@ -47,7 +48,8 @@ services:
   - OrchestratorType
   - IsClusterEnv
   bindings:
-  - protocol: http
+  - name: http
+    protocol: http
   - name: https
     protocol: https
 
@@ -61,6 +63,7 @@ services:
   - IsClusterEnv
   - IdentityUrlHC="http://identity-api/hc"
   bindings:
-  - protocol: http
+  - name: http
+    protocol: http
   - name: https
     protocol: https
