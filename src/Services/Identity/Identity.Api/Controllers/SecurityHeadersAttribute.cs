@@ -7,6 +7,8 @@ namespace Adams.Services.Identity.Api.Controllers
     {
         public override void OnResultExecuting(ResultExecutingContext context)
         {
+            return;
+
             var result = context.Result;
             if (result is ViewResult)
             {
