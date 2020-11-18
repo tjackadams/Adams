@@ -46,5 +46,5 @@ steps:
    action: patch
    kind: ingress
    name: ingress
-   patch: "$(cat ingress-ssl-patch.yaml)"
+   patch: '{ "metadata": { "annotations": { "cert-manager.io/cluster-issuer" : "letsencrypt-production" }} }'
    kubernetesServiceConnection: 'Local K3S'
