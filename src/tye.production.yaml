@@ -30,10 +30,11 @@ services:
   - AzureKeyVault__VaultUri
   - AzureKeyVault__CertificateName
   bindings:
-    - name: http
-      port: 80
-    - port: 443
-      protocol: https
+  - name: http
+    port: 80
+  - port: 443
+    protocol: https
+    name: https
 
 - name: webstatus
   dockerFile: Web/WebStatus/Dockerfile
@@ -48,10 +49,11 @@ services:
   - OrchestratorType
   - IsClusterEnv
   bindings:
-  - port: 80
-    protocol: http
+  - name: http
+    port: 80
   - port: 443
     protocol: https
+    name: https
 
 - name: webblazor
   dockerFile: Web/WebBlazor/Server/DockerFile
@@ -67,3 +69,4 @@ services:
     port: 80
   - port: 443
     protocol: https
+    name: https
