@@ -33,6 +33,10 @@ steps:
     custom: 'tool'
     arguments: 'update Microsoft.Tye --version "0.6.0-*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json --tool-path $(Agent.BuildDirectory)/tools'
 
+- script: $(Agent.BuildDirectory)/tools/tye undeploy tye.production.yaml --verbosity debug 
+  workingDirectory: 'src'
+  displayName: 'Undeploy'
+
 - script: $(Agent.BuildDirectory)/tools/tye deploy tye.production.yaml --verbosity debug 
   workingDirectory: 'src'
   displayName: 'Build and deploy'
