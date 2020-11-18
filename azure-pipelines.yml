@@ -39,3 +39,12 @@ steps:
 - script: $(Agent.BuildDirectory)/tools/tye deploy tye.production.yaml --verbosity debug 
   workingDirectory: 'src'
   displayName: 'Build and deploy'
+
+- task: KubernetesManifest@0
+  displayName: 'patch ingress'
+  inputs:
+   action: patch
+   kind: ingress
+   name: ingress
+   patch: "$(cat ingress-ssl-patch.yaml)"
+   kubernetesServiceConnection: 'Local K3S'
