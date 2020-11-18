@@ -10,7 +10,13 @@ pool:
   name: 'Laptop'
 
 steps:
-    
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet tool restore'
+  inputs: 
+   command: 'custom'
+   custom: 'tool'
+   arguments: 'restore'
+   
 - task: Kubernetes@1
   displayName: 'Test K3s connection'
   inputs:
