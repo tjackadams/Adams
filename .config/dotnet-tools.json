@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "dotnet-format": {
+      "version": "4.1.131201",
+      "commands": [
+        "dotnet-format"
+      ]
+    },
+    "microsoft.tye": {
+      "version": "0.5.0-alpha.20555.1",
+      "commands": [
+        "tye"
+      ]
+    }
+  }
+}
