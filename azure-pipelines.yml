@@ -32,10 +32,6 @@ steps:
     containerRegistry: 'DockerHub'
     command: 'login'
 
-- script: $(Agent.BuildDirectory)/tools/tye undeploy tye.production.yaml --verbosity debug 
-  workingDirectory: 'src'
-  displayName: 'Undeploy'
-
 - script: $(Agent.BuildDirectory)/tools/tye deploy tye.production.yaml --verbosity debug 
   workingDirectory: 'src'
   displayName: 'Build and deploy'
