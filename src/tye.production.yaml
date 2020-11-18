@@ -3,9 +3,6 @@ registry: tjackadams
 
 ingress:
   - name: ingress
-    bindings:
-      - port: 80
-        name: http
     rules:
       - host: identity.itadams.co.uk
         service: identity-api
@@ -35,6 +32,8 @@ services:
   bindings:
     - name: http
       port: 80
+    - port: 443
+      protocol: https
 
 - name: webstatus
   dockerFile: Web/WebStatus/Dockerfile
@@ -51,6 +50,8 @@ services:
   bindings:
   - port: 80
     protocol: http
+  - port: 443
+    protocol: https
 
 - name: webblazor
   dockerFile: Web/WebBlazor/Server/DockerFile
@@ -62,5 +63,7 @@ services:
   - IsClusterEnv
   - IdentityUrlHC="http://identity-api/hc"
   bindings:
-    - name: http
-      port: 80
+  - name: http
+    port: 80
+  - port: 443
+    protocol: https
