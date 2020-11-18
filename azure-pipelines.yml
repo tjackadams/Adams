@@ -46,6 +46,5 @@ steps:
    action: patch
    kind: ingress
    name: ingress
-   mergeStrategy: strategic
    patch: "$(cat ingress-ssl-patch.yaml)"
    kubernetesServiceConnection: 'Local K3S'
