@@ -35,6 +35,11 @@ namespace Adams.Services.Identity.Api
         {
             services.AddControllersWithViews();
 
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Identity"),
@@ -127,10 +132,7 @@ namespace Adams.Services.Identity.Api
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            app.UseForwardedHeaders();
 
             if (Environment.IsDevelopment())
             {
@@ -143,6 +145,13 @@ namespace Adams.Services.Identity.Api
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
+
+            app.Use((context, next) =>
+            {
+                context.Request.Scheme = "https";
+                return next();
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
