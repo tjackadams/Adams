@@ -123,8 +123,8 @@ namespace Adams.Services.Identity.Api
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy())
                 .AddSqlServer(Configuration.GetConnectionString("Identity"),
-                    name: "IdentityDB-check",
-                    tags: new[] {"IdentityDB"})
+                    name: "identitydb-check",
+                    tags: new[] {"identitydb"})
                 .AddRedis(Configuration.GetConnectionString("redis"),
                     "redis-check",
                     tags: new[] {"redis"});

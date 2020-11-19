@@ -39,9 +39,9 @@ services:
   env:
   - ASPNETCORE_ENVIRONMENT
   - HealthChecksUI__HealthChecks__0__Name="WebBlazor HTTP Check""
-  - HealthChecksUI__HealthChecks__0__Uri=https://webblazor/hc
+  - HealthChecksUI__HealthChecks__0__Uri=http://webblazor/hc
   - HealthChecksUI__HealthChecks__1__Name="Identity HTTP Check"
-  - HealthChecksUI__HealthChecks__1__Uri=https://identity-api/hc
+  - HealthChecksUI__HealthChecks__1__Uri=http://identity-api/hc
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv
@@ -57,7 +57,7 @@ services:
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv
-  - IdentityUrlHC="https://identity-api/hc"
+  - IdentityUrlHC="http://identity-api/hc"
   bindings:
   - name: http
     protocol: http

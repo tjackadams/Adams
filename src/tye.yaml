@@ -19,7 +19,7 @@ services:
     initialDelay: 1
   bindings:
   - port: 5105
-    protocol: http
+    protocol: https
 
 - name: webstatus
   project: Web/WebStatus/WebStatus.csproj
@@ -28,10 +28,10 @@ services:
       path: /liveness
   bindings:
   - port: 5107
-    protocol: http
+    protocol: https
 
 - name: webblazor
   project: Web/WebBlazor/Server/WebBlazor.Server.csproj
   bindings:
   - port: 5100
-    protocol: http
+    protocol: https
