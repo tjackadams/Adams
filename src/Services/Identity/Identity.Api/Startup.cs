@@ -137,11 +137,6 @@ namespace Adams.Services.Identity.Api
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else
-            {
-                app.UseHsts();
-                app.UseHttpsRedirection();
-            }
 
             app.UseStaticFiles();
 
