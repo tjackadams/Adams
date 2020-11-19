@@ -139,18 +139,20 @@ namespace Adams.Services.Identity.Api
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
+            else
+            {
+                app.Use((context, next) =>
+                {
+                    context.Request.Scheme = "https";
+                    return next();
+                });
+            }
 
             app.UseStaticFiles();
 
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
-
-            app.Use((context, next) =>
-            {
-                context.Request.Scheme = "https";
-                return next();
-            });
 
             app.UseEndpoints(endpoints =>
             {
