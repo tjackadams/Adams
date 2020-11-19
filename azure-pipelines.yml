@@ -36,6 +36,15 @@ steps:
   workingDirectory: 'src'
   displayName: 'Build and deploy'
 
+- task: Kubernetes@1
+  displayName: 'rollout identity-api'
+  inputs:
+   connectionType: Kubernetes Service Connection
+   kubernetesServiceEndpoint: 'Local K3S'
+   namespace: 'default'
+   command: rollout
+   arguments: restart deployment identity-api
+
 - task: KubernetesManifest@0
   displayName: 'patch ingress'
   inputs:
