@@ -3,6 +3,8 @@ using System.Reflection;
 using Adams.Services.Identity.Api.Data;
 using Adams.Services.Identity.Api.Models;
 using HealthChecks.UI.Client;
+using IdentityServer4;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -96,6 +98,14 @@ namespace Adams.Services.Identity.Api
             
 
             services.AddAuthentication();
+
+            services.Configure<CookieAuthenticationOptions>(IdentityServerConstants.DefaultCookieAuthenticationScheme,
+                options =>
+                {
+                    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
+                    options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
+                    options.Cookie.IsEssential = true;
+                });
 
             if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
             {
