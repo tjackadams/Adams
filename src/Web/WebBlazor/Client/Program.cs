@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using BlazorStrap;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,8 @@ namespace WebBlazor.Client
                 // For more information, see https://aka.ms/blazor-standalone-auth
                 builder.Configuration.Bind("Local", options.ProviderOptions); 
             });
+
+            builder.Services.AddBootstrapCss();
 
             await builder.Build().RunAsync();
         }

@@ -1,18 +1,20 @@
 ﻿@inherits LayoutComponentBase
+@inject IBootstrapCss _bootstrap
 
-    <div class="page">
-        <div class="sidebar">
-            <NavMenu />
-        </div>
+<NavMenu />
 
-        <div class="main">
-            <div class="top-row px-4 auth">
-                <LoginDisplay />
-                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-            </div>
+<BSContainer IsFluid="true">
+    <BSRow>
+        <Sidebar />
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            @Body
+        </main>
+    </BSRow>
+</BSContainer>
 
-            <div class="content px-4">
-                @Body
-            </div>
-        </div>
-    </div>
+@code {
+    protected override Task OnInitializedAsync()
+    {
+        return _bootstrap.SetBootstrapCss(Theme.Flatly, "4.5.1");
+    }
+}
