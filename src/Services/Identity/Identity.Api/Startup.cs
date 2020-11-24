@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,8 @@ namespace Adams.Services.Identity.Api
         {
             var clientUrls = new Dictionary<string, string>
             {
-                {"Blazor", Configuration.GetValue<string>("BlazorClient")}
+                {"Blazor", Configuration.GetValue<string>("BlazorClient")},
+                {"SmokingApi", Configuration.GetValue<string>("SmokingApiClient")}
             };
 
             services.AddControllersWithViews();
@@ -101,15 +103,15 @@ namespace Adams.Services.Identity.Api
                     Configuration.Bind("AzureKeyVault", options);
                 });
             }
-            
+
 
             services.AddAuthentication();
 
             services.Configure<CookieAuthenticationOptions>(IdentityServerConstants.DefaultCookieAuthenticationScheme,
                 options =>
                 {
-                    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
-                    options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
+                    options.Cookie.SameSite = SameSiteMode.None;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                     options.Cookie.IsEssential = true;
                 });
 

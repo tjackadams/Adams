@@ -33,6 +33,19 @@ services:
   - name: http
     protocol: http
 
+- name: smoking-api
+  dockerFile: Services/Smoking/Smoking.Api/Dockerfile
+  dockerFileContext: .
+  env:
+  - ASPNETCORE_ENVIRONMENT
+  - ConnectionStrings__Smoking
+  - Serilog__SeqServerUrl
+  - OrchestratorType
+  - IsClusterEnv
+  bindings:
+  - name: http
+    protocol: http
+
 - name: webstatus
   dockerFile: Web/WebStatus/Dockerfile
   dockerFileContext: .
@@ -42,6 +55,8 @@ services:
   - HealthChecksUI__HealthChecks__0__Uri=http://webblazor/hc
   - HealthChecksUI__HealthChecks__1__Name="Identity HTTP Check"
   - HealthChecksUI__HealthChecks__1__Uri=http://identity-api/hc
+  - HealthChecksUI__HealthChecks__2__Name="Smoking HTTP Check"
+  - HealthChecksUI__HealthChecks__2__Uri=http://smoking-api/hc
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv

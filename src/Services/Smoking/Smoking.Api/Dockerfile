@@ -1,9 +1,8 @@
-﻿FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim-arm32v7 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim-arm32v7 AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 
 # Solution
@@ -28,13 +27,14 @@ COPY ["Shared/Adams.Domain/Adams.Domain.csproj", "Shared/Adams.Domain/Adams.Doma
 
 RUN dotnet restore "Adams.sln" -r linux-arm
 
+
 COPY . .
 WORKDIR "/src"
-RUN dotnet publish "Web/WebStatus/WebStatus.csproj" -c Release -o /app -r linux-arm
+RUN dotnet publish "Services/Smoking/Smoking.Api/Smoking.Api.csproj" -c Release -o /app -r linux-arm
 
 FROM build AS publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "WebStatus.dll"]
+ENTRYPOINT ["dotnet", "Smoking.Api.dll"]
