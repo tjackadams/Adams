@@ -29,8 +29,6 @@ namespace Adams.Services.Identity.Api
 
             Log.Logger = CreateSerilogLogger(configuration);
 
-            Log.Information("redis connection: {redis}", configuration.GetConnectionString("redis"));
-
             try
             {
                 Log.Information("Configuring web host ({ApplicationContext})...", AppName);
@@ -73,12 +71,6 @@ namespace Adams.Services.Identity.Api
                                 }
                             }
                         }
-                    })
-                    .MigrateDbContext<ConfigurationDbContext>((context, services) =>
-                    {
-                        new ConfigurationDbContextSeed()
-                            .SeedAsync(context, configuration)
-                            .Wait();
                     });
 
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);

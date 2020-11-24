@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Adams.Services.Identity.Api.Data;
 using Adams.Services.Identity.Api.Models;
@@ -33,6 +34,11 @@ namespace Adams.Services.Identity.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var clientUrls = new Dictionary<string, string>
+            {
+                {"Blazor", Configuration.GetValue<string>("BlazorClient")}
+            };
+
             services.AddControllersWithViews();
 
             services.Configure<ForwardedHeadersOptions>(options =>
@@ -69,15 +75,10 @@ namespace Adams.Services.Identity.Api
 
                     options.EmitStaticAudienceClaim = true;
                 })
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-                        sqlOptions =>
-                        {
-                            sqlOptions.MigrationsAssembly(migrationsAssembly);
-                            sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
-                        });
-                })
+                .AddInMemoryClients(Config.Clients(clientUrls))
+                .AddInMemoryApiScopes(Config.ApiScopes())
+                .AddInMemoryIdentityResources(Config.IdentityResources())
+                .AddInMemoryApiResources(Config.ApiResources())
                 .AddOperationalStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,

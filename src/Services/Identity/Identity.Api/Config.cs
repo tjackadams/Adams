@@ -37,7 +37,7 @@ namespace Adams.Services.Identity.Api
 
         public static IEnumerable<Client> Clients(Dictionary<string, string> clientUrls)
         {
-            return new Client[]
+            return new []
                 {
                     new Client
                     {
