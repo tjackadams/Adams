@@ -17,7 +17,7 @@ namespace Adams.Services.Identity.Api.Data
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-            SqlServerDbContextOptionsExtensions.UseSqlServer((DbContextOptionsBuilder) optionsBuilder, config.GetConnectionString("Identity"), o => o.MigrationsAssembly("Identity.Api"));
+           optionsBuilder.UseSqlServer(config.GetConnectionString("Identity"), o => o.MigrationsAssembly("Identity.Api"));
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

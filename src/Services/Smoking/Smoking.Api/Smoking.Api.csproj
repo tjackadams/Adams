@@ -33,6 +33,7 @@
     <ProjectReference Include="..\..\..\Shared\Adams.AspNetCore.Extensions\Adams.AspNetCore.Extensions.csproj" />
     <ProjectReference Include="..\Smoking.Domain\Smoking.Domain.csproj" />
     <ProjectReference Include="..\Smoking.Infrastructure\Smoking.Infrastructure.csproj" />
+    <ProjectReference Include="..\Smoking.Migrations\Smoking.Migrations.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
 using Adams.Services.Smoking.Api.Infrastructure.Filters;
 using Adams.Services.Smoking.Infrastructure;
 using HealthChecks.UI.Client;
@@ -116,7 +115,7 @@ namespace Adams.Services.Smoking.Api
             {
                 options.UseSqlServer(configuration.GetConnectionString("Smoking"), sqlOptions =>
                 {
-                    sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                    sqlOptions.MigrationsAssembly("Smoking.Migrations");
                     sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
                 });
             });
