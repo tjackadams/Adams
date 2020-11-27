@@ -40,7 +40,7 @@ namespace Adams.Services.Smoking.Api.Infrastructure.Filters
 
             operation.Security = new List<OpenApiSecurityRequirement>
             {
-                new OpenApiSecurityRequirement
+                new()
                 {
                     [oAuthScheme] = new[] {"smokerapi"}
                 }

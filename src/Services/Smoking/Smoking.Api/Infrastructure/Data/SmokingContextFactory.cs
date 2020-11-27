@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Adams.Services.Smoking.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -10,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Adams.Services.Smoking.Api.Infrastructure.Data
 {
-    public class SmokingContextFactory: IDesignTimeDbContextFactory<SmokingContext>
+    public class SmokingContextFactory : IDesignTimeDbContextFactory<SmokingContext>
     {
         public SmokingContext CreateDbContext(string[] args)
         {
@@ -22,7 +18,8 @@ namespace Adams.Services.Smoking.Api.Infrastructure.Data
 
             var optionsBuilder = new DbContextOptionsBuilder<SmokingContext>();
 
-            optionsBuilder.UseSqlServer(config.GetConnectionString("Smoking"),o => o.MigrationsAssembly("Smoking.Migrations"));
+            optionsBuilder.UseSqlServer(config.GetConnectionString("Smoking"),
+                o => o.MigrationsAssembly("Smoking.Migrations"));
 
             return new SmokingContext(optionsBuilder.Options);
         }

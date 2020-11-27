@@ -48,6 +48,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adams.Domain", "Shared\Adam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smoking.Migrations", "Services\Smoking\Smoking.Migrations\Smoking.Migrations.csproj", "{CD20F695-4EAA-4566-BCFE-47101E2619F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adams.Core", "Shared\Adams.Core\Adams.Core.csproj", "{DA890399-BF9A-4EA4-B303-DA875620320A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{CD20F695-4EAA-4566-BCFE-47101E2619F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD20F695-4EAA-4566-BCFE-47101E2619F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD20F695-4EAA-4566-BCFE-47101E2619F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA890399-BF9A-4EA4-B303-DA875620320A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA890399-BF9A-4EA4-B303-DA875620320A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA890399-BF9A-4EA4-B303-DA875620320A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA890399-BF9A-4EA4-B303-DA875620320A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +131,7 @@ Global
 		{D161EDEE-F19D-4E37-B05F-D29F7632D183} = {36B30CB5-1D3C-440B-99FE-8E09DF96EEB7}
 		{05DF569D-B326-40D6-A48A-70A23F8AC395} = {173F483F-0579-44B3-8086-30FAC63368E4}
 		{CD20F695-4EAA-4566-BCFE-47101E2619F1} = {36B30CB5-1D3C-440B-99FE-8E09DF96EEB7}
+		{DA890399-BF9A-4EA4-B303-DA875620320A} = {173F483F-0579-44B3-8086-30FAC63368E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {107D7EFD-324E-42AD-9C05-EC642BBEE485}

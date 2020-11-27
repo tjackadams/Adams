@@ -4,26 +4,38 @@ using Adams.Domain;
 
 namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
 {
-    public class Recipe : Entity, IAggregateRoot
+    public sealed class Recipe : Entity, IAggregateRoot
     {
         private readonly List<RecipeStep> _steps;
         public IReadOnlyCollection<RecipeStep> Steps => _steps;
 
-        private string _name;
-        private string _displayName;
-        private string _description;
-
-        protected Recipe()
+        private Recipe()
         {
-            _steps = new List<RecipeStep>();
+            _steps = new List<RecipeStep>
+            {
+                new (Id, 1, "Start"),
+                new (Id, 2, "Finish")
+            };
         }
 
         public Recipe(string name, string displayName, string description) 
             : this()
         {
-            _name = name;
-            _displayName = displayName;
-            _description = description;
+            Name = name;
+            DisplayName = displayName;
+            Description = description;
+        }
+
+        public string Name { get; private set; }
+
+        public string DisplayName { get; private set; }
+
+        public string Description { get; private set; }
+
+        public void AddRecipeStep(int step, string description)
+        {
+            var recipeStep = new RecipeStep(Id, step, description);
+            _steps.Add(recipeStep);
         }
     }
 }

@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using Adams.Services.Smoking.Api.Infrastructure.Behaviours;
 using Adams.Services.Smoking.Api.Infrastructure.Filters;
 using Adams.Services.Smoking.Infrastructure;
+using AutoMapper;
+using FluentValidation;
 using HealthChecks.UI.Client;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -38,7 +42,9 @@ namespace Adams.Services.Smoking.Api
                 .AddCustomSwagger(Configuration)
                 .AddCustomIntegrations(Configuration)
                 .AddCustomConfiguration(Configuration)
-                .AddCustomAuthentication(Configuration);
+                .AddCustomAuthentication(Configuration)
+                .AddMediatR(typeof(Startup).Assembly)
+                .AddAutoMapper(typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -162,6 +168,15 @@ namespace Adams.Services.Smoking.Api
         public static IServiceCollection AddCustomIntegrations(this IServiceCollection services,
             IConfiguration configuration)
         {
+            // fluent validation
+            services.AddValidatorsFromAssemblyContaining<Startup>();
+
+            // mediator behaviours
+            services
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>))
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehaviour<,>))
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
+
             return services;
         }
 

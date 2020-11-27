@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate;
+﻿using Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,15 +19,13 @@ namespace Adams.Services.Smoking.Infrastructure.EntityConfigurations
             builder.Property(p => p.RecipeId).IsRequired();
 
             builder
-                .Property<int>("_step")
+                .Property(x => x.Step)
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("Step")
                 .IsRequired();
 
             builder
-                .Property<string>("_description")
+                .Property(x => x.Description)
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("Description")
                 .IsRequired()
                 .HasMaxLength(2000);
         }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 using ILogger = Serilog.ILogger;
@@ -89,15 +90,18 @@ namespace Adams.Services.Identity.Api
             }
         }
 
-        private static IWebHost BuildWebHost(IConfiguration configuration, string[] args)
+        private static IHost BuildWebHost(IConfiguration configuration, string[] args)
         {
-            return WebHost.CreateDefaultBuilder(args)
-                .CaptureStartupErrors(false)
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(x => x.AddConfiguration(configuration))
-                .UseStartup<Startup>()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseSerilog()
-                .Build();
+                .ConfigureWebHostDefaults(builder =>
+                {
+                    builder
+                        .CaptureStartupErrors(false)
+                        .UseStartup<Startup>()
+                        .UseContentRoot(Directory.GetCurrentDirectory())
+                        .UseSerilog();
+                }).Build();
         }
 
         private static ILogger CreateSerilogLogger(IConfiguration configuration)

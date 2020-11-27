@@ -50,7 +50,7 @@ namespace Adams.Services.Smoking.Api.Infrastructure.Filters
 
                 if (_env.IsDevelopment())
                 {
-                    json.DeveloperMessage = context.Exception;
+                    json.DeveloperMessage = context.Exception.StackTrace;
                 }
 
                 // Result asigned to a result object but in destiny the response is empty. This is a known bug of .net core 1.1

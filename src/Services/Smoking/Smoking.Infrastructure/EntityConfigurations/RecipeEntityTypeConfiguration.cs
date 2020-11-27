@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate;
+﻿using Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,23 +18,20 @@ namespace Adams.Services.Smoking.Infrastructure.EntityConfigurations
                 .UseHiLo("recipeseq", SmokingContext.DEFAULT_SCHEMA);
 
             builder
-                .Property<string>("_name")
+                .Property(x => x.Name)
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("Name")
                 .IsRequired()
                 .HasMaxLength(20);
 
             builder
-                .Property<string>("_displayName")
+                .Property(x => x.DisplayName)
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("DisplayName")
                 .IsRequired()
                 .HasMaxLength(200);
 
             builder
-                .Property<string>("_description")
+                .Property(x => x.Description)
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("Description")
                 .IsRequired()
                 .HasMaxLength(2000);
 

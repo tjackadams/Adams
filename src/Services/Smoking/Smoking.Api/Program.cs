@@ -1,9 +1,10 @@
 using System;
 using System.IO;
 using Adams.Services.Smoking.Infrastructure;
-using Microsoft.AspNetCore;
+using DryIoc.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -28,10 +29,7 @@ namespace Adams.Services.Smoking.Api
                 var host = BuildWebHost(configuration, args);
 
                 Log.Information("Applying migrations ({ApplicationContext})...", AppName);
-                host.MigrateDbContext<SmokingContext>((context, services) =>
-                {
-
-                });
+                host.MigrateDbContext<SmokingContext>((context, services) => { });
 
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);
                 host.Run();
@@ -49,15 +47,19 @@ namespace Adams.Services.Smoking.Api
             }
         }
 
-        private static IWebHost BuildWebHost(IConfiguration configuration, string[] args)
+        private static IHost BuildWebHost(IConfiguration configuration, string[] args)
         {
-            return WebHost.CreateDefaultBuilder(args)
-                .CaptureStartupErrors(false)
+            return Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new DryIocServiceProviderFactory())
                 .ConfigureAppConfiguration(x => x.AddConfiguration(configuration))
-                .UseStartup<Startup>()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseSerilog()
-                .Build();
+                .ConfigureWebHostDefaults(builder =>
+                {
+                    builder
+                        .CaptureStartupErrors(false)
+                        .UseStartup<Startup>()
+                        .UseContentRoot(Directory.GetCurrentDirectory())
+                        .UseSerilog();
+                }).Build();
         }
 
         private static ILogger CreateSerilogLogger(IConfiguration configuration)
