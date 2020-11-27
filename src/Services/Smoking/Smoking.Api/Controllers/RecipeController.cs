@@ -31,6 +31,7 @@ namespace Adams.Services.Smoking.Api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateRecipe([FromBody] CreateRecipe.Command command,
             CancellationToken cancellationToken)
         {
@@ -38,16 +39,19 @@ namespace Adams.Services.Smoking.Api.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        //[HttpGet("{name}/edit")]
-        //public async Task<IActionResult> GetEditRecipe()
-        //{
+        [HttpGet("{name}/edit")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetEditRecipe([FromRoute] GetEditRecipe.Query query, CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(query, cancellationToken));
+        }
 
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> EditRecipe()
-        //{
-
-        //}
+        [HttpPost("{name}/edit")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> EditRecipe([FromRoute]EditRecipe.Command command, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(command, cancellationToken);
+            return StatusCode(StatusCodes.Status200OK);
+        }
     }
 }

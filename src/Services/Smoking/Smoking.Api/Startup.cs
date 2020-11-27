@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using Adams.Core.Extensions;
 using Adams.Services.Smoking.Api.Infrastructure.Behaviours;
 using Adams.Services.Smoking.Api.Infrastructure.Filters;
 using Adams.Services.Smoking.Infrastructure;
@@ -47,7 +48,7 @@ namespace Adams.Services.Smoking.Api
                 .AddAutoMapper(typeof(Startup).Assembly);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // ReSharper disable once UnusedMember.Global
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var pathBase = Configuration["PATH_BASE"];
@@ -134,6 +135,7 @@ namespace Adams.Services.Smoking.Api
         {
             services.AddSwaggerGen(options =>
             {
+                options.CustomSchemaIds(type => type.GetGenericTypeName());
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Adams - Smoking HTTP API",

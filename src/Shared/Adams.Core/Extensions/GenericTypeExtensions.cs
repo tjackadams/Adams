@@ -18,7 +18,14 @@ namespace Adams.Core.Extensions
             }
             else
             {
-                typeName = type.Name;
+                if (type.IsNested)
+                {
+                    typeName = type.FullName?.Substring(type.FullName.LastIndexOf(".", StringComparison.Ordinal) + 1).Replace("+", string.Empty);
+                }
+                else
+                {
+                    typeName = type.Name;
+                }
             }
 
             return typeName;

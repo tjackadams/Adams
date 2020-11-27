@@ -37,5 +37,17 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
             var recipeStep = new RecipeStep(Id, step, description);
             _steps.Add(recipeStep);
         }
+
+        public Recipe SetDisplayName(string displayName)
+        {
+            DisplayName = displayName;
+            return this;
+        }
+
+        public Recipe SetDescription(string description)
+        {
+            Description = description;
+            return this;
+        }
     }
 }
