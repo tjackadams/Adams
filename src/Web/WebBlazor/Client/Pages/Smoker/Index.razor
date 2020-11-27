@@ -1,7 +1,74 @@
 ﻿@page "/smoker"
+@using WebBlazor.Client.HttpClients
+@using WebBlazor.Client.Models.Smoking
+@inject ISmokingHttpClient Client
+@inject NavigationManager Router
 
-<h3>Index</h3>
+    <BSContainer>
+        <h1>Recipes</h1>
+        <SpinLoader IsLoading="@(Recipes == null)">
+            <ContentTemplate>
 
-@code {
+                <BSRow Class="mb-2">
+                    <BSCol MD="6">
+                        <input @bind="Search" @oninput="OnSearch" class="form-control" placeholder="Search..."/>
+                    </BSCol>
+                </BSRow>
+                <BSRow>
+                    <BSCol>
+                        <BSTable>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-}
+                                @foreach (var item in Recipes)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.DisplayName
+                                        </td>
+                                        <td>
+                                            <NavLink href="@($"/smoker/{item.Name}/details")">
+                                                Details
+                                            </NavLink>
+                                            &nbsp;|
+                                            <NavLink href="@($"/smoker/{item.Name}/edit")">
+                                                Edit
+                                            </NavLink>
+                                            &nbsp;|
+                                            <NavLink href="@($"/smoker/{item.Name}/delete")">
+                                                Delete
+                                            </NavLink>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </BSTable>
+                    </BSCol>
+                </BSRow>
+
+            </ContentTemplate>
+        </SpinLoader>
+    </BSContainer>
+
+    @code {
+
+        public string Search { get; set; }
+        public RecipeSummary[] Recipes { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            Recipes = await Client.GetRecipes(Search);
+        }
+
+        private async Task OnSearch(ChangeEventArgs e)
+        {
+            Recipes = await Client.GetRecipes(e.Value.ToString());
+            StateHasChanged();
+        }
+    }

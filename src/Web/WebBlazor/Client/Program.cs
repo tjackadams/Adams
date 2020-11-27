@@ -2,9 +2,13 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BlazorStrap;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.Extensions.Http;
+using WebBlazor.Client.HttpClients;
 
 namespace WebBlazor.Client
 {
@@ -16,6 +20,12 @@ namespace WebBlazor.Client
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddHttpClient<ISmokingHttpClient, SmokingHttpClient>(client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["SmokingUrl"]);
+            })
+                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>()
+                .AddPolicyHandler(GetRetryPolicy());
 
             builder.Services.AddOidcAuthentication(options =>
             {
@@ -27,6 +37,14 @@ namespace WebBlazor.Client
             builder.Services.AddBootstrapCss();
 
             await builder.Build().RunAsync();
+        }
+
+        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
         }
     }
 }

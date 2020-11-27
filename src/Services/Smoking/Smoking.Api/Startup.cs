@@ -71,6 +71,7 @@ namespace Adams.Services.Smoking.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -96,6 +97,16 @@ namespace Adams.Services.Smoking.Api
         public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
             services.AddControllers(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                        .SetIsOriginAllowed((host) => true)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
 
             return services;
         }

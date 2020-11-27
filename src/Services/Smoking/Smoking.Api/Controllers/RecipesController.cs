@@ -13,11 +13,11 @@ namespace Adams.Services.Smoking.Api.Controllers
     // [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class RecipeController : ControllerBase
+    public class RecipesController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public RecipeController(IMediator mediator)
+        public RecipesController(IMediator mediator)
         {
             _mediator = mediator;
         }
