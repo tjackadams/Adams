@@ -15,9 +15,9 @@ using WebBlazor.Client.Infrastructure.HttpClients;
 namespace WebBlazor.Client
 {
     public class Program
-    { 
+    {
         public static async Task Main(string[] args)
-        {
+        { 
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 

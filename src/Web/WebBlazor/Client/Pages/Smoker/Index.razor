@@ -9,15 +9,15 @@
 <BSContainer>
     <h1>Recipes</h1>
 
-    <BSButton ButtonType="ButtonType.Button" Color="Color.Primary" @onclick="@(() => Router.NavigateTo("/smoker/create"))">
+    <BSButton Class="mb-4" ButtonType="ButtonType.Button" Color="Color.Primary" @onclick="@(() => Router.NavigateTo("/smoker/create"))">
         Create
     </BSButton>
 
     <SpinLoader IsLoading="@(Recipes == null)">
         <ContentTemplate>
 
-            <BSRow Class="mb-2">
-                <BSCol MD="6">
+            <BSRow Class="mb-4">
+                <BSCol MD="4">
                     <input @bind="Search" @oninput="OnSearch" class="form-control" placeholder="Search..." />
                 </BSCol>
             </BSRow>

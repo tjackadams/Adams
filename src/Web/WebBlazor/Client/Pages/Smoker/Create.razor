@@ -45,7 +45,8 @@
                     How would you describe this taste sensation?
                 </small>
             </BSFormGroup>
-
+            
+            <BSButton Class="mr-4" Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Cancel</BSButton>
             <BSButton Color="Color.Primary" ButtonType="ButtonType.Submit">Submit</BSButton>
         </BSForm>
         @if (!string.IsNullOrWhiteSpace(Message))
