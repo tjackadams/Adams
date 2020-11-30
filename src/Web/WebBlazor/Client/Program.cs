@@ -39,7 +39,7 @@ namespace WebBlazor.Client
             await builder.Build().RunAsync();
         }
 
-        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
         {
             return HttpPolicyExtensions
                 .HandleTransientHttpError()
