@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Adams.Services.Smoking.Api.Infrastructure.ActionResults;
 using Adams.Services.Smoking.Domain.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,16 +37,26 @@ namespace Adams.Services.Smoking.Api.Infrastructure.Filters
                     Detail = "Please refer to the errors property for additional details."
                 };
 
-                problemDetails.Errors.Add("DomainValidations", new[] {context.Exception.Message});
+                if (context.Exception.InnerException is ValidationException valEx)
+                {
+                    foreach (var error in valEx.Errors)
+                    {
+                        problemDetails.Errors.Add(error.PropertyName, new[] { error.ErrorMessage });
+                    }
+                }
+                else
+                {
+                    problemDetails.Errors.Add("DomainValidations", new[] { context.Exception.Message });
+                }
 
                 context.Result = new BadRequestObjectResult(problemDetails);
-                context.HttpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             }
             else
             {
                 var json = new JsonErrorResponse
                 {
-                    Messages = new[] {"An error occur.Try it again."}
+                    Messages = new[] { "An error occur.Try it again." }
                 };
 
                 if (_env.IsDevelopment())
@@ -56,7 +67,7 @@ namespace Adams.Services.Smoking.Api.Infrastructure.Filters
                 // Result asigned to a result object but in destiny the response is empty. This is a known bug of .net core 1.1
                 // It will be fixed in .net core 1.1.2. See https://github.com/aspnet/Mvc/issues/5594 for more information
                 context.Result = new InternalServerErrorObjectResult(json);
-                context.HttpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 
             context.ExceptionHandled = true;

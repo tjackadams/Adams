@@ -13,6 +13,7 @@ namespace WebBlazor.Client.HttpClients
     public interface ISmokingHttpClient
     {
         Task<RecipeSummary[]> GetRecipes(string search);
+
     }
     public class SmokingHttpClient : ISmokingHttpClient
     {

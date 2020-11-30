@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BlazorStrap;
+using FluentValidation;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,13 @@ namespace WebBlazor.Client
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddHttpClient(Infrastructure.HttpClients.HttpClients.SmokingClient, client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["SmokingUrl"]);
+            })                
+                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>()
+                .AddPolicyHandler(GetRetryPolicy());
+
             builder.Services.AddHttpClient<ISmokingHttpClient, SmokingHttpClient>(client =>
             {
                 client.BaseAddress = new Uri(builder.Configuration["SmokingUrl"]);
@@ -35,6 +43,8 @@ namespace WebBlazor.Client
             });
 
             builder.Services.AddBootstrapCss();
+
+            builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
             await builder.Build().RunAsync();
         }

@@ -48,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adams.Domain", "Shared\Adam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smoking.Migrations", "Services\Smoking\Smoking.Migrations\Smoking.Migrations.csproj", "{CD20F695-4EAA-4566-BCFE-47101E2619F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adams.Core", "Shared\Adams.Core\Adams.Core.csproj", "{DA890399-BF9A-4EA4-B303-DA875620320A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adams.Core", "Shared\Adams.Core\Adams.Core.csproj", "{DA890399-BF9A-4EA4-B303-DA875620320A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

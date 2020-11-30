@@ -6,6 +6,11 @@
 
     <BSContainer>
         <h1>Recipes</h1>
+        
+        <BSButton ButtonType="ButtonType.Button" Color="Color.Primary" @onclick="@(() => Router.NavigateTo("/smoker/create"))">
+            Create
+        </BSButton>
+
         <SpinLoader IsLoading="@(Recipes == null)">
             <ContentTemplate>
 
@@ -68,7 +73,7 @@
 
         private async Task OnSearch(ChangeEventArgs e)
         {
-            Recipes = await Client.GetRecipes(e.Value.ToString());
+            Recipes = await Client.GetRecipes(e.Value?.ToString());
             StateHasChanged();
         }
     }

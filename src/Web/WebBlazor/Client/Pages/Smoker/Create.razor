@@ -1,0 +1,134 @@
+﻿@page "/smoker/create"
+@using FluentValidation
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.Extensions.Logging
+@using WebBlazor.Client.Models
+@using Adams.Core.Extensions
+@using System.Text.Json
+@inject ILogger<Create> Logger
+@inject IHttpClientFactory HttpFactory
+@inject NavigationManager Router
+
+<h2>Create</h2>
+
+<h4>Recipe</h4>
+<hr />
+<BSRow>
+    <BSCol MD="4">
+        <BSForm Model="Data" OnValidSubmit="@HandleValidSubmit">
+            <FluentValidationValidator />
+            <PortalValidator @ref="portalValidator" />
+            <ValidationSummary />
+
+            <BSFormGroup>
+                <BSLabel For="@Data.Name">Name</BSLabel>
+                <BSInput Id="@Data.Name" InputType="InputType.Text" @bind-Value="Data.Name" @oninput="HandleNameOnInput" />
+                <small id="@($"{nameof(Data.Name)}_help")" class="form-text text-muted">
+                    Choose a small name to identify this delicious new recipe.
+                </small>
+            </BSFormGroup>
+
+            <BSFormGroup>
+                <BSLabel For="@Data.DisplayName">Display name</BSLabel>
+                <BSInput Id="@Data.DisplayName" InputType="InputType.Text" @bind-Value="Data.DisplayName" />
+                <small id="@($"{nameof(Data.DisplayName)}_help")" class="form-text text-muted">
+                    Choose a more user friendly name to identify this new recipe.
+                </small>
+            </BSFormGroup>
+
+            <BSFormGroup>
+                <BSLabel For="@Data.Description">Description</BSLabel>
+                <BSInput Id="@Data.Description" InputType="InputType.Text" @bind-Value="Data.Description" />
+                <small id="@($"{nameof(Data.Description)}_help")" class="form-text text-muted">
+                    How would you describe this taste sensation?
+                </small>
+            </BSFormGroup>
+
+            <BSButton Color="Color.Primary" ButtonType="ButtonType.Submit">Submit</BSButton>
+        </BSForm>
+        @if (!string.IsNullOrWhiteSpace(Message))
+        {
+            <BSAlert Color="Color.Danger">
+                @Message
+            </BSAlert>
+        }
+
+    </BSCol>
+</BSRow>
+
+
+@code {
+
+    private string Message { get; set; }
+
+    private Command Data { get; set; } = new Command();
+
+    private PortalValidator portalValidator;
+
+    public class Command
+    {
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+    }
+
+    private async Task HandleValidSubmit(EditContext editContext)
+    {
+        portalValidator.ClearErrors();
+
+        try
+        {
+            var http = HttpFactory.CreateClient(Infrastructure.HttpClients.HttpClients.SmokingClient);
+
+            var response = await http.PostAsJsonAsync("recipes", (Command)editContext.Model);
+
+            var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }))?.Errors;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest && errors!.Any())
+            {
+                portalValidator.DisplayErrors(errors);
+            }
+            else if (!response.IsSuccessStatusCode)
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            else
+            {
+                Router.NavigateTo($"/smoker/{Data.Name}/edit");
+            }
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("Form processing error: {Message}", ex.Message);
+            Message = "There was an error processing the form.";
+        }
+    }
+
+    private void HandleNameOnInput(ChangeEventArgs e)
+    {
+        Data.Name = e.Value?.ToString()?.RemoveWhiteSpace()?.ToLower();
+        StateHasChanged();
+    }
+
+    public class Validator : AbstractValidator<Command>
+    {
+        public Validator()
+        {
+            RuleFor(p => p.Name)
+                .NotEmpty()
+                .MaximumLength(20);
+
+            RuleFor(p => p.DisplayName)
+                .NotEmpty()
+                .MaximumLength(200);
+
+            RuleFor(p => p.Description)
+                .NotEmpty()
+                .MaximumLength(2000);
+        }
+    }
+}
