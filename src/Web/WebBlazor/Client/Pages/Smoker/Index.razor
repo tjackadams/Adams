@@ -1,79 +1,96 @@
 ﻿@page "/smoker"
-@using WebBlazor.Client.HttpClients
+@attribute [Authorize]
 @using WebBlazor.Client.Models.Smoking
-@inject ISmokingHttpClient Client
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject IHttpClientFactory HttpFactory
 @inject NavigationManager Router
 
-    <BSContainer>
-        <h1>Recipes</h1>
-        
-        <BSButton ButtonType="ButtonType.Button" Color="Color.Primary" @onclick="@(() => Router.NavigateTo("/smoker/create"))">
-            Create
-        </BSButton>
+<BSContainer>
+    <h1>Recipes</h1>
 
-        <SpinLoader IsLoading="@(Recipes == null)">
-            <ContentTemplate>
+    <BSButton ButtonType="ButtonType.Button" Color="Color.Primary" @onclick="@(() => Router.NavigateTo("/smoker/create"))">
+        Create
+    </BSButton>
 
-                <BSRow Class="mb-2">
-                    <BSCol MD="6">
-                        <input @bind="Search" @oninput="OnSearch" class="form-control" placeholder="Search..."/>
-                    </BSCol>
-                </BSRow>
-                <BSRow>
-                    <BSCol>
-                        <BSTable>
-                            <thead>
+    <SpinLoader IsLoading="@(Recipes == null)">
+        <ContentTemplate>
+
+            <BSRow Class="mb-2">
+                <BSCol MD="6">
+                    <input @bind="Search" @oninput="OnSearch" class="form-control" placeholder="Search..." />
+                </BSCol>
+            </BSRow>
+            <BSRow>
+                <BSCol>
+                    <BSTable>
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Recipes)
+                            {
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th></th>
+                                    <td>
+                                        @item.DisplayName
+                                    </td>
+                                    <td>
+                                        <NavLink href="@($"/smoker/{item.Name}/details")">
+                                            Details
+                                        </NavLink>
+                                        &nbsp;|
+                                        <NavLink href="@($"/smoker/{item.Name}/edit")">
+                                            Edit
+                                        </NavLink>
+                                        &nbsp;|
+                                        <NavLink href="@($"/smoker/{item.Name}/delete")">
+                                            Delete
+                                        </NavLink>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
+                            }
 
-                                @foreach (var item in Recipes)
-                                {
-                                    <tr>
-                                        <td>
-                                            @item.DisplayName
-                                        </td>
-                                        <td>
-                                            <NavLink href="@($"/smoker/{item.Name}/details")">
-                                                Details
-                                            </NavLink>
-                                            &nbsp;|
-                                            <NavLink href="@($"/smoker/{item.Name}/edit")">
-                                                Edit
-                                            </NavLink>
-                                            &nbsp;|
-                                            <NavLink href="@($"/smoker/{item.Name}/delete")">
-                                                Delete
-                                            </NavLink>
-                                        </td>
-                                    </tr>
-                                }
+                        </tbody>
+                    </BSTable>
+                </BSCol>
+            </BSRow>
 
-                            </tbody>
-                        </BSTable>
-                    </BSCol>
-                </BSRow>
+        </ContentTemplate>
+    </SpinLoader>
+</BSContainer>
 
-            </ContentTemplate>
-        </SpinLoader>
-    </BSContainer>
+@code {
 
-    @code {
+    private string Search { get; set; }
+    private RecipeSummary[] Recipes { get; set; }
 
-        public string Search { get; set; }
-        public RecipeSummary[] Recipes { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await GetRecipes(Search);
+    }
 
-        protected override async Task OnInitializedAsync()
+    private async Task OnSearch(ChangeEventArgs e)
+    {
+        await GetRecipes(e.Value?.ToString());
+    }
+
+    private async Task GetRecipes(string search)
+    {
+        var http = HttpFactory.CreateClient(Infrastructure.HttpClients.HttpClients.SmokingClient);
+        var url = string.IsNullOrEmpty(search) ? "recipes" : QueryHelpers.AddQueryString("recipes", "search", search);
+
+        try
         {
-            Recipes = await Client.GetRecipes(Search);
-        }
-
-        private async Task OnSearch(ChangeEventArgs e)
-        {
-            Recipes = await Client.GetRecipes(e.Value?.ToString());
+            Recipes = await http.GetFromJsonAsync<RecipeSummary[]>(url);
             StateHasChanged();
         }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
     }
+}
