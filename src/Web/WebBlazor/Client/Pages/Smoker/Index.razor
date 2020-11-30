@@ -27,6 +27,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
+                                <th scope="col">Number of Steps</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -38,6 +39,7 @@
                                     <td>
                                         @item.DisplayName
                                     </td>
+                                    <td>@item.Steps</td>
                                     <td>
                                         <NavLink href="@($"/smoker/{item.Name}/details")">
                                             Details
