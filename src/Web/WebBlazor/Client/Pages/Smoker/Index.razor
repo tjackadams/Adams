@@ -6,7 +6,6 @@
 @inject IHttpClientFactory HttpFactory
 @inject NavigationManager Router
 
-<BSContainer>
     <h1>Recipes</h1>
 
     <BSButton Class="mb-4" ButtonType="ButtonType.Button" Color="Color.Primary" @onclick="@(() => Router.NavigateTo("/smoker/create"))">
@@ -63,7 +62,6 @@
 
         </ContentTemplate>
     </SpinLoader>
-</BSContainer>
 
 @code {
 

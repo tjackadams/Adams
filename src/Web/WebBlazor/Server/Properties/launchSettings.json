@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "WebBlazor.Server": {
+    "SelfHost": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

@@ -1,11 +1,13 @@
 ﻿using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Adams.Services.Smoking.Api.Infrastructure.Filters;
 using Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate;
 using Adams.Services.Smoking.Infrastructure;
 using FluentValidation;
+using HybridModelBinding;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
@@ -14,17 +16,15 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
     {
         public record Command : IRequest
         {
-            [FromRoute(Name = "name")]
+            [HybridBindProperty(Source.Route)]
+            [SwaggerIgnore]
             public string Name { get; init; }
 
-            [FromBody]
-            public CommandData Data { get; init; }
+            [HybridBindProperty(Source.Body)]
+            public string DisplayName { get; init; }
 
-            public record CommandData
-            {
-                public string DisplayName { get; init; }
-                public string Description { get; init; }
-            }
+            [HybridBindProperty(Source.Body)]
+            public string Description { get; init; }
         }
 
         public class Handler : IRequestHandler<Command, Unit>
@@ -51,16 +51,13 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
         {
             public Validator()
             {
-                RuleFor(p => p.Data).ChildRules(x =>
-                {
-                    x.RuleFor(p => p.DisplayName)
-                        .NotEmpty()
-                        .MaximumLength(200);
+                RuleFor(p => p.DisplayName)
+                    .NotEmpty()
+                    .MaximumLength(200);
 
-                    x.RuleFor(p => p.Description)
-                        .NotEmpty()
-                        .MaximumLength(2000);
-                });
+                RuleFor(p => p.Description)
+                    .NotEmpty()
+                    .MaximumLength(2000);
             }
         }
 
@@ -69,8 +66,8 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
             public static void UpdateEntity(Command command, Recipe entity)
             {
                 entity
-                    .SetDisplayName(command.Data.DisplayName)
-                    .SetDescription(command.Data.Description);
+                    .SetDisplayName(command.DisplayName)
+                    .SetDescription(command.Description);
             }
         }
     }

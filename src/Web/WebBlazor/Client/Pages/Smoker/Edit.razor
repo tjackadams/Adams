@@ -1,11 +1,135 @@
 ﻿@page "/smoker/{Name}/edit"
 @attribute [Authorize]
 
-<h2>Edit: @Name</h2>
+@inject IHttpClientFactory HttpFactory
+@inject NavigationManager Router
+@inject ILogger<Edit> Logger
+
+@if (!string.IsNullOrWhiteSpace(Message))
+{
+    <BSAlert Color="Color.Danger">
+        @Message
+    </BSAlert>
+}
+
+<SpinLoader IsLoading="@(Data == null)">
+    <ContentTemplate>
+        <BSForm Model="Data" OnValidSubmit="HandleValidSubmit">
+
+            <FluentValidationValidator />
+            <PortalValidator @ref="_portalValidator" />
+            <ValidationSummary />
+
+            <BSRow>
+                <BSCol MD="6">
+
+                    <h4>Recipe</h4>
+
+                    <BSFormGroup>
+                        <BSLabel For="@Data.Name">Name</BSLabel>
+                        <BSInput Id="@Data.Name" InputType="InputType.Text" @bind-Value="Data.Name" IsReadonly="true"></BSInput>
+                    </BSFormGroup>
+
+                    <BSFormGroup>
+                        <BSLabel For="@Data.DisplayName">Display name</BSLabel>
+                        <BSInput Id="@Data.DisplayName" InputType="InputType.Text" @bind-Value="Data.DisplayName" />
+                    </BSFormGroup>
+
+                    <BSFormGroup>
+                        <BSLabel For="@Data.Description">Description</BSLabel>
+                        <BSInput Id="@Data.Description" InputType="InputType.TextArea" @bind-Value="Data.Description" />
+                    </BSFormGroup>
+
+                </BSCol>
+                <BSCol MD="6">
+                    <h4>Steps</h4>
+                </BSCol>
+            </BSRow>
+            <BSButton Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Cancel</BSButton>
+            <BSButton Color="Color.Primary" ButtonType="ButtonType.Submit">Save</BSButton>
+        </BSForm>
+    </ContentTemplate>
+</SpinLoader>
 
 @code {
 
     [Parameter]
     public string Name { get; set; }
+
+    private string Message { get; set; }
+
+    private Command Data { get; set; }
+
+    private PortalValidator _portalValidator;
+
+    public class Command
+    {
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public List<CommandStep> Steps { get; set; }
+
+        public class CommandStep
+        {
+
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
+        Data = await http.GetFromJsonAsync<Command>($"/recipes/{Name}/edit");
+    }
+
+    private async Task HandleValidSubmit(EditContext editContext)
+    {
+        _portalValidator.ClearErrors();
+
+        try
+        {
+            var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
+
+            var response = await http.PostAsJsonAsync($"recipes/{Name}/edit", (Command)editContext.Model);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                Router.NavigateTo($"/smoker/{Name}/details");
+            }
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }))?.Errors;
+
+                _portalValidator.DisplayErrors(errors);
+            }
+            else
+            {
+                response.EnsureSuccessStatusCode();
+            }
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("Form processing error: {Message}", ex.Message);
+            Message = "There was an error processing the form.";
+        }
+    }
+
+    public class Validator : AbstractValidator<Command>
+    {
+        public Validator()
+        {
+            RuleFor(p => p.DisplayName)
+                .NotEmpty()
+                .MaximumLength(200);
+
+            RuleFor(p => p.Description)
+                .NotEmpty()
+                .MaximumLength(2000);
+
+
+        }
+    }
 
 }

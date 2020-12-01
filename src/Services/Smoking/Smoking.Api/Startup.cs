@@ -96,13 +96,15 @@ namespace Adams.Services.Smoking.Api
     {
         public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
-            services.AddControllers(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); });
+            services
+                .AddControllers(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); })
+                .AddHybridModelBinder();
 
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder
-                        .SetIsOriginAllowed((host) => true)
+                        .SetIsOriginAllowed(host => true)
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
@@ -146,6 +148,9 @@ namespace Adams.Services.Smoking.Api
         {
             services.AddSwaggerGen(options =>
             {
+                options.SchemaFilter<SwaggerIgnoreFilter>();
+                options.OperationFilter<HybridOperationFilter>();
+
                 options.CustomSchemaIds(type => type.GetGenericTypeName());
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
@@ -197,6 +202,8 @@ namespace Adams.Services.Smoking.Api
             IConfiguration configuration)
         {
             services.AddOptions();
+
+            services.Configure<ApiBehaviorOptions>(configuration);
 
             services.Configure<ApiBehaviorOptions>(options =>
             {

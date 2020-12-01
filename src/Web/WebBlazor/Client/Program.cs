@@ -4,28 +4,37 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using BlazorStrap;
 using FluentValidation;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Extensions.Http;
 using WebBlazor.Client.Infrastructure.HttpClients;
+using WebBlazor.Client.Infrastructure.MessageHandlers;
 
 namespace WebBlazor.Client
 {
     public class Program
     {
         public static async Task Main(string[] args)
-        { 
+        {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
+
+            builder.Services
+                .Configure<AppSettings>(builder.Configuration.GetSection("App"))
+                .AddScoped<SmokerAddressAuthorizationMessageHandler>();
 
             builder.Services.AddScoped(
                 sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
             builder.Services.AddHttpClient(HttpClients.SmokingClient,
-                    client => { client.BaseAddress = new Uri(builder.Configuration["SmokingUrl"]); })
-                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>()
+                    (sp, client) =>
+                    {
+                        client.BaseAddress =
+                            new Uri(sp.GetRequiredService<IOptions<AppSettings>>().Value.Smoker.BaseAddress);
+                    })
+                .AddHttpMessageHandler<SmokerAddressAuthorizationMessageHandler>()
                 .AddPolicyHandler(GetRetryPolicy());
 
             builder.Services.AddOidcAuthentication(options =>

@@ -19,7 +19,7 @@
     <BSCol MD="4">
         <BSForm Model="Data" OnValidSubmit="@HandleValidSubmit">
             <FluentValidationValidator />
-            <PortalValidator @ref="portalValidator" />
+            <PortalValidator @ref="_portalValidator" />
             <ValidationSummary />
 
             <BSFormGroup>
@@ -66,7 +66,7 @@
 
     private Command Data { get; set; } = new Command();
 
-    private PortalValidator portalValidator;
+    private PortalValidator _portalValidator;
 
     public class Command
     {
@@ -77,27 +77,26 @@
 
     private async Task HandleValidSubmit(EditContext editContext)
     {
-        portalValidator.ClearErrors();
+        _portalValidator.ClearErrors();
 
         try
         {
-            var http = HttpFactory.CreateClient(Infrastructure.HttpClients.HttpClients.SmokingClient);
+            var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
 
             var response = await http.PostAsJsonAsync("recipes", (Command)editContext.Model);
-
-            var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }))?.Errors;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest && errors!.Any())
+            if (response.StatusCode == HttpStatusCode.Created)
             {
-                portalValidator.DisplayErrors(errors);
+                Router.NavigateTo($"/smoker/{Data.Name}/edit");
             }
-            else if (!response.IsSuccessStatusCode)
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                response.EnsureSuccessStatusCode();
+                var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }))?.Errors;
+
+                _portalValidator.DisplayErrors(errors);
             }
             else
             {
-                Router.NavigateTo($"/smoker/{Data.Name}/edit");
+                response.EnsureSuccessStatusCode();
             }
         }
         catch (AccessTokenNotAvailableException ex)
