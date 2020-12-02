@@ -19,7 +19,6 @@
             <FluentValidationValidator />
             <PortalValidator @ref="_portalValidator" />
             <ValidationSummary />
-
             <BSRow>
                 <BSCol MD="6">
 
@@ -40,18 +39,100 @@
                         <BSInput Id="@Data.Description" InputType="InputType.TextArea" @bind-Value="Data.Description" />
                     </BSFormGroup>
 
+                    <BSButton Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Cancel</BSButton>
+                    <BSButton Color="Color.Primary" ButtonType="ButtonType.Submit">Save</BSButton>
+
                 </BSCol>
                 <BSCol MD="6">
-                    <h4>Steps</h4>
+                    <BSContainer>
+
+                        <h4>Steps</h4>
+                        
+                        <BSRow>
+                            <BSCol Class="col-12">
+                                <div class="d-flex">
+                                    <BSFormGroup Class="flex-fill mb-2 mr-sm-2 mb-sm-0">
+                                        <BSBasicInput InputType="InputType.TextArea" PlaceHolder="New step..." @bind-Value="NewStepDescription" />
+                                    </BSFormGroup>
+                                    <BSButton ButtonType="ButtonType.Button" @onclick="HandleNewStep">
+                                        Add
+                                    </BSButton>
+                                </div>
+                            </BSCol>
+                        </BSRow>
+
+                        <Plk.Blazor.DragDrop.Dropzone Items="Data.Steps" Context="step" AllowsDrag="(d) => !d.IsReadOnly" OnItemDrop="@((i) => { LastDropped = i; SortSteps(); })" TItem="Command.CommandStep">
+                            <BSRow>
+                                <BSCol MD="12">
+                                    <RecipeStep OnRemoveClick="(step) => HandleDeleteStep(step)" Step="step" />
+                                </BSCol>
+                            </BSRow>
+                        </Plk.Blazor.DragDrop.Dropzone>
+                    </BSContainer>
                 </BSCol>
             </BSRow>
-            <BSButton Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Cancel</BSButton>
-            <BSButton Color="Color.Primary" ButtonType="ButtonType.Submit">Save</BSButton>
         </BSForm>
     </ContentTemplate>
 </SpinLoader>
 
 @code {
+    private void HandleDeleteStep(Command.CommandStep step)
+    {
+        Data.Steps.Remove(step);
+        SortSteps();
+    }
+
+    private void HandleNewStep()
+    {
+        // insert the new item before the finish.
+        var finishIndex = Data.Steps.FindIndex(s => s.Step == Data.Steps.Max(x => x.Step));
+
+        Logger.LogInformation("index: {index}", finishIndex);
+
+        Data.Steps.Insert(finishIndex, new Command.CommandStep
+        {
+            Description = NewStepDescription
+        });
+
+        // reset to a clean state
+        NewStepDescription = string.Empty;
+
+        SortSteps();
+    }
+
+    private void SortSteps()
+    {
+        // start should always be top of the list
+        var startIndex = Data.Steps.FindIndex(s => s.Description == "Start");
+        if (startIndex != 0)
+        {
+            var start = Data.Steps.ElementAt(startIndex);
+            Data.Steps.RemoveAt(startIndex);
+
+            Data.Steps.Insert(0, start);
+        }
+
+        // finish should always be at the end of the list
+        var finishIndex = Data.Steps.FindIndex(s => s.Description == "Finish");
+        if (finishIndex != Data.Steps.Count - 1)
+        {
+            var finish = Data.Steps.ElementAt(finishIndex);
+            Data.Steps.RemoveAt(finishIndex);
+            Data.Steps.Insert(Data.Steps.Count, finish);
+        }
+
+        Data.Steps = Data.Steps.Select((s, i) =>
+        {
+            s.Step = i + 1;
+            return s;
+        }).ToList();
+
+        StateHasChanged();
+    }
+
+    private string NewStepDescription { get; set; }
+
+    private Command.CommandStep LastDropped { get; set; }
 
     [Parameter]
     public string Name { get; set; }
@@ -71,7 +152,22 @@
 
         public class CommandStep
         {
+            public int Id { get; set; }
+            public int Step { get; set; }
+            public string Description { get; set; }
 
+            public bool IsReadOnly
+            {
+                get
+                {
+                    if (Description == "Start" || Description == "Finish")
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
         }
     }
 
@@ -79,6 +175,14 @@
     {
         var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
         Data = await http.GetFromJsonAsync<Command>($"/recipes/{Name}/edit");
+        if (Data == null)
+        {
+            Router.NavigateTo("/smoker");
+            return;
+        }
+
+
+        Data.Steps = Data.Steps.OrderBy(s => s.Step).ToList();
     }
 
     private async Task HandleValidSubmit(EditContext editContext)

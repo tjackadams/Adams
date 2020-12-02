@@ -53,6 +53,7 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Queries
             public MappingProfile()
             {
                 CreateMap<Recipe, EditRecipe.Command>();
+                CreateMap<RecipeStep, EditRecipe.Command.CommandStep>();
             }    
         }
     }

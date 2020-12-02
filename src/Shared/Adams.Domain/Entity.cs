@@ -8,7 +8,7 @@ namespace Adams.Domain
         private List<INotification> _domainEvents;
         private int? _requestedHashCode;
 
-        public virtual int Id { get; protected set; }
+        public virtual int Id { get; set; }
 
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
 

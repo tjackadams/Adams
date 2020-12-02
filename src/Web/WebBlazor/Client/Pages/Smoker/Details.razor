@@ -1,0 +1,10 @@
+﻿@page "/smoker/{Name}/details"
+@attribute [Authorize]
+
+<h3>Details</h3>
+
+@code {
+
+    [Parameter]
+    public string Name { get; set; }
+}

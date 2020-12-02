@@ -1,0 +1,39 @@
+﻿@using WebBlazor.Client.Pages.Smoker
+
+<BSCard>
+    <BSCard CardType="CardType.Header">
+        Step: @Step.Step
+    </BSCard>
+    <BSCard CardType="CardType.Body">
+        <BSCard CardType="CardType.Text">
+            <div class="d-flex">
+                <BSFormGroup Class="flex-fill">
+                    <BSBasicInput InputType="InputType.TextArea" @bind-Value="Step.Description" IsReadonly="Step.IsReadOnly"/>
+                </BSFormGroup>
+            </div>
+        </BSCard>
+    </BSCard>
+    <BSCard CardType="CardType.Footer">
+        @if (!Step.IsReadOnly)
+        {
+            <a @onclick="@(() => OnRemoveClick.InvokeAsync(Step))" class="btn text-danger" title="Delete Step">
+                <i class="far fa-trash-alt"></i>
+            </a>
+        }
+    </BSCard>
+</BSCard>
+
+
+@code {
+
+    [Parameter]
+    public Edit.Command.CommandStep Step { get; set; }
+
+    [Parameter]
+    public EventCallback<Edit.Command.CommandStep> OnRemoveClick { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        StateHasChanged();
+    }
+}

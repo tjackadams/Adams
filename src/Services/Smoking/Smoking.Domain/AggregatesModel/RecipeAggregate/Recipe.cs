@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Adams.Domain;
 
 namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
@@ -13,12 +14,12 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
         {
             _steps = new List<RecipeStep>
             {
-                new (Id, 1, "Start"),
-                new (Id, 2, "Finish")
+                RecipeStep.Start,
+                RecipeStep.Finish
             };
         }
 
-        public Recipe(string name, string displayName, string description) 
+        public Recipe(string name, string displayName, string description)
             : this()
         {
             Name = name;
@@ -32,10 +33,27 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
 
         public string Description { get; private set; }
 
-        public void AddRecipeStep(int step, string description)
+        public void AddRecipeStep(RecipeStep step)
         {
-            var recipeStep = new RecipeStep(Id, step, description);
-            _steps.Add(recipeStep);
+            if (!step.IsTransient())
+            {
+                var existingStep = _steps.SingleOrDefault(s => s.Id == step.Id);
+
+                if (existingStep != null)
+                {
+                    existingStep.Description = step.Description;
+                    existingStep.Step = step.Step;
+
+                    return;
+                }
+            }
+
+            _steps.Add(step);
+        }
+
+        public void RemoveRecipeStep(RecipeStep step)
+        {
+            _steps.Remove(step);
         }
 
         public Recipe SetDisplayName(string displayName)

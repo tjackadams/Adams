@@ -8,13 +8,14 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Plk.Blazor.DragDrop;
 using Polly;
 using Polly.Extensions.Http;
 using WebBlazor.Client.Infrastructure.HttpClients;
 using WebBlazor.Client.Infrastructure.MessageHandlers;
 
 namespace WebBlazor.Client
-{
+{ 
     public class Program
     {
         public static async Task Main(string[] args)
@@ -43,18 +44,21 @@ namespace WebBlazor.Client
                 // For more information, see https://aka.ms/blazor-standalone-auth
                 builder.Configuration.Bind("Local", options.ProviderOptions);
             });
-
-            builder.Services.AddBootstrapCss();
+            
+            builder.Services 
+                .AddBootstrapCss()
+                .AddBootstrapCss()
+                .AddBlazorDragDrop();
 
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
+             
             await builder.Build().RunAsync();
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
         {
             return HttpPolicyExtensions
-                .HandleTransientHttpError()
+                .HandleTransientHttpError() 
                 .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
                 .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
         }

@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Adams.Domain;
+﻿using Adams.Domain;
 
 namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
 {
     public class RecipeStep : Entity
     {
-        public int RecipeId { get; private set; }
-        protected RecipeStep(){}
-        public RecipeStep(int recipeId, int step, string description)
+        public static RecipeStep Start => new RecipeStep
         {
-            RecipeId = recipeId;
+            Step = 1,
+            Description = "Start"
+        };
 
-            Step = step;
-            Description = description;
-        }
+        public static RecipeStep Finish => new RecipeStep
+        {
+            Step = 2,
+            Description = "Finish"
+        };
+        public int RecipeId { get; set; }
 
-        public int Step {get;private set;}
-        public string Description { get; private set; }
+        public int Step { get; set; }
+        public string Description { get; set; }
     }
 }
