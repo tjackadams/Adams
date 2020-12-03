@@ -13,6 +13,7 @@ COPY ["Services/Identity/Identity.Api/Identity.Api.csproj", "Services/Identity/I
 COPY ["Services/Smoking/Smoking.Api/Smoking.Api.csproj", "Services/Smoking/Smoking.Api/Smoking.Api.csproj"]
 COPY ["Services/Smoking/Smoking.Domain/Smoking.Domain.csproj", "Services/Smoking/Smoking.Domain/Smoking.Domain.csproj"]
 COPY ["Services/Smoking/Smoking.Infrastructure/Smoking.Infrastructure.csproj", "Services/Smoking/Smoking.Infrastructure/Smoking.Infrastructure.csproj"]
+COPY ["Services/Smoking/Smoking.Migrations/Smoking.Migrations.csproj", "Services/Smoking/Smoking.Migrations/Smoking.Migrations.csproj"]
 
 # Web
 COPY ["Web/WebStatus/WebStatus.csproj", "Web/WebStatus/WebStatus.csproj"]
@@ -22,8 +23,9 @@ COPY ["Web/WebBlazor/Client/WebBlazor.Client.csproj", "Web/WebBlazor/Client/"]
 
 # Shared
 COPY ["Shared/Adams.AspNetCore.Extensions/Adams.AspNetCore.Extensions.csproj", "Shared/Adams.AspNetCore.Extensions/Adams.AspNetCore.Extensions.csproj"]
-COPY ["Shared/Adams.IdentityServer.AzureKeyVault/Adams.IdentityServer.AzureKeyVault.csproj", "Shared/Adams.IdentityServer.AzureKeyVault/Adams.IdentityServer.AzureKeyVault.csproj"]
+COPY ["Shared/Adams.Core/Adams.Core.csproj", "Shared/Adams.Core/Adams.Core.csproj"]
 COPY ["Shared/Adams.Domain/Adams.Domain.csproj", "Shared/Adams.Domain/Adams.Domain.csproj"]
+COPY ["Shared/Adams.IdentityServer.AzureKeyVault/Adams.IdentityServer.AzureKeyVault.csproj", "Shared/Adams.IdentityServer.AzureKeyVault/Adams.IdentityServer.AzureKeyVault.csproj"]
 
 RUN dotnet restore "Adams.sln" -r linux-arm
 
