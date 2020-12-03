@@ -38,6 +38,7 @@ services:
 - name: smoking-api
   dockerFile: Services/Smoking/Smoking.Api/Dockerfile
   dockerFileContext: .
+  replicas: 2
   env:
   - ASPNETCORE_ENVIRONMENT
   - ConnectionStrings__Smoking
