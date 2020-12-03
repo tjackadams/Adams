@@ -9,16 +9,15 @@
 {
     <BSAlert Color="Color.Danger">
         @Message
-    </BSAlert>
-}
+    </BSAlert>}
 
 <SpinLoader IsLoading="@(Data == null)">
     <ContentTemplate>
         <BSForm Model="Data" OnValidSubmit="HandleValidSubmit">
 
-            <FluentValidationValidator />
-            <PortalValidator @ref="_portalValidator" />
-            <ValidationSummary />
+            <FluentValidationValidator/>
+            <PortalValidator @ref="_portalValidator"/>
+            <ValidationSummary/>
             <BSRow>
                 <BSCol MD="6">
 
@@ -31,12 +30,12 @@
 
                     <BSFormGroup>
                         <BSLabel For="@Data.DisplayName">Display name</BSLabel>
-                        <BSInput Id="@Data.DisplayName" InputType="InputType.Text" @bind-Value="Data.DisplayName" />
+                        <BSInput Id="@Data.DisplayName" InputType="InputType.Text" @bind-Value="Data.DisplayName"/>
                     </BSFormGroup>
 
                     <BSFormGroup>
                         <BSLabel For="@Data.Description">Description</BSLabel>
-                        <BSInput Id="@Data.Description" InputType="InputType.TextArea" @bind-Value="Data.Description" />
+                        <BSInput Id="@Data.Description" InputType="InputType.TextArea" @bind-Value="Data.Description"/>
                     </BSFormGroup>
 
                     <BSButton Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Cancel</BSButton>
@@ -47,12 +46,12 @@
                     <BSContainer>
 
                         <h4>Steps</h4>
-                        
+
                         <BSRow>
                             <BSCol Class="col-12">
                                 <div class="d-flex">
                                     <BSFormGroup Class="flex-fill mb-2 mr-sm-2 mb-sm-0">
-                                        <BSBasicInput InputType="InputType.TextArea" PlaceHolder="New step..." @bind-Value="NewStepDescription" />
+                                        <BSBasicInput InputType="InputType.TextArea" PlaceHolder="New step..." @bind-Value="NewStepDescription"/>
                                     </BSFormGroup>
                                     <BSButton ButtonType="ButtonType.Button" @onclick="HandleNewStep">
                                         Add
@@ -61,10 +60,10 @@
                             </BSCol>
                         </BSRow>
 
-                        <Plk.Blazor.DragDrop.Dropzone Items="Data.Steps" Context="step" AllowsDrag="(d) => !d.IsReadOnly" OnItemDrop="@((i) => { LastDropped = i; SortSteps(); })" TItem="Command.CommandStep">
+                        <Plk.Blazor.DragDrop.Dropzone Items="Data.Steps" Context="step" AllowsDrag="(d) => !d.IsReadOnly" OnItemDrop="@(i => { LastDropped = i; SortSteps(); })" TItem="Command.CommandStep">
                             <BSRow>
                                 <BSCol MD="12">
-                                    <RecipeStep OnRemoveClick="(step) => HandleDeleteStep(step)" Step="step" />
+                                    <RecipeStep OnRemoveClick="step => HandleDeleteStep(step)" Step="step"/>
                                 </BSCol>
                             </BSRow>
                         </Plk.Blazor.DragDrop.Dropzone>
@@ -76,6 +75,7 @@
 </SpinLoader>
 
 @code {
+
     private void HandleDeleteStep(Command.CommandStep step)
     {
         Data.Steps.Remove(step);
@@ -84,7 +84,7 @@
 
     private void HandleNewStep()
     {
-        // insert the new item before the finish.
+    // insert the new item before the finish.
         var finishIndex = Data.Steps.FindIndex(s => s.Step == Data.Steps.Max(x => x.Step));
 
         Logger.LogInformation("index: {index}", finishIndex);
@@ -94,7 +94,7 @@
             Description = NewStepDescription
         });
 
-        // reset to a clean state
+    // reset to a clean state
         NewStepDescription = string.Empty;
 
         SortSteps();
@@ -102,7 +102,7 @@
 
     private void SortSteps()
     {
-        // start should always be top of the list
+    // start should always be top of the list
         var startIndex = Data.Steps.FindIndex(s => s.Description == "Start");
         if (startIndex != 0)
         {
@@ -112,7 +112,7 @@
             Data.Steps.Insert(0, start);
         }
 
-        // finish should always be at the end of the list
+    // finish should always be at the end of the list
         var finishIndex = Data.Steps.FindIndex(s => s.Description == "Finish");
         if (finishIndex != Data.Steps.Count - 1)
         {
@@ -193,14 +193,14 @@
         {
             var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
 
-            var response = await http.PostAsJsonAsync($"recipes/{Name}/edit", (Command)editContext.Model);
+            var response = await http.PostAsJsonAsync($"recipes/{Name}/edit", (Command) editContext.Model);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Router.NavigateTo($"/smoker/{Name}/details");
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }))?.Errors;
+                var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase}))?.Errors;
 
                 _portalValidator.DisplayErrors(errors);
             }
@@ -231,8 +231,6 @@
             RuleFor(p => p.Description)
                 .NotEmpty()
                 .MaximumLength(2000);
-
-
         }
     }
 

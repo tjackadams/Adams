@@ -1,0 +1,32 @@
+﻿@using WebBlazor.Client.Pages.Smoker
+<div class="container py-2">
+    @foreach (var item in Items.OrderBy(i => i.Step))
+    {
+        <TimelineCard Item="item" IsLastItem="IsLastItem(item)" IsFirstItem="IsFirstItem(item)"/>
+    }
+</div>
+
+@code {
+
+    private int LastIndex {get; set; }
+    private int FirstIndex { get;set; }
+
+    [Parameter]
+    public List<Details.Query.QueryStep> Items { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        LastIndex = Items.IndexOf(Items.Last());
+        FirstIndex = Items.IndexOf(Items.First());
+    }
+
+    bool IsLastItem(Details.Query.QueryStep item)
+    {
+        return Items.IndexOf(item) == LastIndex;
+    }
+
+    bool IsFirstItem(Details.Query.QueryStep item)
+    {
+        return Items.IndexOf(item) == FirstIndex;
+    }
+}

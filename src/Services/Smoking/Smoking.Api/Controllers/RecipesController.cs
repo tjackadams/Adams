@@ -57,5 +57,12 @@ namespace Adams.Services.Smoking.Api.Controllers
             await _mediator.Send(command, cancellationToken);
             return StatusCode(StatusCodes.Status200OK);
         }
+
+        [HttpGet("{name}")]
+        [ProducesResponseType(typeof(RecipeModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRecipe([FromRoute] GetRecipe.Query query, CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(query, cancellationToken));
+        }
     }
 }
