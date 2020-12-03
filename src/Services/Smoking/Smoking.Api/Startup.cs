@@ -68,8 +68,6 @@ namespace Adams.Services.Smoking.Api
                     c.OAuthAppName("Smoking Swagger UI");
                 });
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseCors("CorsPolicy");
 
