@@ -1,69 +1,141 @@
 ﻿@page "/smoker"
-@attribute [Authorize]
 @using WebBlazor.Client.Models.Smoking
 @using Microsoft.AspNetCore.WebUtilities
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+
+
 @inject IHttpClientFactory HttpFactory
 @inject NavigationManager Router
+@inject IToastService ToastService
 
-    <h1>Recipes</h1>
+<h1>Recipes</h1>
 
-    <BSButton Class="mb-4" ButtonType="ButtonType.Button" Color="Color.Primary" @onclick="@(() => Router.NavigateTo("/smoker/create"))">
-        Create
-    </BSButton>
+<BSButton Class="mb-4" ButtonType="ButtonType.Button" Color="Color.Primary" @onclick="@(() => Router.NavigateTo("/smoker/create"))">
+    Create
+</BSButton>
 
-    <SpinLoader IsLoading="@(Recipes == null)">
-        <ContentTemplate>
+<SpinLoader IsLoading="@(Recipes == null)">
+    <ContentTemplate>
 
-            <BSRow Class="mb-4">
-                <BSCol MD="4">
-                    <input @bind="Search" @oninput="OnSearch" class="form-control" placeholder="Search..." />
-                </BSCol>
-            </BSRow>
-            <BSRow>
-                <BSCol>
-                    <BSTable>
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Number of Steps</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
+        <BSRow Class="mb-4">
+            <BSCol MD="4">
+                <input @bind="Search" @oninput="OnSearch" class="form-control" placeholder="Search..."/>
+            </BSCol>
+        </BSRow>
+        <BSRow>
+            <BSCol>
+                <BSTable>
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Number of Steps</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                            @foreach (var item in Recipes)
-                            {
-                                <tr>
-                                    <td>
-                                        @item.DisplayName
-                                    </td>
-                                    <td>@item.Steps</td>
-                                    <td>
-                                        <NavLink href="@($"/smoker/{item.Name}/details")">
-                                            Details
-                                        </NavLink>
-                                        &nbsp;|
-                                        <NavLink href="@($"/smoker/{item.Name}/edit")">
-                                            Edit
-                                        </NavLink>
-                                        &nbsp;|
-                                        <NavLink href="@($"/smoker/{item.Name}/delete")">
-                                            Delete
-                                        </NavLink>
-                                    </td>
-                                </tr>
-                            }
+                    @foreach (var item in Recipes)
+                    {
+                        <tr>
+                            <td>
+                                @item.DisplayName
+                            </td>
+                            <td>@item.Steps</td>
+                            <td>
+                                <NavLink href="@($"/smoker/{item.Name}/details")">
+                                    Details
+                                </NavLink>
+                                &nbsp;|
+                                <NavLink href="@($"/smoker/{item.Name}/edit")">
+                                    Edit
+                                </NavLink>
+                                &nbsp;|
+                                <a href="javascript:void(0)" @onclick="@(() => ShowModal(item))">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
 
-                        </tbody>
-                    </BSTable>
-                </BSCol>
-            </BSRow>
+                    </tbody>
+                </BSTable>
+            </BSCol>
+        </BSRow>
+    </ContentTemplate>
+</SpinLoader>
 
-        </ContentTemplate>
-    </SpinLoader>
+
+@* Confirmation Modal *@
+<BSModal @ref="DeleteRecipe" IsCentered="true">
+    @if (CurrentRecipe != null)
+    {
+        <BSModalHeader OnClick="HideModal">Are you absolutely sure?</BSModalHeader>
+        <BSModalBody>
+            <p>This action <strong>cannot</strong> be undone. This will delete the <strong>@CurrentRecipe.Name</strong> recipe.</p>
+            <p>Please type <strong>@CurrentRecipe.Name</strong> to confirm.</p>
+            <p>
+                <BSBasicInput InputType="InputType.Text" Value="string.Empty" @oninput="@(ValidateInput)"/>
+            </p>
+            <BSButton ButtonType="ButtonType.Button" IsDisabled="ConfirmButtonIsDisabled" Color="Color.Light" Class="text-danger" IsBlock="true" @onclick="OnDeleteRecipe">I understand the consequences, delete this recipe</BSButton>
+        </BSModalBody>    }
+</BSModal>
+
 
 @code {
+
+    private async Task OnDeleteRecipe()
+    {
+        try
+        {
+            var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
+
+            var response = await http.DeleteAsync($"recipes/{CurrentRecipe.Name}");
+            if (!response.IsSuccessStatusCode)
+            {
+                ToastService.ShowError("Failed to delete the recipe. Please try again.", "Something went wrong!");
+            }
+            else
+            {
+                ToastService.ShowSuccess("That recipe is outta here!");
+            }
+
+            await GetRecipes(Search);
+            HideModal();
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+    }
+
+    private bool ConfirmButtonIsDisabled { get; set; } = true;
+
+    private void ValidateInput(ChangeEventArgs e)
+    {
+        ConfirmName = e.Value?.ToString();
+        ConfirmButtonIsDisabled = !string.Equals(CurrentRecipe.Name, ConfirmName, StringComparison.Ordinal);
+        StateHasChanged();
+    }
+
+    private string ConfirmName { get; set; }
+
+    private void HideModal()
+    {
+        CurrentRecipe = null;
+        StateHasChanged();
+        DeleteRecipe.Hide();
+    }
+
+    private void ShowModal(RecipeSummary recipe)
+    {
+        CurrentRecipe = recipe;
+        StateHasChanged();
+        DeleteRecipe.Show();
+    }
+
+    private RecipeSummary CurrentRecipe { get; set; }
+
+    private BSModal DeleteRecipe { get; set; }
 
     private string Search { get; set; }
     private RecipeSummary[] Recipes { get; set; }
@@ -80,7 +152,7 @@
 
     private async Task GetRecipes(string search)
     {
-        var http = HttpFactory.CreateClient(Infrastructure.HttpClients.HttpClients.SmokingClient);
+        var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
         var url = string.IsNullOrEmpty(search) ? "recipes" : QueryHelpers.AddQueryString("recipes", "search", search);
 
         try
@@ -93,4 +165,5 @@
             ex.Redirect();
         }
     }
+
 }

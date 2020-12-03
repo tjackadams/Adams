@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Blazored.Toast;
 using BlazorStrap;
 using FluentValidation;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -44,11 +45,12 @@ namespace WebBlazor.Client
                 // For more information, see https://aka.ms/blazor-standalone-auth
                 builder.Configuration.Bind("Local", options.ProviderOptions);
             });
-            
-            builder.Services 
+
+            builder.Services
                 .AddBootstrapCss()
                 .AddBootstrapCss()
-                .AddBlazorDragDrop();
+                .AddBlazorDragDrop()
+                .AddBlazoredToast();
 
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
              

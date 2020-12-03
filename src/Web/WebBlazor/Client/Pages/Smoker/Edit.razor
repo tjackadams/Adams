@@ -63,7 +63,7 @@
                         <Plk.Blazor.DragDrop.Dropzone Items="Data.Steps" Context="step" AllowsDrag="(d) => !d.IsReadOnly" OnItemDrop="@(i => { LastDropped = i; SortSteps(); })" TItem="Command.CommandStep">
                             <BSRow>
                                 <BSCol MD="12">
-                                    <RecipeStep OnRemoveClick="step => HandleDeleteStep(step)" Step="step"/>
+                                    <RecipeStep OnRemoveClick="HandleDeleteStep" Step="step"/>
                                 </BSCol>
                             </BSRow>
                         </Plk.Blazor.DragDrop.Dropzone>

@@ -60,9 +60,20 @@ namespace Adams.Services.Smoking.Api.Controllers
 
         [HttpGet("{name}")]
         [ProducesResponseType(typeof(RecipeModel), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetRecipe([FromRoute] GetRecipe.Query query, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetRecipe([FromRoute] GetRecipe.Query query,
+            CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(query, cancellationToken));
+        }
+
+        [HttpDelete("{name}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> DeleteRecipe([FromRoute] DeleteRecipe.Command command,
+            CancellationToken cancellationToken)
+        {
+            await _mediator.Send(command, cancellationToken);
+
+            return NoContent();
         }
     }
 }
