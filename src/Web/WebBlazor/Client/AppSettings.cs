@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WebBlazor.Client
 {
@@ -14,6 +11,6 @@ namespace WebBlazor.Client
     {
         public string BaseAddress { get; init; }
         public List<string> AuthorizedUrls { get; init; }
-        public List<string> Scopes { get; init;  }
+        public List<string> Scopes { get; init; }
     }
 }

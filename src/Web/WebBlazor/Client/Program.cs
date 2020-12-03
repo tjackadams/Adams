@@ -16,7 +16,7 @@ using WebBlazor.Client.Infrastructure.HttpClients;
 using WebBlazor.Client.Infrastructure.MessageHandlers;
 
 namespace WebBlazor.Client
-{ 
+{
     public class Program
     {
         public static async Task Main(string[] args)
@@ -53,14 +53,14 @@ namespace WebBlazor.Client
                 .AddBlazoredToast();
 
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-             
+
             await builder.Build().RunAsync();
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
         {
             return HttpPolicyExtensions
-                .HandleTransientHttpError() 
+                .HandleTransientHttpError()
                 .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
                 .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
         }

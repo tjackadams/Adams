@@ -4,7 +4,6 @@ using Adams.IdentityServer.AzureKeyVault.Stores;
 using Azure.Identity;
 using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Secrets;
-using IdentityServer4.Configuration;
 using IdentityServer4.Stores;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
@@ -27,10 +26,10 @@ namespace Microsoft.Extensions.DependencyInjection
                     sp.GetRequiredService<IMemoryCache>(),
                     new CertificateClient(
                         new Uri(options.VaultUri),
-                        new DefaultAzureCredential(false)),
+                        new DefaultAzureCredential()),
                     new SecretClient(
                         new Uri(options.VaultUri),
-                        new DefaultAzureCredential(false)),
+                        new DefaultAzureCredential()),
                     sp.GetRequiredService<IOptionsMonitor<IdentityServerAzureKeyVaultOptions>>()
                 );
             });
@@ -42,10 +41,10 @@ namespace Microsoft.Extensions.DependencyInjection
                     sp.GetRequiredService<IMemoryCache>(),
                     new CertificateClient(
                         new Uri(options.VaultUri),
-                        new DefaultAzureCredential(false)),
+                        new DefaultAzureCredential()),
                     new SecretClient(
                         new Uri(options.VaultUri),
-                        new DefaultAzureCredential(false)),
+                        new DefaultAzureCredential()),
                     sp.GetRequiredService<IOptionsMonitor<IdentityServerAzureKeyVaultOptions>>()
                 );
             });

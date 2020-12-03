@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -13,7 +11,7 @@ namespace Adams.Services.Smoking.Api.Infrastructure.Filters
         {
             var hybridParameters = context.ApiDescription.ParameterDescriptions
                 .Where(x => x.Source.Id == "Hybrid")
-                .Select(x => new { name = x.Name }).ToList();
+                .Select(x => new {name = x.Name}).ToList();
 
             for (var i = 0; i < operation.Parameters.Count; i++)
             {
@@ -23,7 +21,7 @@ namespace Adams.Services.Smoking.Api.Infrastructure.Filters
                     {
                         var name = operation.Parameters[i].Name;
                         var isRequired = operation.Parameters[i].Required;
-                        var hybridMediaType = new OpenApiMediaType { Schema = operation.Parameters[i].Schema };
+                        var hybridMediaType = new OpenApiMediaType {Schema = operation.Parameters[i].Schema};
 
                         operation.Parameters.RemoveAt(i);
 
@@ -33,7 +31,7 @@ namespace Adams.Services.Smoking.Api.Infrastructure.Filters
                             {
                                 //You are not limited to "application/json"...
                                 //If you add more just ensure they use the same hybridMediaType
-                                { "application/json", hybridMediaType }
+                                {"application/json", hybridMediaType}
                             },
                             Required = isRequired
                         };

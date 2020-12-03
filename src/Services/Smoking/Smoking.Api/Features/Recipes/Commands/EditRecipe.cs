@@ -61,7 +61,7 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
 
                 // remove missing steps
                 var staleSteps = recipe.Steps.Except(steps).ToList();
-                foreach(var staleStep in staleSteps)
+                foreach (var staleStep in staleSteps)
                 {
                     recipe.RemoveRecipeStep(staleStep);
                 }
@@ -105,6 +105,5 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                 });
             }
         }
-
     }
 }

@@ -1,12 +1,6 @@
 ﻿@page "/smoker/create"
-@attribute [Authorize]
-
-@using FluentValidation
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using Microsoft.Extensions.Logging
-@using WebBlazor.Client.Models
 @using Adams.Core.Extensions
-@using System.Text.Json
+@attribute [Authorize]
 @inject ILogger<Create> Logger
 @inject IHttpClientFactory HttpFactory
 @inject NavigationManager Router
@@ -14,17 +8,17 @@
 <h2>Create</h2>
 
 <h4>Recipe</h4>
-<hr />
+<hr/>
 <BSRow>
     <BSCol MD="4">
         <BSForm Model="Data" OnValidSubmit="@HandleValidSubmit">
-            <FluentValidationValidator />
-            <PortalValidator @ref="_portalValidator" />
-            <ValidationSummary />
+            <FluentValidationValidator/>
+            <PortalValidator @ref="_portalValidator"/>
+            <ValidationSummary/>
 
             <BSFormGroup>
                 <BSLabel For="@Data.Name">Name</BSLabel>
-                <BSInput Id="@Data.Name" InputType="InputType.Text" @bind-Value="Data.Name" @oninput="HandleNameOnInput" />
+                <BSInput Id="@Data.Name" InputType="InputType.Text" @bind-Value="Data.Name" @oninput="HandleNameOnInput"/>
                 <small id="@($"{nameof(Data.Name)}_help")" class="form-text text-muted">
                     Choose a small name to identify this delicious new recipe.
                 </small>
@@ -32,7 +26,7 @@
 
             <BSFormGroup>
                 <BSLabel For="@Data.DisplayName">Display name</BSLabel>
-                <BSInput Id="@Data.DisplayName" InputType="InputType.Text" @bind-Value="Data.DisplayName" />
+                <BSInput Id="@Data.DisplayName" InputType="InputType.Text" @bind-Value="Data.DisplayName"/>
                 <small id="@($"{nameof(Data.DisplayName)}_help")" class="form-text text-muted">
                     Choose a more user friendly name to identify this new recipe.
                 </small>
@@ -40,12 +34,12 @@
 
             <BSFormGroup>
                 <BSLabel For="@Data.Description">Description</BSLabel>
-                <BSInput Id="@Data.Description" InputType="InputType.Text" @bind-Value="Data.Description" />
+                <BSInput Id="@Data.Description" InputType="InputType.Text" @bind-Value="Data.Description"/>
                 <small id="@($"{nameof(Data.Description)}_help")" class="form-text text-muted">
                     How would you describe this taste sensation?
                 </small>
             </BSFormGroup>
-            
+
             <BSButton Class="mr-4" Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Cancel</BSButton>
             <BSButton Color="Color.Primary" ButtonType="ButtonType.Submit">Submit</BSButton>
         </BSForm>
@@ -53,8 +47,7 @@
         {
             <BSAlert Color="Color.Danger">
                 @Message
-            </BSAlert>
-        }
+            </BSAlert>        }
 
     </BSCol>
 </BSRow>
@@ -64,7 +57,7 @@
 
     private string Message { get; set; }
 
-    private Command Data { get; set; } = new Command();
+    private Command Data { get; } = new();
 
     private PortalValidator _portalValidator;
 
@@ -83,14 +76,14 @@
         {
             var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
 
-            var response = await http.PostAsJsonAsync("recipes", (Command)editContext.Model);
+            var response = await http.PostAsJsonAsync("recipes", (Command) editContext.Model);
             if (response.StatusCode == HttpStatusCode.Created)
             {
                 Router.NavigateTo($"/smoker/{Data.Name}/edit");
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }))?.Errors;
+                var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase}))?.Errors;
 
                 _portalValidator.DisplayErrors(errors);
             }
@@ -133,4 +126,5 @@
                 .MaximumLength(2000);
         }
     }
+
 }

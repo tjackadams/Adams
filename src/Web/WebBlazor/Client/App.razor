@@ -5,8 +5,7 @@
                 <NotAuthorized>
                     @if (context.User.Identity != null && !context.User.Identity.IsAuthenticated)
                     {
-                        <RedirectToLogin />
-                    }
+                        <RedirectToLogin/>                    }
                     else
                     {
                         <p>You are not authorized to access this resource.</p>

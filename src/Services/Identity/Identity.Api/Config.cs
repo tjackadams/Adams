@@ -10,7 +10,7 @@ namespace Adams.Services.Identity.Api
         {
             return new[]
             {
-                new ApiResource("smokers", "Smokers Service"){ Scopes ={ "smokers"}}
+                new ApiResource("smokers", "Smokers Service") {Scopes = {"smokers"}}
             };
         }
 
@@ -25,7 +25,7 @@ namespace Adams.Services.Identity.Api
 
         public static IEnumerable<ApiScope> ApiScopes()
         {
-            return new []
+            return new[]
             {
                 new ApiScope("smokers")
             };
@@ -51,9 +51,9 @@ namespace Adams.Services.Identity.Api
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
-                        IdentityServerConstants.StandardScopes.OpenId, 
+                        IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess, 
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
                         "smokers"
                     },
 
@@ -68,10 +68,10 @@ namespace Adams.Services.Identity.Api
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
-                    RedirectUris = { $"{clientUrls["SmokingApi"]}/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"{clientUrls["SmokingApi"]}/swagger/" },
+                    RedirectUris = {$"{clientUrls["SmokingApi"]}/swagger/oauth2-redirect.html"},
+                    PostLogoutRedirectUris = {$"{clientUrls["SmokingApi"]}/swagger/"},
 
-                    AllowedScopes = { "smokers" }
+                    AllowedScopes = {"smokers"}
                 }
             };
         }

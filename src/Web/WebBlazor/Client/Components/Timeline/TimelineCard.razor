@@ -1,5 +1,4 @@
 ﻿@using WebBlazor.Client.Pages.Smoker
-
 <BSRow>
     <!-- timeline item 1 left dot -->
     <div class="col-auto text-center flex-column d-none d-sm-flex">
@@ -32,6 +31,7 @@
 </BSRow>
 
 @code {
+
     [Parameter]
     public Details.Query.QueryStep Item { get; set; }
 
@@ -40,4 +40,5 @@
 
     [Parameter]
     public bool IsFirstItem { get; set; }
+
 }

@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -14,14 +14,14 @@ using Microsoft.Extensions.Logging;
 namespace Adams.Services.Identity.Api.Controllers.Consent
 {
     /// <summary>
-    /// This controller processes the consent UI
+    ///     This controller processes the consent UI
     /// </summary>
     [SecurityHeaders]
     [Authorize]
     public class ConsentController : Controller
     {
-        private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
+        private readonly IIdentityServerInteractionService _interaction;
         private readonly ILogger<ConsentController> _logger;
 
         public ConsentController(
@@ -35,7 +35,7 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
         }
 
         /// <summary>
-        /// Shows the consent screen
+        ///     Shows the consent screen
         /// </summary>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
@@ -52,7 +52,7 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
         }
 
         /// <summary>
-        /// Handles the consent screen postback
+        ///     Handles the consent screen postback
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -95,17 +95,21 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
 
             // validate return url is still valid
             var request = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
-            if (request == null) return result;
+            if (request == null)
+            {
+                return result;
+            }
 
             ConsentResponse grantedConsent = null;
 
             // user clicked 'no' - send back the standard 'access_denied' response
             if (model?.Button == "no")
             {
-                grantedConsent = new ConsentResponse { Error = AuthorizationError.AccessDenied };
+                grantedConsent = new ConsentResponse {Error = AuthorizationError.AccessDenied};
 
                 // emit event
-                await _events.RaiseAsync(new ConsentDeniedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues));
+                await _events.RaiseAsync(new ConsentDeniedEvent(User.GetSubjectId(), request.Client.ClientId,
+                    request.ValidatedResources.RawScopeValues));
             }
             // user clicked 'yes' - validate the data
             else if (model?.Button == "yes")
@@ -116,7 +120,7 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
                     var scopes = model.ScopesConsented;
                     if (ConsentOptions.EnableOfflineAccess == false)
                     {
-                        scopes = scopes.Where(x => x != IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess);
+                        scopes = scopes.Where(x => x != IdentityServerConstants.StandardScopes.OfflineAccess);
                     }
 
                     grantedConsent = new ConsentResponse
@@ -127,7 +131,9 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
                     };
 
                     // emit event
-                    await _events.RaiseAsync(new ConsentGrantedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues, grantedConsent.ScopesValuesConsented, grantedConsent.RememberConsent));
+                    await _events.RaiseAsync(new ConsentGrantedEvent(User.GetSubjectId(), request.Client.ClientId,
+                        request.ValidatedResources.RawScopeValues, grantedConsent.ScopesValuesConsented,
+                        grantedConsent.RememberConsent));
                 }
                 else
                 {
@@ -164,10 +170,8 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
             {
                 return CreateConsentViewModel(model, returnUrl, request);
             }
-            else
-            {
-                _logger.LogError("No consent request matching request: {0}", returnUrl);
-            }
+
+            _logger.LogError("No consent request matching request: {0}", returnUrl);
 
             return null;
         }
@@ -190,22 +194,28 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
                 AllowRememberConsent = request.Client.AllowRememberConsent
             };
 
-            vm.IdentityScopes = request.ValidatedResources.Resources.IdentityResources.Select(x => CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
+            vm.IdentityScopes = request.ValidatedResources.Resources.IdentityResources.Select(x =>
+                CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
 
             var apiScopes = new List<ScopeViewModel>();
-            foreach(var parsedScope in request.ValidatedResources.ParsedScopes)
+            foreach (var parsedScope in request.ValidatedResources.ParsedScopes)
             {
                 var apiScope = request.ValidatedResources.Resources.FindApiScope(parsedScope.ParsedName);
                 if (apiScope != null)
                 {
-                    var scopeVm = CreateScopeViewModel(parsedScope, apiScope, vm.ScopesConsented.Contains(parsedScope.RawValue) || model == null);
+                    var scopeVm = CreateScopeViewModel(parsedScope, apiScope,
+                        vm.ScopesConsented.Contains(parsedScope.RawValue) || model == null);
                     apiScopes.Add(scopeVm);
                 }
             }
+
             if (ConsentOptions.EnableOfflineAccess && request.ValidatedResources.Resources.OfflineAccess)
             {
-                apiScopes.Add(GetOfflineAccessScope(vm.ScopesConsented.Contains(IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess) || model == null));
+                apiScopes.Add(GetOfflineAccessScope(
+                    vm.ScopesConsented.Contains(IdentityServerConstants.StandardScopes.OfflineAccess) ||
+                    model == null));
             }
+
             vm.ApiScopes = apiScopes;
 
             return vm;
@@ -227,7 +237,7 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
         public ScopeViewModel CreateScopeViewModel(ParsedScopeValue parsedScopeValue, ApiScope apiScope, bool check)
         {
             var displayName = apiScope.DisplayName ?? apiScope.Name;
-            if (!String.IsNullOrWhiteSpace(parsedScopeValue.ParsedParameter))
+            if (!string.IsNullOrWhiteSpace(parsedScopeValue.ParsedParameter))
             {
                 displayName += ":" + parsedScopeValue.ParsedParameter;
             }
@@ -247,7 +257,7 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
         {
             return new ScopeViewModel
             {
-                Value = IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
+                Value = IdentityServerConstants.StandardScopes.OfflineAccess,
                 DisplayName = ConsentOptions.OfflineAccessDisplayName,
                 Description = ConsentOptions.OfflineAccessDescription,
                 Emphasize = true,

@@ -2,14 +2,13 @@
 <div class="container py-2">
     @foreach (var item in Items.OrderBy(i => i.Step))
     {
-        <TimelineCard Item="item" IsLastItem="IsLastItem(item)" IsFirstItem="IsFirstItem(item)"/>
-    }
+        <TimelineCard Item="item" IsLastItem="IsLastItem(item)" IsFirstItem="IsFirstItem(item)"/>    }
 </div>
 
 @code {
 
-    private int LastIndex {get; set; }
-    private int FirstIndex { get;set; }
+    private int LastIndex { get; set; }
+    private int FirstIndex { get; set; }
 
     [Parameter]
     public List<Details.Query.QueryStep> Items { get; set; }
@@ -29,4 +28,5 @@
     {
         return Items.IndexOf(item) == FirstIndex;
     }
+
 }

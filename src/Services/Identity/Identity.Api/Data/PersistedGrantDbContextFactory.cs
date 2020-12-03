@@ -20,7 +20,8 @@ namespace Adams.Services.Identity.Api.Data
             var optionsBuilder = new DbContextOptionsBuilder<PersistedGrantDbContext>();
             var operationOptions = new OperationalStoreOptions();
 
-            optionsBuilder.UseSqlServer(config.GetConnectionString("Identity"), o => o.MigrationsAssembly("Identity.Api"));
+            optionsBuilder.UseSqlServer(config.GetConnectionString("Identity"),
+                o => o.MigrationsAssembly("Identity.Api"));
 
             return new PersistedGrantDbContext(optionsBuilder.Options, operationOptions);
         }

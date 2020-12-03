@@ -13,6 +13,7 @@ namespace Adams.IdentityServer.AzureKeyVault.Stores
     {
         private readonly CertificateClient _certificateClient;
         private readonly SecretClient _secretClient;
+
         protected KeyStore(CertificateClient certificateClient, SecretClient secretClient)
         {
             _certificateClient = certificateClient;
@@ -24,7 +25,7 @@ namespace Adams.IdentityServer.AzureKeyVault.Stores
             // get all certificate versions. this includes the current active version.
             var certificateVersions = _certificateClient.GetPropertiesOfCertificateVersionsAsync(certificateName);
 
-            List<CertificateProperties> certificates = new List<CertificateProperties>();
+            var certificates = new List<CertificateProperties>();
 
             await foreach (var certificate in certificateVersions)
             {

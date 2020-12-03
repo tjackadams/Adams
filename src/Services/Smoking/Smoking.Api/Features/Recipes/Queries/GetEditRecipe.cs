@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Adams.Services.Smoking.Api.Features.Recipes.Commands;
@@ -23,13 +21,15 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Queries
 
         public class Handler : IRequestHandler<Query, EditRecipe.Command>
         {
-            private readonly SmokingContext _db;
             private readonly IConfigurationProvider _configuration;
-            public Handler (SmokingContext db, IConfigurationProvider configuration)
+            private readonly SmokingContext _db;
+
+            public Handler(SmokingContext db, IConfigurationProvider configuration)
             {
                 _db = db;
                 _configuration = configuration;
-            }    
+            }
+
             public Task<EditRecipe.Command> Handle(Query request, CancellationToken cancellationToken)
             {
                 return _db.Recipes
@@ -54,7 +54,7 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Queries
             {
                 CreateMap<Recipe, EditRecipe.Command>();
                 CreateMap<RecipeStep, EditRecipe.Command.CommandStep>();
-            }    
+            }
         }
     }
 }

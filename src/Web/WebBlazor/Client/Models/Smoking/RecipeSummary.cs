@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebBlazor.Client.Models.Smoking
+﻿namespace WebBlazor.Client.Models.Smoking
 {
     public record RecipeSummary
     {

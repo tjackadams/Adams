@@ -10,7 +10,7 @@ namespace Adams.Services.Identity.Api.Controllers.Home
 
         public ErrorViewModel(string error)
         {
-            Error = new ErrorMessage { Error = error };
+            Error = new ErrorMessage {Error = error};
         }
 
         public ErrorMessage Error { get; set; }

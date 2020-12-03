@@ -17,14 +17,14 @@
                     <BSFormGroup IsRow="true">
                         <BSLabel For="@Data.DisplayName" SM="3">Display name</BSLabel>
                         <BSCol SM="9">
-                            <BSBasicInput Id="@Data.DisplayName" InputType="InputType.Text" IsReadonly="true" IsPlaintext="true" Value="Data.DisplayName" />
+                            <BSBasicInput Id="@Data.DisplayName" InputType="InputType.Text" IsReadonly="true" IsPlaintext="true" Value="Data.DisplayName"/>
                         </BSCol>
                     </BSFormGroup>
 
                     <BSFormGroup IsRow="true">
                         <BSLabel For="@Data.Description" SM="3">Description</BSLabel>
                         <BSCol SM="9">
-                            <BSBasicInput Id="@Data.Description" InputType="InputType.TextArea" IsReadonly="true" IsPlaintext="true" Value="Data.Description" />
+                            <BSBasicInput Id="@Data.Description" InputType="InputType.TextArea" IsReadonly="true" IsPlaintext="true" Value="Data.Description"/>
                         </BSCol>
                     </BSFormGroup>
 
@@ -38,7 +38,7 @@
 
                     <h4>Steps</h4>
 
-                    <Timeline Items="Data.Steps" />
+                    <Timeline Items="Data.Steps"/>
 
                 </BSContainer>
             </BSCol>
@@ -75,7 +75,7 @@
         if (Data == null)
         {
             Router.NavigateTo("/smoker");
-            return;
         }
     }
+
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Routing;
@@ -13,17 +10,22 @@ namespace WebBlazor.Client.Components
     public class PortalNavLink : NavLink, IDisposable
     {
         private const string DefaultActiveClass = "active";
+        private string? _class;
+        private string? _hrefAbsolute;
 
         private bool _isActive;
-        private string? _hrefAbsolute;
-        private string? _class;
 
-        /// <summary>
-        /// Gets or sets the computed CSS class based on whether or not the link is active.
-        /// </summary>
-        protected string? CssClass { get; set; }
+        [Inject]
+        private NavigationManager NavigationManger { get; set; } = default!;
 
-        [Inject] private NavigationManager NavigationManger { get; set; } = default!;
+        /// <inheritdoc />
+        public new void Dispose()
+        {
+            GC.SuppressFinalize(this);
+
+            // To avoid leaking memory, it's important to detach any event handlers in Dispose()
+            NavigationManger.LocationChanged -= OnLocationChanged;
+        }
 
         /// <inheritdoc />
         protected override void OnInitialized()
@@ -36,7 +38,7 @@ namespace WebBlazor.Client.Components
         protected override void OnParametersSet()
         {
             // Update computed state
-            var href = (string?)null;
+            var href = (string?) null;
             if (AdditionalAttributes != null && AdditionalAttributes.TryGetValue("href", out var obj))
             {
                 href = Convert.ToString(obj, CultureInfo.InvariantCulture);
@@ -45,20 +47,13 @@ namespace WebBlazor.Client.Components
             _hrefAbsolute = href == null ? null : NavigationManger.ToAbsoluteUri(href).AbsoluteUri;
             _isActive = ShouldMatch(NavigationManger.Uri);
 
-            _class = (string?)null;
+            _class = null;
             if (AdditionalAttributes != null && AdditionalAttributes.TryGetValue("class", out obj))
             {
                 _class = Convert.ToString(obj, CultureInfo.InvariantCulture);
             }
 
             UpdateCssClass();
-        }
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-            NavigationManger.LocationChanged -= OnLocationChanged;
         }
 
         private void UpdateCssClass()
@@ -129,7 +124,7 @@ namespace WebBlazor.Client.Components
             return false;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "li");
@@ -144,8 +139,10 @@ namespace WebBlazor.Client.Components
             builder.CloseElement();
         }
 
-        private string? CombineWithSpace(string? str1, string str2)
-            => str1 == null ? str2 : $"{str1} {str2}";
+        private static string? CombineWithSpace(string? str1, string str2)
+        {
+            return str1 == null ? str2 : $"{str1} {str2}";
+        }
 
         private static bool IsStrictlyPrefixWithSeparator(string value, string prefix)
         {
@@ -153,20 +150,18 @@ namespace WebBlazor.Client.Components
             if (value.Length > prefixLength)
             {
                 return value.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
-                    && (
-                        // Only match when there's a separator character either at the end of the
-                        // prefix or right after it.
-                        // Example: "/abc" is treated as a prefix of "/abc/def" but not "/abcdef"
-                        // Example: "/abc/" is treated as a prefix of "/abc/def" but not "/abcdef"
-                        prefixLength == 0
-                        || !char.IsLetterOrDigit(prefix[prefixLength - 1])
-                        || !char.IsLetterOrDigit(value[prefixLength])
-                    );
+                       && (
+                           // Only match when there's a separator character either at the end of the
+                           // prefix or right after it.
+                           // Example: "/abc" is treated as a prefix of "/abc/def" but not "/abcdef"
+                           // Example: "/abc/" is treated as a prefix of "/abc/def" but not "/abcdef"
+                           prefixLength == 0
+                           || !char.IsLetterOrDigit(prefix[prefixLength - 1])
+                           || !char.IsLetterOrDigit(value[prefixLength])
+                       );
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 }

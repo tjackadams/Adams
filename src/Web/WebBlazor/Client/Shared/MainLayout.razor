@@ -10,11 +10,11 @@
                 RemoveToastsOnNavigation="true"
                 ShowProgressBar="true"/>
 
-<NavMenu />
+<NavMenu/>
 
 <BSContainer IsFluid="true">
     <BSRow>
-        <Sidebar />
+        <Sidebar/>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
             @Body
         </main>
@@ -22,8 +22,10 @@
 </BSContainer>
 
 @code {
+
     protected override Task OnInitializedAsync()
     {
         return Bootstrap.SetBootstrapCss(Theme.Flatly, "4.3.1");
     }
+
 }

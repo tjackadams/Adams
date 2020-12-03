@@ -2,53 +2,50 @@
 
 namespace Adams.Services.Smoking.Migrations
 {
-    public partial class Initial : Microsoft.EntityFrameworkCore.Migrations.Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "smoker");
+                "smoker");
 
             migrationBuilder.CreateSequence(
-                name: "recipeseq",
-                schema: "smoker",
+                "recipeseq",
+                "smoker",
                 incrementBy: 10);
 
             migrationBuilder.CreateSequence(
-                name: "recipestepseq",
+                "recipestepseq",
                 incrementBy: 10);
 
             migrationBuilder.CreateTable(
-                name: "recipes",
+                "recipes",
                 schema: "smoker",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    Id = table.Column<int>("int", nullable: false),
+                    Description = table.Column<string>("nvarchar(2000)", maxLength: 2000, nullable: false),
+                    DisplayName = table.Column<string>("nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>("nvarchar(20)", maxLength: 20, nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_recipes", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_recipes", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "recipeSteps",
+                "recipeSteps",
                 schema: "smoker",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    RecipeId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    Step = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>("int", nullable: false),
+                    RecipeId = table.Column<int>("int", nullable: false),
+                    Description = table.Column<string>("nvarchar(2000)", maxLength: 2000, nullable: false),
+                    Step = table.Column<int>("int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_recipeSteps", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_recipeSteps_recipes_RecipeId",
-                        column: x => x.RecipeId,
+                        "FK_recipeSteps_recipes_RecipeId",
+                        x => x.RecipeId,
                         principalSchema: "smoker",
                         principalTable: "recipes",
                         principalColumn: "Id",
@@ -56,7 +53,7 @@ namespace Adams.Services.Smoking.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_recipeSteps_RecipeId",
+                "IX_recipeSteps_RecipeId",
                 schema: "smoker",
                 table: "recipeSteps",
                 column: "RecipeId");
@@ -65,19 +62,19 @@ namespace Adams.Services.Smoking.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "recipeSteps",
-                schema: "smoker");
+                "recipeSteps",
+                "smoker");
 
             migrationBuilder.DropTable(
-                name: "recipes",
-                schema: "smoker");
+                "recipes",
+                "smoker");
 
             migrationBuilder.DropSequence(
-                name: "recipeseq",
-                schema: "smoker");
+                "recipeseq",
+                "smoker");
 
             migrationBuilder.DropSequence(
-                name: "recipestepseq");
+                "recipestepseq");
         }
     }
 }

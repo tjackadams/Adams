@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Adams.Core.Extensions
 {
@@ -20,7 +18,8 @@ namespace Adams.Core.Extensions
             {
                 if (type.IsNested)
                 {
-                    typeName = type.FullName?.Substring(type.FullName.LastIndexOf(".", StringComparison.Ordinal) + 1).Replace("+", string.Empty);
+                    typeName = type.FullName?.Substring(type.FullName.LastIndexOf(".", StringComparison.Ordinal) + 1)
+                        .Replace("+", string.Empty);
                 }
                 else
                 {
@@ -36,5 +35,4 @@ namespace Adams.Core.Extensions
             return @object.GetType().GetGenericTypeName();
         }
     }
-    
 }

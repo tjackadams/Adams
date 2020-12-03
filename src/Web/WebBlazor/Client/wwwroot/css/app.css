@@ -1,14 +1,8 @@
-﻿.valid.modified:not([type=checkbox]) {
-    outline: 1px solid #26b050;
-}
+﻿.valid.modified:not([type=checkbox]) { outline: 1px solid #26b050; }
 
-.invalid {
-    outline: 1px solid red;
-}
+.invalid { outline: 1px solid red; }
 
-.validation-message {
-    color: red;
-}
+.validation-message { color: red; }
 
 #blazor-error-ui {
     background: lightyellow;
@@ -32,129 +26,108 @@
 /* custom css */
 
 .sidebar {
+    bottom: 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    left: 0;
+    padding: 0;
     position: fixed;
     top: 0;
-    bottom: 0;
-    left: 0;
     z-index: 100;
-    padding: 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 
 .sidebar-sticky {
+    height: calc(100vh - 48px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-top: .5rem;
     position: -webkit-sticky;
     position: sticky;
     top: 48px;
-    height: calc(100vh - 48px);
-    padding-top: .5rem;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
-.navbar-dark .nav .nav-link {
-    color: #fff;
-}
+.navbar-dark .nav .nav-link { color: #fff; }
 
-.sidebar .nav .active > .nav-link {
-    color: #18bc9c !important;
-}
+.sidebar .nav .active > .nav-link { color: #18bc9c !important; }
 
 /* drag n drop */
 
-﻿ /*add this to avoid flickering*/
-.plk-dd-inprogess > * {
-    pointer-events: none;
-}
+﻿
+
+/*add this to avoid flickering*/
+
+.plk-dd-inprogess > * { pointer-events: none; }
 
 /*dropzone style style*/
-.plk-dd-dropzone {
-    min-height: 50px;
-}
+
+.plk-dd-dropzone { min-height: 50px; }
 
 /*drag drop styles*/
 
-.plk-dd-spacing {
-    height: 10px;
-}
+.plk-dd-spacing { height: 10px; }
 
-.plk-dd-spacing-dragged-over {
-    padding: 25px;
-}
+.plk-dd-spacing-dragged-over { padding: 25px; }
 
 .plk-dd-dragged-over {
+    animation: blinker 1s linear infinite;
     background-color: lightgray;
     opacity: 0.6;
-    animation: blinker 1s linear infinite;
 }
 
 .plk-dd-dragged-over > div {
+    animation: blinker 1s linear infinite;
     background-color: lightgray;
     opacity: 0.6;
-    animation: blinker 1s linear infinite;
 }
 
 .plk-dd-dragged-over-denied {
+    animation: blinker 1s linear infinite;
     background-color: red;
     opacity: 0.6;
-    animation: blinker 1s linear infinite;
 }
 
-.plk-dd-in-transit {
-    opacity: 0;
-}
+.plk-dd-in-transit { opacity: 0; }
 
-.plk-dd-in-transit > div {
-    opacity: 0;
-}
+.plk-dd-in-transit > div { opacity: 0; }
 
 @keyframes blinker {
-    50% {
-        opacity: 0;
-    }
+    50% { opacity: 0; }
 }
 
-.blink_me {
-    animation: blinker 1s linear infinite;
-}
+.blink_me { animation: blinker 1s linear infinite; }
 
 /*for flex demo*/
 
 .plk-flex .plk-dd-spacing {
-    width: 20px;
     height: auto;
+    width: 20px;
 }
 
 .plk-flex .plk-dd-dragged-over {
+    animation: blinker 1s linear infinite;
     background-color: lightgray;
     opacity: 0.6;
-    animation: blinker 1s linear infinite;
 }
 
 .plk-flex .plk-dd-dragged-over > div {
+    animation: blinker 1s linear infinite;
     background-color: lightgray;
     opacity: 0.9;
-    animation: blinker 1s linear infinite;
 }
 
-.plk-flex .plk-dd-in-transit {
-    background-color: orangered;
-}
+.plk-flex .plk-dd-in-transit { background-color: orangered; }
 
-.plk-flex .plk-dd-in-transit > div {
-    background-color: orangered;
-}
+.plk-flex .plk-dd-in-transit > div { background-color: orangered; }
 
 .plk-dd-noselect {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
     -moz-user-select: none; /* Old versions of Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
 /* toast */
-.blazored-toast-container {
-    z-index: 1021;
-}
+
+.blazored-toast-container { z-index: 1021; }

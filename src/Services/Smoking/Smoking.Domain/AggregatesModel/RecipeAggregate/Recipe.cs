@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Adams.Domain;
 
@@ -8,7 +7,6 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
     public sealed class Recipe : Entity, IAggregateRoot
     {
         private readonly List<RecipeStep> _steps;
-        public IReadOnlyCollection<RecipeStep> Steps => _steps;
 
         private Recipe()
         {
@@ -27,7 +25,9 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
             Description = description;
         }
 
-        public string Name { get; private set; }
+        public IReadOnlyCollection<RecipeStep> Steps => _steps;
+
+        public string Name { get; }
 
         public string DisplayName { get; private set; }
 

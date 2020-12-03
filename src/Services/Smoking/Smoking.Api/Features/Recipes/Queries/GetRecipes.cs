@@ -46,7 +46,6 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Queries
             {
                 CreateMap<Recipe, RecipeSummary>()
                     .ForMember(dest => dest.Steps, opt => opt.MapFrom(src => src.Steps.Count()));
-
             }
         }
     }

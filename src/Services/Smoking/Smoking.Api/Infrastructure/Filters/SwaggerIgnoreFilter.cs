@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Adams.Services.Smoking.Api.Infrastructure.Filters
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class SwaggerIgnoreAttribute : Attribute { }
+    public class SwaggerIgnoreAttribute : Attribute
+    {
+    }
 
     public class SwaggerIgnoreFilter : ISchemaFilter
     {

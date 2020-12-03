@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Adams.Services.Identity.Api.Models;
 using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -19,12 +20,12 @@ namespace Adams.Services.Identity.Api.Controllers.Account
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
-        private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly IIdentityServerInteractionService _interaction;
+        private readonly IAuthenticationSchemeProvider _schemeProvider;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -43,7 +44,7 @@ namespace Adams.Services.Identity.Api.Controllers.Account
         }
 
         /// <summary>
-        /// Entry point into the login workflow
+        ///     Entry point into the login workflow
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl)
@@ -54,14 +55,14 @@ namespace Adams.Services.Identity.Api.Controllers.Account
             if (vm.IsExternalLoginOnly)
             {
                 // we only have one option for logging in and it's an external provider
-                return RedirectToAction("Challenge", "External", new { scheme = vm.ExternalLoginScheme, returnUrl });
+                return RedirectToAction("Challenge", "External", new {scheme = vm.ExternalLoginScheme, returnUrl});
             }
 
             return View(vm);
         }
 
         /// <summary>
-        /// Handle postback from username/password login
+        ///     Handle postback from username/password login
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -90,20 +91,20 @@ namespace Adams.Services.Identity.Api.Controllers.Account
 
                     return Redirect(model.ReturnUrl);
                 }
-                else
-                {
-                    // since we don't have a valid context, then we just go back to the home page
-                    return Redirect("~/");
-                }
+
+                // since we don't have a valid context, then we just go back to the home page
+                return Redirect("~/");
             }
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, lockoutOnFailure: true);
+                var result =
+                    await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, true);
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByNameAsync(model.Username);
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
+                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName,
+                        clientId: context?.Client.ClientId));
 
                     if (context != null)
                     {
@@ -123,18 +124,18 @@ namespace Adams.Services.Identity.Api.Controllers.Account
                     {
                         return Redirect(model.ReturnUrl);
                     }
-                    else if (string.IsNullOrEmpty(model.ReturnUrl))
+
+                    if (string.IsNullOrEmpty(model.ReturnUrl))
                     {
                         return Redirect("~/");
                     }
-                    else
-                    {
-                        // user might have clicked on a malicious link - should be logged
-                        throw new Exception("invalid return URL");
-                    }
+
+                    // user might have clicked on a malicious link - should be logged
+                    throw new Exception("invalid return URL");
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.Client.ClientId));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials",
+                    clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -143,9 +144,9 @@ namespace Adams.Services.Identity.Api.Controllers.Account
             return View(vm);
         }
 
-        
+
         /// <summary>
-        /// Show logout page
+        ///     Show logout page
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Logout(string logoutId)
@@ -164,7 +165,7 @@ namespace Adams.Services.Identity.Api.Controllers.Account
         }
 
         /// <summary>
-        /// Handle logout page postback
+        ///     Handle logout page postback
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -188,10 +189,10 @@ namespace Adams.Services.Identity.Api.Controllers.Account
                 // build a return URL so the upstream provider will redirect back
                 // to us after the user has logged out. this allows us to then
                 // complete our single sign-out processing.
-                string url = Url.Action("Logout", new { logoutId = vm.LogoutId });
+                var url = Url.Action("Logout", new {logoutId = vm.LogoutId});
 
                 // this triggers a redirect to the external provider for sign-out
-                return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
+                return SignOut(new AuthenticationProperties {RedirectUri = url}, vm.ExternalAuthenticationScheme);
             }
 
             return View("LoggedOut", vm);
@@ -212,19 +213,19 @@ namespace Adams.Services.Identity.Api.Controllers.Account
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
-                var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
+                var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
 
                 // this is meant to short circuit the UI and only trigger the one external IdP
                 var vm = new LoginViewModel
                 {
                     EnableLocalLogin = local,
                     ReturnUrl = returnUrl,
-                    Username = context?.LoginHint,
+                    Username = context?.LoginHint
                 };
 
                 if (!local)
                 {
-                    vm.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
+                    vm.ExternalProviders = new[] {new ExternalProvider {AuthenticationScheme = context.IdP}};
                 }
 
                 return vm;
@@ -250,7 +251,8 @@ namespace Adams.Services.Identity.Api.Controllers.Account
 
                     if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
                     {
-                        providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
+                        providers = providers.Where(provider =>
+                            client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
                     }
                 }
             }
@@ -275,7 +277,7 @@ namespace Adams.Services.Identity.Api.Controllers.Account
 
         private async Task<LogoutViewModel> BuildLogoutViewModelAsync(string logoutId)
         {
-            var vm = new LogoutViewModel { LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt };
+            var vm = new LogoutViewModel {LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt};
 
             if (User?.Identity.IsAuthenticated != true)
             {
@@ -314,7 +316,7 @@ namespace Adams.Services.Identity.Api.Controllers.Account
             if (User?.Identity.IsAuthenticated == true)
             {
                 var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
-                if (idp != null && idp != IdentityServer4.IdentityServerConstants.LocalIdentityProvider)
+                if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
                 {
                     var providerSupportsSignout = await HttpContext.GetSchemeSupportsSignOutAsync(idp);
                     if (providerSupportsSignout)
