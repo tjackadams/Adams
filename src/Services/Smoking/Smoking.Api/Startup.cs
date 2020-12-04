@@ -64,17 +64,6 @@ namespace Adams.Services.Smoking.Api
                 app.UsePathBase(pathBase);
             }
 
-            app.UseSwagger()
-                .UseSwaggerUI(c =>
-                {
-                    c.RoutePrefix = "abc123";
-                    c.SwaggerEndpoint(
-                        $"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json",
-                        "Smoking.API V1");
-                    c.OAuthClientId("smokingswaggerui");
-                    c.OAuthAppName("Smoking Swagger UI");
-                });
-
             app.UseRouting();
             app.UseCors("CorsPolicy");
 
@@ -94,6 +83,16 @@ namespace Adams.Services.Smoking.Api
                     Predicate = r => r.Name.Contains("self")
                 });
             });
+
+            app.UseSwagger()
+                .UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint(
+                        $"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json",
+                        "Smoking.API V1");
+                    c.OAuthClientId("smokingswaggerui");
+                    c.OAuthAppName("Smoking Swagger UI");
+                });
         }
     }
 
