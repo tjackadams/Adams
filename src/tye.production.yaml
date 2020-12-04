@@ -42,6 +42,7 @@ services:
   env:
   - ASPNETCORE_ENVIRONMENT
   - ConnectionStrings__Smoking
+  - ConnectionStrings__Redis
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv

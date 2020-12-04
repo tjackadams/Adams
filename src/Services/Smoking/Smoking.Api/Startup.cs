@@ -11,6 +11,7 @@ using HealthChecks.UI.Client;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace Adams.Services.Smoking.Api
 {
@@ -92,7 +94,7 @@ namespace Adams.Services.Smoking.Api
 
     internal static class Extensions
     {
-        public static IServiceCollection AddCustomMvc(this IServiceCollection services)
+        public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddControllers(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); })
@@ -107,6 +109,14 @@ namespace Adams.Services.Smoking.Api
                         .AllowAnyHeader()
                         .AllowCredentials());
             });
+
+            if (configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
+            {
+                services.AddDataProtection(opts => { opts.ApplicationDiscriminator = "adams.smoking-api"; })
+                    .PersistKeysToStackExchangeRedis(
+                        ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")),
+                        "DataProtection-Keys");
+            }
 
             return services;
         }
