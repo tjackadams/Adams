@@ -33,7 +33,7 @@ services:
   - AzureKeyVault__VaultUri
   - AzureKeyVault__CertificateName
   - BlazorClient=https://app.itadams.co.uk
-  - SmokingApiClient=http://smoking-api
+  - SmokingApiClient=https://services.itadams.co.uk/smoking-api
   bindings:
   - name: http
     protocol: http
