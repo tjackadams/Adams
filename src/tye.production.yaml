@@ -10,6 +10,9 @@ ingress:
         service: webstatus
       - host: app.itadams.co.uk
         service: webblazor
+      - host: services.itadams.co.uk
+        path: /smoking-api
+        service: smoking-api
 
 services:
 
