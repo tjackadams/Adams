@@ -50,6 +50,7 @@ services:
   - OrchestratorType
   - IsClusterEnv
   - IdentityUrl="https://identity.itadams.co.uk"
+  - PATH_BASE="/smoking-api"
   bindings:
   - name: http
     protocol: http
