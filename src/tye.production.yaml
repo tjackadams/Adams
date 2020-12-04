@@ -49,6 +49,7 @@ services:
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv
+  - IdentityUrl="https://identity.itadams.co.uk"
   bindings:
   - name: http
     protocol: http
