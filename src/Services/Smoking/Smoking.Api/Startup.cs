@@ -39,7 +39,7 @@ namespace Adams.Services.Smoking.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddCustomMvc()
+                .AddCustomMvc(Configuration)
                 .AddHealthChecks(Configuration)
                 .AddCustomDbContext(Configuration)
                 .AddCustomSwagger(Configuration)
