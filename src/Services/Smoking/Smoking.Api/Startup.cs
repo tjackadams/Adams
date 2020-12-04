@@ -63,12 +63,23 @@ namespace Adams.Services.Smoking.Api
                 app.UsePathBase(pathBase);
             }
 
-            app.UseSwagger()
+            app.UseSwagger(options =>
+                {
+                    options.PreSerializeFilters.Add((swagger, httpRequest) =>
+                    {
+                        if (httpRequest.Host.Host == "services.itadams.co.uk")
+                        {
+                            swagger.Servers = new List<OpenApiServer>
+                            {
+                                new() {Url = pathBase}
+                            };
+                        }
+                    });
+                })
                 .UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint(
-                        $"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json",
-                        "Smoking.API V1");
+                    c.RoutePrefix = string.Empty;
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Smoking.API V1");
                     c.OAuthClientId("smokingswaggerui");
                     c.OAuthAppName("Smoking Swagger UI");
                 });
@@ -100,6 +111,7 @@ namespace Adams.Services.Smoking.Api
         public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
         {
             services
+                .AddRouting(options => options.LowercaseUrls = true)
                 .AddControllers(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); })
                 .AddHybridModelBinder();
 
