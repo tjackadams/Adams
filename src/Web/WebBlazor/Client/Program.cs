@@ -26,17 +26,17 @@ namespace WebBlazor.Client
 
             builder.Services
                 .Configure<AppSettings>(builder.Configuration.GetSection("App"))
-                .AddScoped<SmokerAddressAuthorizationMessageHandler>();
+                .AddScoped<ServicesAddressAuthorizationMessageHandler>();
 
             builder.Services.AddScoped(
                 sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
-            builder.Services.AddHttpClient(HttpClients.SmokingClient,
+            builder.Services.AddHttpClient(HttpClients.ServicesClient,
                     (sp, client) =>
                     {
                         client.BaseAddress =
-                            new Uri(sp.GetRequiredService<IOptions<AppSettings>>().Value.Smoker.BaseAddress);
+                            new Uri(sp.GetRequiredService<IOptions<AppSettings>>().Value.Services.BaseAddress);
                     })
-                .AddHttpMessageHandler<SmokerAddressAuthorizationMessageHandler>()
+                .AddHttpMessageHandler<ServicesAddressAuthorizationMessageHandler>()
                 .AddPolicyHandler(GetRetryPolicy());
 
             builder.Services.AddOidcAuthentication(options =>

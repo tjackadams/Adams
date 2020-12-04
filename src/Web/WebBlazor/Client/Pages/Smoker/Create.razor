@@ -74,9 +74,9 @@
 
         try
         {
-            var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
+            var http = HttpFactory.CreateClient(HttpClients.ServicesClient);
 
-            var response = await http.PostAsJsonAsync("recipes", (Command) editContext.Model);
+            var response = await http.PostAsJsonAsync("smoking-api/recipes", (Command) editContext.Model);
             if (response.StatusCode == HttpStatusCode.Created)
             {
                 Router.NavigateTo($"/smoker/{Data.Name}/edit");

@@ -63,23 +63,12 @@ namespace Adams.Services.Smoking.Api
                 app.UsePathBase(pathBase);
             }
 
-            app.UseSwagger(options =>
-                {
-                    options.PreSerializeFilters.Add((swagger, httpRequest) =>
-                    {
-                        if (httpRequest.Host.Host == "services.itadams.co.uk")
-                        {
-                            swagger.Servers = new List<OpenApiServer>
-                            {
-                                new() {Url = pathBase}
-                            };
-                        }
-                    });
-                })
+            app.UseSwagger()
                 .UseSwaggerUI(c =>
                 {
-                    c.RoutePrefix = string.Empty;
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Smoking.API V1");
+                    c.SwaggerEndpoint(
+                        $"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json",
+                        "Smoking.API V1");
                     c.OAuthClientId("smokingswaggerui");
                     c.OAuthAppName("Smoking Swagger UI");
                 });

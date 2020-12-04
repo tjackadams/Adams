@@ -4,15 +4,15 @@ using Microsoft.Extensions.Options;
 
 namespace WebBlazor.Client.Infrastructure.MessageHandlers
 {
-    public class SmokerAddressAuthorizationMessageHandler : AuthorizationMessageHandler
+    public class ServicesAddressAuthorizationMessageHandler : AuthorizationMessageHandler
     {
-        public SmokerAddressAuthorizationMessageHandler(IAccessTokenProvider provider, NavigationManager navigation,
+        public ServicesAddressAuthorizationMessageHandler(IAccessTokenProvider provider, NavigationManager navigation,
             IOptions<AppSettings> settings)
             : base(provider, navigation)
         {
             ConfigureHandler(
-                settings.Value.Smoker.AuthorizedUrls,
-                settings.Value.Smoker.Scopes
+                settings.Value.Services.AuthorizedUrls,
+                settings.Value.Services.Scopes
             );
         }
     }

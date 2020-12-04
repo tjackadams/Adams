@@ -4,10 +4,10 @@ namespace WebBlazor.Client
 {
     public record AppSettings
     {
-        public SmokerSettings Smoker { get; init; }
+        public ServicesSettings Services { get; init; }
     }
 
-    public record SmokerSettings
+    public record ServicesSettings
     {
         public string BaseAddress { get; init; }
         public List<string> AuthorizedUrls { get; init; }
