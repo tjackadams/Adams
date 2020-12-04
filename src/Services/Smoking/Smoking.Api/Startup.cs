@@ -87,9 +87,7 @@ namespace Adams.Services.Smoking.Api
             app.UseSwagger()
                 .UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint(
-                        $"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json",
-                        "Smoking.API V1");
+                    c.SwaggerEndpoint("v1/swagger.json", "Smoking.API V1");
                     c.OAuthClientId("smokingswaggerui");
                     c.OAuthAppName("Smoking Swagger UI");
                 });
