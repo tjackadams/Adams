@@ -22,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using StackExchange.Redis;
 
 namespace Adams.Services.Smoking.Api
@@ -53,6 +54,8 @@ namespace Adams.Services.Smoking.Api
         // ReSharper disable once UnusedMember.Global
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseSerilogRequestLogging();
+
             var pathBase = Configuration["PATH_BASE"];
             if (!string.IsNullOrEmpty(pathBase))
             {
