@@ -16,6 +16,13 @@ steps:
    command: 'custom'
    custom: 'tool'
    arguments: 'restore'
+
+- task: DotNetCoreCLI@2
+  displayName: 'generate sql migration scripts'
+  inputs:
+    command: 'custom'
+    custom: 'ef'
+    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/smokingdb.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Smoking/Smoking.Api/Smoking.Api.csproj --context SmokingContext
    
 - task: Kubernetes@1
   displayName: 'Test K3s connection'
