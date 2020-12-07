@@ -34,7 +34,7 @@
 
             <BSFormGroup>
                 <BSLabel For="@Data.Description">Description</BSLabel>
-                <BSInput Id="@Data.Description" InputType="InputType.Text" @bind-Value="Data.Description"/>
+                <BSInput Id="@Data.Description" InputType="InputType.TextArea" @bind-Value="Data.Description"/>
                 <small id="@($"{nameof(Data.Description)}_help")" class="form-text text-muted">
                     How would you describe this taste sensation?
                 </small>
@@ -47,14 +47,13 @@
         {
             <BSAlert Color="Color.Danger">
                 @Message
-            </BSAlert>        }
-
+            </BSAlert>
+        }
     </BSCol>
 </BSRow>
 
 
 @code {
-
     private string Message { get; set; }
 
     private Command Data { get; } = new();
