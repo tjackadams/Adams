@@ -41,6 +41,9 @@ namespace Adams.Services.Smoking.Infrastructure.EntityConfigurations
             builder.HasOne(p => p.Protein)
                 .WithMany()
                 .HasForeignKey(p => p.ProteinId);
+
+            builder.Property(p => p.ProteinId)
+                .HasDefaultValue(1);
         }
     }
 }

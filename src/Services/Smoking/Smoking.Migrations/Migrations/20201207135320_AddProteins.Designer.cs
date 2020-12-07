@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Adams.Services.Smoking.Migrations
 {
     [DbContext(typeof(SmokingContext))]
-    [Migration("20201207133018_AddProteins")]
+    [Migration("20201207135320_AddProteins")]
     partial class AddProteins
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,7 +92,8 @@ namespace Adams.Services.Smoking.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("ProteinId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.HasKey("Id");
 

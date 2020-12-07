@@ -24,6 +24,8 @@ namespace Adams.Services.Smoking.Infrastructure
 
         public DbSet<Recipe> Recipes { get; set; }
 
+        public DbSet<Protein> Proteins { get; set; }
+
         public bool HasActiveTransaction => _currentTransaction != null;
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)

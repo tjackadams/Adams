@@ -90,7 +90,8 @@ namespace Adams.Services.Smoking.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("ProteinId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.HasKey("Id");
 

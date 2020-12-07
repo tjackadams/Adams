@@ -25,7 +25,7 @@ namespace Adams.Services.Smoking.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<RecipeSummary>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<RecipeSummary>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRecipes([FromQuery] GetRecipes.Query query,
             CancellationToken cancellationToken)
         {
@@ -74,6 +74,13 @@ namespace Adams.Services.Smoking.Api.Controllers
             await _mediator.Send(command, cancellationToken);
 
             return NoContent();
+        }
+
+        [HttpGet("proteins")]
+        [ProducesResponseType(typeof(IEnumerable<ProteinModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetProteins(CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetProteins.Query(), cancellationToken));
         }
     }
 }

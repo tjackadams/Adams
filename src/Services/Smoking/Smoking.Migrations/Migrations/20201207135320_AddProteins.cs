@@ -12,7 +12,7 @@ namespace Adams.Services.Smoking.Migrations
                 table: "recipes",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 1);
 
             migrationBuilder.CreateTable(
                 name: "protein",
