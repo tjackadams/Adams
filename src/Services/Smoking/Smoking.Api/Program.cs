@@ -24,7 +24,7 @@ namespace Adams.Services.Smoking.Api
             Log.Logger = CreateSerilogLogger(configuration);
 
             try
-            {
+            { 
                 Log.Information("Configuring web host ({ApplicationContext})...", AppName);
                 var host = BuildWebHost(configuration, args);
 

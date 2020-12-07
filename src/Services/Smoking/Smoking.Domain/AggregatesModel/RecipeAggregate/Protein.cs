@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Adams.Domain;
+using Adams.Services.Smoking.Domain.Exceptions;
 
 namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
 {
@@ -19,6 +22,18 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
         public static IEnumerable<Protein> List()
         {
             return new[] {None, Pork, Beef, Poultry, Lamb};
+        }
+
+        public static Protein From(int id)
+        {
+            var state = List().SingleOrDefault(s => s.Id == id);
+
+            if (state == null)
+            {
+                throw new SmokingDomainException($"Possible values for Protein: {String.Join(",", List().Select(s => s.Name))}");
+            }
+
+            return state;
         }
     }
 }

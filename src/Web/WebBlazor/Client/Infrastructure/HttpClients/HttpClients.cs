@@ -2,6 +2,6 @@
 {
     public static class HttpClients
     {
-        public const string ServicesClient = "ServicesHttpClient";
+        public const string SmokingClient = "SmokingHttpClient";
     }
 }

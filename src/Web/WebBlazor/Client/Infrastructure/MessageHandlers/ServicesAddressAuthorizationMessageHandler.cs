@@ -11,8 +11,8 @@ namespace WebBlazor.Client.Infrastructure.MessageHandlers
             : base(provider, navigation)
         {
             ConfigureHandler(
-                settings.Value.Services.AuthorizedUrls,
-                settings.Value.Services.Scopes
+                settings.Value.AuthorizedUrls,
+                settings.Value.Scopes
             );
         }
     }

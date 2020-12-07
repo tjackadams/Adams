@@ -70,8 +70,8 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        var http = HttpFactory.CreateClient(HttpClients.ServicesClient);
-        Data = await http.GetFromJsonAsync<Query>($"smoking-api/recipes/{Name}");
+        var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
+        Data = await http.GetFromJsonAsync<Query>($"recipes/{Name}");
         if (Data == null)
         {
             Router.NavigateTo("/smoker");

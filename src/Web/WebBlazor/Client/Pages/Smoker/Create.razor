@@ -5,53 +5,69 @@
 @inject IHttpClientFactory HttpFactory
 @inject NavigationManager Router
 
-<h2>Create</h2>
+@if (!string.IsNullOrWhiteSpace(Message))
+{
+<BSAlert Color="Color.Danger">
+    @Message
+</BSAlert>
+}
 
-<h4>Recipe</h4>
-<hr/>
-<BSRow>
-    <BSCol MD="4">
+<SpinLoader IsLoading="@(Proteins == null)">
+    <ContentTemplate>
         <BSForm Model="Data" OnValidSubmit="@HandleValidSubmit">
-            <FluentValidationValidator/>
-            <PortalValidator @ref="_portalValidator"/>
-            <ValidationSummary/>
+            <FluentValidationValidator />
+            <PortalValidator @ref="_portalValidator" />
+            <ValidationSummary />
+            <BSRow>
+                <BSCol MD="6">
+                    
+                    <h4>Create a new recipe</h4>
 
-            <BSFormGroup>
-                <BSLabel For="@Data.Name">Name</BSLabel>
-                <BSInput Id="@Data.Name" InputType="InputType.Text" @bind-Value="Data.Name" @oninput="HandleNameOnInput"/>
-                <small id="@($"{nameof(Data.Name)}_help")" class="form-text text-muted">
-                    Choose a small name to identify this delicious new recipe.
-                </small>
-            </BSFormGroup>
+                    <BSFormGroup>
+                        <BSLabel For="@Data.Name">Name</BSLabel>
+                        <BSInput Id="@Data.Name" InputType="InputType.Text" @bind-Value="Data.Name" @oninput="HandleNameOnInput"/>
+                        <small id="@($"{nameof(Data.Name)}_help")" class="form-text text-muted">
+                            Choose a small name to identify this delicious new recipe.
+                        </small>
+                    </BSFormGroup>
 
-            <BSFormGroup>
-                <BSLabel For="@Data.DisplayName">Display name</BSLabel>
-                <BSInput Id="@Data.DisplayName" InputType="InputType.Text" @bind-Value="Data.DisplayName"/>
-                <small id="@($"{nameof(Data.DisplayName)}_help")" class="form-text text-muted">
-                    Choose a more user friendly name to identify this new recipe.
-                </small>
-            </BSFormGroup>
+                    <BSFormGroup>
+                        <BSLabel For="@Data.DisplayName">Display name</BSLabel>
+                        <BSInput Id="@Data.DisplayName" InputType="InputType.Text" @bind-Value="Data.DisplayName"/>
+                        <small id="@($"{nameof(Data.DisplayName)}_help")" class="form-text text-muted">
+                            Choose a more user friendly name to identify this new recipe.
+                        </small>
+                    </BSFormGroup>
 
-            <BSFormGroup>
-                <BSLabel For="@Data.Description">Description</BSLabel>
-                <BSInput Id="@Data.Description" InputType="InputType.TextArea" @bind-Value="Data.Description"/>
-                <small id="@($"{nameof(Data.Description)}_help")" class="form-text text-muted">
-                    How would you describe this taste sensation?
-                </small>
-            </BSFormGroup>
+                    <BSFormGroup>
+                        <BSLabel For="@Data.ProteinId">Protein</BSLabel>
+                        <BSInput Id="@Data.ProteinId" InputType="InputType.Select" @bind-Value="Data.ProteinId">
+                            @foreach (var item in Proteins)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </BSInput>
+                        <small id="@($"{nameof(Data.ProteinId)}_help")" class="form-text text-muted">
+                            What type of protein does this recipe contain?
+                        </small>
+                    </BSFormGroup>
 
-            <BSButton Class="mr-4" Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Cancel</BSButton>
-            <BSButton Color="Color.Primary" ButtonType="ButtonType.Submit">Submit</BSButton>
+                    <BSFormGroup>
+                        <BSLabel For="@Data.Description">Description</BSLabel>
+                        <BSInput Id="@Data.Description" InputType="InputType.TextArea" @bind-Value="Data.Description"/>
+                        <small id="@($"{nameof(Data.Description)}_help")" class="form-text text-muted">
+                            How would you describe this taste sensation?
+                        </small>
+                    </BSFormGroup>
+
+                    <BSButton Class="mr-4" Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Cancel</BSButton>
+                    <BSButton Color="Color.Primary" ButtonType="ButtonType.Submit">Submit</BSButton>
+                </BSCol>
+            </BSRow>
+
         </BSForm>
-        @if (!string.IsNullOrWhiteSpace(Message))
-        {
-            <BSAlert Color="Color.Danger">
-                @Message
-            </BSAlert>
-        }
-    </BSCol>
-</BSRow>
-
+    </ContentTemplate>
+</SpinLoader>
 
 @code {
     private string Message { get; set; }
@@ -65,6 +81,21 @@
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
+        public int ProteinId { get; set; }
+    }
+
+    public List<ProteinModel> Proteins { get; set; }
+
+    public class ProteinModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
+        Proteins = await http.GetFromJsonAsync<List<ProteinModel>>("recipes/proteins");
     }
 
     private async Task HandleValidSubmit(EditContext editContext)
@@ -73,16 +104,16 @@
 
         try
         {
-            var http = HttpFactory.CreateClient(HttpClients.ServicesClient);
+            var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
 
-            var response = await http.PostAsJsonAsync("smoking-api/recipes", (Command) editContext.Model);
+            var response = await http.PostAsJsonAsync("recipes", (Command)editContext.Model);
             if (response.StatusCode == HttpStatusCode.Created)
             {
                 Router.NavigateTo($"/smoker/{Data.Name}/edit");
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase}))?.Errors;
+                var errors = (await response.Content.ReadFromJsonAsync<BadRequestResponse>(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }))?.Errors;
 
                 _portalValidator.DisplayErrors(errors);
             }

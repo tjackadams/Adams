@@ -17,12 +17,13 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
             };
         }
 
-        public Recipe(string name, string displayName, string description)
+        public Recipe(string name, string displayName, string description, Protein protein)
             : this()
         {
             Name = name;
             DisplayName = displayName;
             Description = description;
+            Protein = protein;
         }
 
         public IReadOnlyCollection<RecipeStep> Steps => _steps;

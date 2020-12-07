@@ -16,6 +16,7 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
             public string Name { get; init; }
             public string DisplayName { get; init; }
             public string Description { get; init; }
+            public int ProteinId { get; init; }
         }
 
         public class Handler : IRequestHandler<Command, Unit>
@@ -29,11 +30,17 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
 
             public Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var entity = Mapper.ToEntity(request);
+                var entity = ToEntity(request);
 
                 _db.Attach(entity);
 
                 return Unit.Task;
+            }
+
+            private static Recipe ToEntity(Command model)
+            {
+                var protein = Protein.From(model.ProteinId);
+                return new Recipe(model.Name, model.DisplayName, model.Description, protein);
             }
         }
 
@@ -57,14 +64,6 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                 RuleFor(p => p.Description)
                     .NotEmpty()
                     .MaximumLength(2000);
-            }
-        }
-
-        private static class Mapper
-        {
-            public static Recipe ToEntity(Command model)
-            {
-                return new(model.Name, model.DisplayName, model.Description);
             }
         }
     }

@@ -87,9 +87,9 @@
     {
         try
         {
-            var http = HttpFactory.CreateClient(HttpClients.ServicesClient);
+            var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
 
-            var response = await http.DeleteAsync($"smoking-api/recipes/{CurrentRecipe.Name}");
+            var response = await http.DeleteAsync($"recipes/{CurrentRecipe.Name}");
             if (!response.IsSuccessStatusCode)
             {
                 ToastService.ShowError("Failed to delete the recipe. Please try again.", "Something went wrong!");
@@ -152,8 +152,8 @@
 
     private async Task GetRecipes(string search)
     {
-        var http = HttpFactory.CreateClient(HttpClients.ServicesClient);
-        var url = string.IsNullOrEmpty(search) ? "smoking-api/recipes" : QueryHelpers.AddQueryString("smoking-api/recipes", "search", search);
+        var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
+        var url = string.IsNullOrEmpty(search) ? "recipes" : QueryHelpers.AddQueryString("recipes", "search", search);
 
         try
         {
