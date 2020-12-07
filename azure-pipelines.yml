@@ -18,6 +18,11 @@ steps:
    arguments: 'restore'
 
 - task: DotNetCoreCLI@2
+  displayName: 'build database projects'
+  inputs:
+    projects: Adams.sln
+    arguments: --configuration $(BuildConfiguration) --runtime win-x64
+- task: DotNetCoreCLI@2
   displayName: 'generate sql migration scripts'
   inputs:
     command: 'custom'
