@@ -18,16 +18,11 @@ steps:
    arguments: 'restore'
 
 - task: DotNetCoreCLI@2
-  displayName: 'build database projects'
-  inputs:
-    projects: $(Build.SourcesDirectory)/src/Services/Smoking/Smoking.Api/Smoking.Api.csproj
-    arguments: --configuration $(BuildConfiguration) --runtime win-x64
-- task: DotNetCoreCLI@2
   displayName: 'generate sql migration scripts'
   inputs:
     command: 'custom'
     custom: 'ef'
-    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/smokingdb.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Smoking/Smoking.Api/Smoking.Api.csproj --context SmokingContext
+    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/smokingdb.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Smoking/Smoking.Api/Smoking.Api.csproj --configuration Debug
    
 - task: Kubernetes@1
   displayName: 'Test K3s connection'
