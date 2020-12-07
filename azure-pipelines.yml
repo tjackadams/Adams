@@ -20,7 +20,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'build database projects'
   inputs:
-    projects: Adams.sln
+    projects: $(Build.SourcesDirectory)/src/Services/Smoking/Smoking.Api/Smoking.Api.csproj
     arguments: --configuration $(BuildConfiguration) --runtime win-x64
 - task: DotNetCoreCLI@2
   displayName: 'generate sql migration scripts'
