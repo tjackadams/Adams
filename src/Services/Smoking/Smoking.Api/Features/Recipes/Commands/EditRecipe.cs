@@ -27,6 +27,9 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
             public string Description { get; init; }
 
             [HybridBindProperty(Source.Body)]
+            public int ProteinId { get; init;  }
+
+            [HybridBindProperty(Source.Body)]
             public List<CommandStep> Steps { get; init; }
 
             public record CommandStep
@@ -54,7 +57,8 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
 
                 recipe
                     .SetDisplayName(request.DisplayName)
-                    .SetDescription(request.Description);
+                    .SetDescription(request.Description)
+                    .SetProtein(Protein.From(request.ProteinId));
 
                 var steps = request.Steps.Select(s => new RecipeStep
                     {Description = s.Description, Id = s.Id, Step = s.Step, RecipeId = recipe.Id}).ToList();

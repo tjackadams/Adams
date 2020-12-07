@@ -11,7 +11,7 @@
         @Message
     </BSAlert>}
 
-<SpinLoader IsLoading="@(Data == null)">
+<SpinLoader IsLoading="@(Data == null || Proteins == null)">
     <ContentTemplate>
         <BSForm Model="Data" OnValidSubmit="HandleValidSubmit">
 
@@ -31,6 +31,16 @@
                     <BSFormGroup>
                         <BSLabel For="@Data.DisplayName">Display name</BSLabel>
                         <BSInput Id="@Data.DisplayName" InputType="InputType.Text" @bind-Value="Data.DisplayName"/>
+                    </BSFormGroup>
+                    
+                    <BSFormGroup>
+                        <BSLabel For="@Data.ProteinId">Protein</BSLabel>
+                        <BSInput Id="@Data.ProteinId" InputType="InputType.Select" @bind-Value="Data.ProteinId">
+                            @foreach (var item in Proteins)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </BSInput>
                     </BSFormGroup>
 
                     <BSFormGroup>
@@ -143,10 +153,19 @@
 
     private PortalValidator _portalValidator;
 
+    public List<ProteinModel> Proteins { get; set; }
+
+    public class ProteinModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
     public class Command
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
+        public int ProteinId { get; set;  }
         public string Description { get; set; }
         public List<CommandStep> Steps { get; set; }
 
@@ -169,6 +188,13 @@
                 }
             }
         }
+    }
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var http = HttpFactory.CreateClient(HttpClients.SmokingClient);
+        Proteins = await http.GetFromJsonAsync<List<ProteinModel>>("recipes/proteins");
     }
 
     protected override async Task OnParametersSetAsync()
