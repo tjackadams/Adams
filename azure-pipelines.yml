@@ -34,7 +34,7 @@ steps:
   displayName: 'deploy smoking db'
   inputs:
     TaskType: 'sqlQuery'
-    SqlFile: '$(Build.SourcesDirectory)/migrations/smokingdb.sql'
+    SqlFile: '$(Build.SourcesDirectory)\migrations\smokingdb.sql'
     ExecuteInTransaction: true
     ServerName: '192.168.139.29'
     DatabaseName: 'Adams.Service.SmokingDb'
