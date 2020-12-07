@@ -17,13 +17,6 @@ steps:
    custom: 'tool'
    arguments: 'restore'
 
-- task: DotNetCoreCLI@2
-  displayName: 'generate sql migration scripts'
-  inputs:
-    command: 'custom'
-    custom: 'ef'
-    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/smokingdb.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Smoking/Smoking.Api/Smoking.Api.csproj --configuration Debug
-   
 - task: Kubernetes@1
   displayName: 'Test K3s connection'
   inputs:
@@ -43,6 +36,30 @@ steps:
   workingDirectory: 'src'
   displayName: 'Build and deploy'
 
+- task: DotNetCoreCLI@2
+  displayName: 'generate smokingdb sql migration scripts'
+  inputs:
+    command: 'custom'
+    custom: 'ef'
+    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/smokingdb.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Smoking/Smoking.Api/Smoking.Api.csproj --configuration Debug
+   
+- task: PublishBuildArtifacts@1
+  displayName: 'publish smokingdb sql migration scripts'
+  inputs:
+    PathtoPublish: $(Build.SourcesDirectory)/migrations/smokingdb.sql
+    ArtifactName: scripts
+
+- task: SqlDacpacDeploymentOnMachineGroup@0
+  displayName: 'deploy smoking db'
+  inputs:
+    TaskType: 'sqlQuery'
+    SqlFile: '$(Build.SourcesDirectory)/migrations/smokingdb.sq'
+    ExecuteInTransaction: true
+    ServerName: '192.168.139.29'
+    DatabaseName: 'Adams.Service.SmokingDb'
+    AuthScheme: 'sqlServerAuthentication'
+    SqlUsername: 'sa'
+    SqlPassword: 'Jasper2854'
 - task: Kubernetes@1
   displayName: 'rollout identity-api'
   inputs:
