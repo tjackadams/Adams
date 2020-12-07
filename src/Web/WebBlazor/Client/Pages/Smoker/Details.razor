@@ -20,6 +20,13 @@
                             <BSBasicInput Id="@Data.DisplayName" InputType="InputType.Text" IsReadonly="true" IsPlaintext="true" Value="Data.DisplayName"/>
                         </BSCol>
                     </BSFormGroup>
+                    
+                    <BSFormGroup IsRow="true">
+                        <BSLabel For="@Data.Protein" SM="3">Protein</BSLabel>
+                        <BSCol SM="9">
+                            <BSBasicInput Id="@Data.Protein" InputType="InputType.Text" IsReadonly="true" IsPlaintext="true" Value="Data.Protein.Humanize()"/>
+                        </BSCol>
+                    </BSFormGroup>
 
                     <BSFormGroup IsRow="true">
                         <BSLabel For="@Data.Description" SM="3">Description</BSLabel>
@@ -48,7 +55,6 @@
 
 
 @code {
-
     [Parameter]
     public string Name { get; set; }
 
@@ -58,6 +64,7 @@
     {
         public string DisplayName { get; init; }
         public string Description { get; init; }
+        public string Protein { get; init; }
         public List<QueryStep> Steps { get; init; }
 
 

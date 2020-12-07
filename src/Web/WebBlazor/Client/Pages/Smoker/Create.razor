@@ -44,7 +44,7 @@
                         <BSInput Id="@Data.ProteinId" InputType="InputType.Select" @bind-Value="Data.ProteinId">
                             @foreach (var item in Proteins)
                             {
-                                <option value="@item.Id">@item.Name</option>
+                                <option value="@item.Id">@item.Name.Humanize()</option>
                             }
                         </BSInput>
                         <small id="@($"{nameof(Data.ProteinId)}_help")" class="form-text text-muted">
