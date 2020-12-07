@@ -21,9 +21,10 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
             : this()
         {
             Name = name;
-            DisplayName = displayName;
-            Description = description;
-            Protein = protein;
+
+            SetDescription(description);
+            SetDisplayName( displayName);
+            SetProtein(protein);
         }
 
         public IReadOnlyCollection<RecipeStep> Steps => _steps;
@@ -72,6 +73,7 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
         public Recipe SetProtein(Protein protein)
         {
             Protein = protein;
+            ProteinId = protein.Id;
             return this;
         }
 

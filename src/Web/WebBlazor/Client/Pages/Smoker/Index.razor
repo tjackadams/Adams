@@ -28,6 +28,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Name</th>
+                        <th scope="col">Protein</th>
                         <th scope="col">Number of Steps</th>
                         <th></th>
                     </tr>
@@ -39,6 +40,9 @@
                         <tr>
                             <td>
                                 @item.DisplayName
+                            </td>
+                            <td>
+                                @item.Protein.Humanize()
                             </td>
                             <td>@item.Steps</td>
                             <td>

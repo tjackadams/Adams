@@ -51,14 +51,17 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                var protein = await _db.Proteins.Where(p => p.Id == request.ProteinId).SingleAsync(cancellationToken);
+
                 var recipe = await _db.Recipes.Where(r => r.Name == request.Name)
+                    .Include(r => r.Protein)
                     .Include(r => r.Steps)
-                    .FirstOrDefaultAsync(cancellationToken);
+                    .SingleOrDefaultAsync(cancellationToken);
 
                 recipe
                     .SetDisplayName(request.DisplayName)
                     .SetDescription(request.Description)
-                    .SetProtein(Protein.From(request.ProteinId));
+                    .SetProtein(protein);
 
                 var steps = request.Steps.Select(s => new RecipeStep
                     {Description = s.Description, Id = s.Id, Step = s.Step, RecipeId = recipe.Id}).ToList();
