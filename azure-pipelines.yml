@@ -17,6 +17,25 @@ steps:
    custom: 'tool'
    arguments: 'restore'
 
+- task: Kubernetes@1
+  displayName: 'k3s connection'
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'Local K3S'
+    command: 'get'
+    arguments: 'nodes'
+    outputFormat: none
+
+- task: Docker@2
+  displayName: 'docker login'
+  inputs:
+    containerRegistry: 'DockerHub'
+    command: 'login'
+
+- script: $(Agent.BuildDirectory)/tools/tye deploy tye.production.yaml --verbosity debug 
+  workingDirectory: 'src'
+  displayName: 'Build and deploy'
+
 - task: DotNetCoreCLI@2
   displayName: 'generate smokingdb sql migration scripts'
   inputs:
@@ -40,24 +59,6 @@ steps:
     AuthScheme: 'sqlServerAuthentication'
     SqlUsername: 'sa'
     SqlPassword: 'Jasper2854'
-- task: Kubernetes@1
-  displayName: 'Test K3s connection'
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'Local K3S'
-    command: 'get'
-    arguments: 'nodes'
-    outputFormat: none
-
-- task: Docker@2
-  displayName: 'Docker login'
-  inputs:
-    containerRegistry: 'DockerHub'
-    command: 'login'
-
-- script: $(Agent.BuildDirectory)/tools/tye deploy tye.production.yaml --verbosity debug 
-  workingDirectory: 'src'
-  displayName: 'Build and deploy'
 
 - task: Kubernetes@1
   displayName: 'rollout identity-api'
