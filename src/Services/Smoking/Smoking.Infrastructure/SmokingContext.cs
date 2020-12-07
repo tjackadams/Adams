@@ -37,6 +37,7 @@ namespace Adams.Services.Smoking.Infrastructure
         {
             modelBuilder.ApplyConfiguration(new RecipeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new RecipeStepEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ProteinEntityTypeConfiguration());
         }
 
         public IDbContextTransaction GetCurrentTransaction()

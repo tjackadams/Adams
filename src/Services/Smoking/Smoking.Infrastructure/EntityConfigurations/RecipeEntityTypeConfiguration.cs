@@ -37,6 +37,10 @@ namespace Adams.Services.Smoking.Infrastructure.EntityConfigurations
 
             var navigation = builder.Metadata.FindNavigation(nameof(Recipe.Steps));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.HasOne(p => p.Protein)
+                .WithMany()
+                .HasForeignKey(p => p.ProteinId);
         }
     }
 }

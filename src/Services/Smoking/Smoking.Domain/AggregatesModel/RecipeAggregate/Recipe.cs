@@ -67,5 +67,8 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
             Description = description;
             return this;
         }
+
+        public Protein Protein { get; private set; }
+        public int ProteinId { get; private set; }
     }
 }

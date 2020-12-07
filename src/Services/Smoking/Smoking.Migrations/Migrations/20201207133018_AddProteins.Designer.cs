@@ -3,14 +3,16 @@ using Adams.Services.Smoking.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Adams.Services.Smoking.Migrations
 {
     [DbContext(typeof(SmokingContext))]
-    partial class SmokingContextModelSnapshot : ModelSnapshot
+    [Migration("20201207133018_AddProteins")]
+    partial class AddProteins
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
