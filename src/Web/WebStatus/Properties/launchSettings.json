@@ -3,11 +3,18 @@
     "SelfHost": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "hc-ui",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5107",
-      "launchUrl": "hc-ui"
+      "applicationUrl": "https://localhost:5107"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/hc-ui",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }

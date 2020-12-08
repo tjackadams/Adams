@@ -1,13 +1,11 @@
 ﻿@using WebBlazor.Client.Pages.Smoker
 <BSRow>
-    <!-- timeline item 1 left dot -->
     <div class="col-auto text-center flex-column d-none d-sm-flex">
         <div class="row h-50">
             <div class="col @(IsFirstItem ? string.Empty : "border-right")">&nbsp;</div>
             <div class="col">&nbsp;</div>
         </div>
         <h5 class="m-2">
-            <!-- temperature can go here -->
             <span class="badge badge-pill border @(IsFirstItem ? "bg-success" : "bg-light")">&nbsp;</span>
         </h5>
         <div class="row h-50">
@@ -15,7 +13,6 @@
             <div class="col">&nbsp;</div>
         </div>
     </div>
-    <!-- timeline item 1 event content -->
     <div class="col py-2">
         <BSCard CardType="CardType.Card" Class="@(IsFirstItem ? "border-success" : string.Empty)">
             <BSCard CardType="CardType.Body">

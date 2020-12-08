@@ -9,7 +9,8 @@
 {
     <BSAlert Color="Color.Danger">
         @Message
-    </BSAlert>}
+    </BSAlert>
+}
 
 <SpinLoader IsLoading="@(Data == null || Proteins == null)">
     <ContentTemplate>
@@ -174,6 +175,8 @@
             public int Id { get; set; }
             public int Step { get; set; }
             public string Description { get; set; }
+            public string? Duration { get; set; }
+            public double? Temperature { get; set; }
 
             public bool IsReadOnly
             {

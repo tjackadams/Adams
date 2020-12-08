@@ -39,8 +39,13 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
 
             private static Recipe ToEntity(Command model)
             {
-                var protein = Protein.From(model.ProteinId);
-                return new Recipe(model.Name, model.DisplayName, model.Description, protein);
+                return new Recipe
+                {
+                    Name = model.Name, 
+                    DisplayName = model.DisplayName, 
+                    Description = model.Description, 
+                    ProteinId = model.ProteinId
+                };
             }
         }
 

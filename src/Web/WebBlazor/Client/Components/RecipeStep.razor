@@ -5,23 +5,44 @@
     </BSCard>
     <BSCard CardType="CardType.Body">
         <BSCard CardType="CardType.Text">
-            <div class="d-flex">
-                <BSFormGroup Class="flex-fill">
-                    <BSBasicInput InputType="InputType.TextArea" @bind-Value="Step.Description" IsReadonly="Step.IsReadOnly"/>
+
+            <BSFormGroup>
+                <BSBasicInput InputType="InputType.TextArea" @bind-Value="Step.Description" IsReadonly="Step.IsReadOnly" />
+            </BSFormGroup>
+
+            @if (!Step.IsReadOnly)
+            {
+                <div class="form-row">
+                    
+                    <div class="col-md-6">
+                        <BSLabel For="Step.Temperature">Temperature</BSLabel>
+                        <div class="input-group">
+                            <BSBasicInput Id="Step.Temperature" InputType="InputType.Number" @bind-Value="Step.Temperature" min="0" max="500" step="5"/>
+                            <div class="input-group=append">
+                                <span class="input-group-text">F</span>
+                            </div>
+                        </div>
+                    </div>
+
+                <BSFormGroup Class="col-md-6">
+                    <BSLabel For="Step.Duration">Duration</BSLabel>
+                    <BSBasicInput Id="Step.Duration" InputType="InputType.Time" @bind-Value="Step.Duration"/>
                 </BSFormGroup>
             </div>
+            }
+
+
         </BSCard>
     </BSCard>
     <BSCard CardType="CardType.Footer">
         @if (!Step.IsReadOnly)
-        {
-            <a @onclick="@(() => OnRemoveClick.InvokeAsync(Step))" class="btn text-danger" title="Delete Step">
-                <i class="far fa-trash-alt"></i>
-            </a>
+                {
+        <a @onclick="@(() => OnRemoveClick.InvokeAsync(Step))" class="btn text-danger" title="Delete Step">
+            <i class="far fa-trash-alt"></i>
+        </a>
         }
     </BSCard>
 </BSCard>
-
 
 @code {
 

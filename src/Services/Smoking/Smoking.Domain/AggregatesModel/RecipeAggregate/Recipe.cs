@@ -1,83 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Adams.Domain;
 
 namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
 {
-    public sealed class Recipe : Entity, IAggregateRoot
+    public class Recipe : Entity, IAggregateRoot
     {
-        private readonly List<RecipeStep> _steps;
-
-        private Recipe()
-        {
-            _steps = new List<RecipeStep>
-            {
-                RecipeStep.Start,
-                RecipeStep.Finish
-            };
-        }
-
-        public Recipe(string name, string displayName, string description, Protein protein)
-            : this()
-        {
-            Name = name;
-
-            SetDescription(description);
-            SetDisplayName( displayName);
-            SetProtein(protein);
-        }
-
-        public IReadOnlyCollection<RecipeStep> Steps => _steps;
-
-        public string Name { get; }
-
-        public string DisplayName { get; private set; }
-
-        public string Description { get; private set; }
-
-        public void AddRecipeStep(RecipeStep step)
-        {
-            if (!step.IsTransient())
-            {
-                var existingStep = _steps.SingleOrDefault(s => s.Id == step.Id);
-
-                if (existingStep != null)
-                {
-                    existingStep.Description = step.Description;
-                    existingStep.Step = step.Step;
-
-                    return;
-                }
-            }
-
-            _steps.Add(step);
-        }
-
-        public void RemoveRecipeStep(RecipeStep step)
-        {
-            _steps.Remove(step);
-        }
-
-        public Recipe SetDisplayName(string displayName)
-        {
-            DisplayName = displayName;
-            return this;
-        }
-
-        public Recipe SetDescription(string description)
-        {
-            Description = description;
-            return this;
-        }
-
-        public Recipe SetProtein(Protein protein)
-        {
-            Protein = protein;
-            ProteinId = protein.Id;
-            return this;
-        }
-
-        public Protein Protein { get; private set; }
-        public int ProteinId { get; private set; }
+        public List<RecipeStep> Steps { get; set; } = new List<RecipeStep>();
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public Protein Protein { get; set; }
+        public int ProteinId { get; set; }
     }
 }

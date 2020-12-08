@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Adams.Services.Smoking.Api.Features.Recipes.Models
 {
@@ -14,5 +15,7 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Models
     {
         public int Step { get; init; }
         public string Description { get; init; }
+        public TimeSpan? Duration { get; init; }
+        public double? Temperature { get; init; }
     }
 }

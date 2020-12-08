@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
             public string Description { get; init; }
 
             [HybridBindProperty(Source.Body)]
-            public int ProteinId { get; init;  }
+            public int ProteinId { get; init; }
 
             [HybridBindProperty(Source.Body)]
             public List<CommandStep> Steps { get; init; }
@@ -37,6 +38,8 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                 public int Id { get; init; }
                 public int Step { get; init; }
                 public string Description { get; init; }
+                public string? Duration { get; init; }
+                public double? Temperature { get; init; }
             }
         }
 
@@ -58,28 +61,34 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                     .Include(r => r.Steps)
                     .SingleOrDefaultAsync(cancellationToken);
 
-                recipe
-                    .SetDisplayName(request.DisplayName)
-                    .SetDescription(request.Description)
-                    .SetProtein(protein);
-
-                var steps = request.Steps.Select(s => new RecipeStep
-                    {Description = s.Description, Id = s.Id, Step = s.Step, RecipeId = recipe.Id}).ToList();
-
-                // remove missing steps
-                var staleSteps = recipe.Steps.Except(steps).ToList();
-                foreach (var staleStep in staleSteps)
-                {
-                    recipe.RemoveRecipeStep(staleStep);
-                }
-
-                // add or update steps
-                foreach (var step in steps)
-                {
-                    recipe.AddRecipeStep(step);
-                }
+                UpdateEntity(request, recipe);
 
                 return Unit.Value;
+            }
+
+            private static void UpdateEntity(Command model, Recipe entity)
+            {
+                entity.Steps = model.Steps.ConvertAll(modelStep =>
+                {
+                    TimeSpan? duration = null;
+                    if (TimeSpan.TryParse(modelStep.Duration, out var result))
+                    {
+                        duration = result;
+                    }
+
+                    return new RecipeStep
+                    {
+                        Step = modelStep.Step, 
+                        Description = modelStep.Description, 
+                        Duration = duration,
+                        Temperature = modelStep.Temperature, 
+                        Id = modelStep.Id
+                    };
+                });
+                entity.Name = model.Name;
+                entity.DisplayName = model.DisplayName;
+                entity.Description = model.Description;
+                entity.ProteinId = model.ProteinId;
             }
         }
 
@@ -111,8 +120,21 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                         .NotEmpty()
                         .MaximumLength(2000);
 
+                    x.When(p => !string.IsNullOrWhiteSpace(p.Duration), () =>
+                    {
+                        x.RuleFor(p => p.Duration)
+                            .Transform<TimeSpan?>(p => TimeSpan.Parse(p))
+                            .InclusiveBetween(RecipeStep.MinimumDuration, RecipeStep.MaximumDuration);
+                    });
+
                     x.RuleFor(p => p.Step)
                         .NotEmpty();
+
+                    x.When(p => p.Temperature.HasValue, () =>
+                    {
+                        x.RuleFor(p => p.Temperature)
+                            .InclusiveBetween(RecipeStep.MinimumTemperature, RecipeStep.MaximumTemperature);
+                    });
                 });
             }
         }
