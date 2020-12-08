@@ -64,6 +64,10 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                 RuleFor(p => p.Description)
                     .NotEmpty()
                     .MaximumLength(2000);
+
+                RuleFor(p => p.ProteinId)
+                    .NotEmpty()
+                    .Must(x => Protein.List().Select(y => y.Id).Contains(x));
             }
         }
     }

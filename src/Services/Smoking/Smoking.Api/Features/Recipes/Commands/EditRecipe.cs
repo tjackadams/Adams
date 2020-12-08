@@ -95,6 +95,10 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                     .NotEmpty()
                     .MaximumLength(2000);
 
+                RuleFor(p => p.ProteinId)
+                    .NotEmpty()
+                    .Must(x => Protein.List().Select(y => y.Id).Contains(x));
+
                 RuleFor(p => p.Steps)
                     .Must(steps => steps.Count >= 2)
                     .WithMessage("Have you deleted the start and finish steps?")
