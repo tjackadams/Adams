@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace WebStatus
 {
@@ -16,7 +17,12 @@ namespace WebStatus
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHealthChecksUI()
+            services
+                .AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy());
+
+            services
+                .AddHealthChecksUI()
                 .AddInMemoryStorage();
         }
 
@@ -24,7 +30,7 @@ namespace WebStatus
         {
             app
                 .UseRouting()
-                .UseEndpoints(config => { config.MapHealthChecksUI(); });
+                .UseEndpoints(config => { config.MapHealthChecksUI(options => options.UIPath = "/hc-ui"); });
         }
     }
 }

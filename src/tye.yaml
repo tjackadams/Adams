@@ -36,9 +36,10 @@ services:
 
 - name: webstatus
   project: Web/WebStatus/WebStatus.csproj
-  liveness:
+  readiness:
     http:
-      path: /liveness
+      path: /hc
+    initialDelay: 1
   bindings:
   - port: 5107
     protocol: https

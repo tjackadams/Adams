@@ -60,8 +60,6 @@ services:
   dockerFileContext: .
   env:
   - ASPNETCORE_ENVIRONMENT
-  - HealthChecksUI__HealthChecks__0__Name="WebBlazor HTTP Check""
-  - HealthChecksUI__HealthChecks__0__Uri=http://webblazor/hc
   - HealthChecksUI__HealthChecks__1__Name="Identity HTTP Check"
   - HealthChecksUI__HealthChecks__1__Uri=http://identity-api/hc
   - HealthChecksUI__HealthChecks__2__Name="Smoking HTTP Check"
