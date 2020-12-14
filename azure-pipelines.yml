@@ -15,7 +15,7 @@ steps:
   displayName: 'install dotnet'
   inputs:
     packageType: 'sdk'
-    version: '5.*'
+    version: '5.x'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet tool restore'
