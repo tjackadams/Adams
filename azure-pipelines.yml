@@ -10,6 +10,12 @@ pool:
   name: 'Laptop'
 
 steps:
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '5.*.*'
+
 - task: DotNetCoreCLI@2
   displayName: 'dotnet tool restore'
   inputs: 
