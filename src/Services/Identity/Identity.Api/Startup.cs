@@ -159,7 +159,7 @@ namespace Adams.Services.Identity.Api
                             .AddHttpClientInstrumentation()
                             .AddZipkinExporter(options =>
                             {
-                                options.ServiceName = "smoking-api";
+                                options.ServiceName = "identity-api";
                                 options.Endpoint =
                                     new Uri(Configuration.GetValue<string>("OpenTelemetry:Zipkin:ServerUrl"));
                             });
