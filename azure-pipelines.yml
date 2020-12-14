@@ -12,6 +12,7 @@ pool:
 steps:
 
 - task: UseDotNet@2
+  displayName: 'install dotnet'
   inputs:
     packageType: 'sdk'
     version: '5.*.*'
