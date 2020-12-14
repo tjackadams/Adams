@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Adams.Services.Identity.Api.Data;
 using Adams.Services.Identity.Api.Models;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using OpenTelemetry.Trace;
 using StackExchange.Redis;
 
 namespace Adams.Services.Identity.Api
@@ -131,6 +133,38 @@ namespace Adams.Services.Identity.Api
                 .AddRedis(Configuration.GetConnectionString("redis"),
                     "redis-check",
                     tags: new[] {"redis"});
+
+            if (Environment.IsProduction())
+            {
+                services
+                    .AddOpenTelemetryTracing(builder =>
+                    {
+                        builder
+                            .AddAspNetCoreInstrumentation(options =>
+                            {
+                                options.Filter = ctx =>
+                                {
+                                    var exclusions = ctx.RequestServices.GetRequiredService<IConfiguration>()
+                                        .GetSection("OpenTelemetry:ExcludedPaths").AsEnumerable().Select(c => c.Value)
+                                        .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+                                    var path = ctx.Request.Path;
+                                    if (exclusions.Contains(path))
+                                    {
+                                        return false;
+                                    }
+
+                                    return true;
+                                };
+                            })
+                            .AddHttpClientInstrumentation()
+                            .AddZipkinExporter(options =>
+                            {
+                                options.ServiceName = "smoking-api";
+                                options.Endpoint =
+                                    new Uri(Configuration.GetValue<string>("OpenTelemetry:Zipkin:ServerUrl"));
+                            });
+                    });
+            }
         }
 
         public void Configure(IApplicationBuilder app)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using Adams.Core.Extensions;
 using Adams.Services.Smoking.Api.Infrastructure.Behaviours;
 using Adams.Services.Smoking.Api.Infrastructure.Filters;
@@ -21,8 +22,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Trace;
 using Serilog;
 using StackExchange.Redis;
 
@@ -30,17 +33,19 @@ namespace Adams.Services.Smoking.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddCustomTelemetry(Environment, Configuration)
                 .AddCustomMvc(Configuration)
                 .AddHealthChecks(Configuration)
                 .AddCustomDbContext(Configuration)
@@ -96,6 +101,52 @@ namespace Adams.Services.Smoking.Api
 
     internal static class Extensions
     {
+        private static bool IsClusterEnvironment(this IConfiguration configuration)
+        {
+            return configuration.GetValue<string>("IsClusterEnv") == bool.TrueString;
+        }
+
+        public static IServiceCollection AddCustomTelemetry(
+            this IServiceCollection services,
+            IWebHostEnvironment env,
+            IConfiguration configuration
+        )
+        {
+            if (env.IsProduction())
+            {
+                services
+                    .AddOpenTelemetryTracing(builder =>
+                    {
+                        builder
+                            .AddAspNetCoreInstrumentation(options =>
+                            {
+                                options.Filter = ctx =>
+                                {
+                                    var exclusions = ctx.RequestServices.GetRequiredService<IConfiguration>()
+                                        .GetSection("OpenTelemetry:ExcludedPaths").AsEnumerable().Select(c => c.Value)
+                                        .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+                                    var path = ctx.Request.Path;
+                                    if (exclusions.Contains(path))
+                                    {
+                                        return false;
+                                    }
+
+                                    return true;
+                                };
+                            })
+                            .AddHttpClientInstrumentation()
+                            .AddZipkinExporter(options =>
+                            {
+                                options.ServiceName = "smoking-api";
+                                options.Endpoint =
+                                    new Uri(configuration.GetValue<string>("OpenTelemetry:Zipkin:ServerUrl"));
+                            });
+                    });
+            }
+
+            return services;
+        }
+
         public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
         {
             services
@@ -113,7 +164,7 @@ namespace Adams.Services.Smoking.Api
                         .AllowCredentials());
             });
 
-            if (configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
+            if (configuration.IsClusterEnvironment())
             {
                 services.AddDataProtection(opts => { opts.ApplicationDiscriminator = "adams.smoking-api"; })
                     .PersistKeysToStackExchangeRedis(
@@ -144,8 +195,10 @@ namespace Adams.Services.Smoking.Api
             return services;
         }
 
-        public static IServiceCollection AddCustomDbContext(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddCustomDbContext(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
             services.AddDbContext<SmokingContext>(options =>
             {
@@ -159,8 +212,10 @@ namespace Adams.Services.Smoking.Api
             return services;
         }
 
-        public static IServiceCollection AddCustomSwagger(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddCustomSwagger(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
             services.AddSwaggerGen(options =>
             {
@@ -199,8 +254,10 @@ namespace Adams.Services.Smoking.Api
             return services;
         }
 
-        public static IServiceCollection AddCustomIntegrations(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddCustomIntegrations(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
             // fluent validation
             services.AddValidatorsFromAssemblyContaining<Startup>();
@@ -214,8 +271,10 @@ namespace Adams.Services.Smoking.Api
             return services;
         }
 
-        public static IServiceCollection AddCustomConfiguration(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddCustomConfiguration(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
             services.AddOptions();
 
@@ -242,8 +301,10 @@ namespace Adams.Services.Smoking.Api
             return services;
         }
 
-        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection AddCustomAuthentication(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");

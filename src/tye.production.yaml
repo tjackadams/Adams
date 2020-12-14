@@ -34,6 +34,7 @@ services:
   - AzureKeyVault__CertificateName
   - BlazorClient=https://app.itadams.co.uk
   - SmokingApiClient=https://services.itadams.co.uk/smoking-api
+  - OpenTelemetry__Zipkin__ServerUrl
   bindings:
   - name: http
     protocol: http
@@ -51,6 +52,7 @@ services:
   - IsClusterEnv
   - IdentityUrl="https://identity.itadams.co.uk"
   - PATH_BASE="/smoking-api"
+  - OpenTelemetry__Zipkin__ServerUrl
   bindings:
   - name: http
     protocol: http

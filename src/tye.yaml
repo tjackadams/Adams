@@ -1,6 +1,9 @@
 name: adams
 registry: tjackadams
 
+extensions:
+- name: zipkin
+
 services:
 - name: redis
   image: redis:alpine
