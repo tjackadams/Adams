@@ -8,6 +8,9 @@ WORKDIR /src
 # Solution
 COPY ["Adams.sln", "Adams.sln"]
 
+# Api Gateways
+COPY ["ApiGateways/ApiGw/ApiGw.csproj","ApiGateways/ApiGw/ApiGw.csproj"]
+
 # Services
 COPY ["Services/Identity/Identity.Api/Identity.Api.csproj", "Services/Identity/Identity.Api/Identity.Api.csproj"]
 COPY ["Services/Smoking/Smoking.Api/Smoking.Api.csproj", "Services/Smoking/Smoking.Api/Smoking.Api.csproj"]
