@@ -10,9 +10,8 @@ ingress:
         service: webstatus
       - host: app.itadams.co.uk
         service: webblazor
-      - host: services.itadams.co.uk
-        path: /smoking-api
-        service: smoking-api
+      - host: api.itadams.co.uk
+        service: apigw
 
 services:
 
@@ -33,7 +32,20 @@ services:
   - AzureKeyVault__VaultUri
   - AzureKeyVault__CertificateName
   - BlazorClient=https://app.itadams.co.uk
-  - SmokingApiClient=https://services.itadams.co.uk/smoking-api
+  - SmokingApiClient=https://api.itadams.co.uk/s
+  - OpenTelemetry__Zipkin__ServerUrl
+  bindings:
+  - name: http
+    protocol: http
+
+- name: apigw
+  project: ApiGateways/ApiGw/Dockerfile
+  dockerFileContext: .
+  env:
+  - ASPNETCORE_ENVIRONMENT
+  - Serilog__SeqServerUrl
+  - OrchestratorType
+  - IsClusterEnv
   - OpenTelemetry__Zipkin__ServerUrl
   bindings:
   - name: http
@@ -51,7 +63,6 @@ services:
   - OrchestratorType
   - IsClusterEnv
   - IdentityUrl="https://identity.itadams.co.uk"
-  - PATH_BASE="/smoking-api"
   - OpenTelemetry__Zipkin__ServerUrl
   bindings:
   - name: http

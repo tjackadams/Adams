@@ -24,6 +24,12 @@ services:
   - port: 5105
     protocol: https
 
+- name: apigw
+  project: ApiGateways/ApiGw/ApiGw.csproj
+  bindings:
+  - port: 5200
+    protocol: https
+
 - name: smoking-api
   project: Services/Smoking/Smoking.Api/Smoking.Api.csproj
   liveness:

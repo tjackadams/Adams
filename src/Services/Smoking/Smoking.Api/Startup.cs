@@ -77,6 +77,7 @@ namespace Adams.Services.Smoking.Api
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions
                 {
