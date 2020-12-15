@@ -39,7 +39,7 @@ services:
     protocol: http
 
 - name: apigw
-  project: ApiGateways/ApiGw/Dockerfile
+  dockerFile: ApiGateways/ApiGw/Dockerfile
   dockerFileContext: .
   env:
   - ASPNETCORE_ENVIRONMENT
