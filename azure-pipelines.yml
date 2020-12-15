@@ -101,6 +101,15 @@ steps:
    arguments: restart deployment webblazor
    
 - task: Kubernetes@1
+  displayName: 'rollout apigw'
+  inputs:
+   connectionType: Kubernetes Service Connection
+   kubernetesServiceEndpoint: 'Local K3S'
+   namespace: 'default'
+   command: rollout
+   arguments: restart deployment apigw
+   
+- task: Kubernetes@1
   displayName: 'rollout webstatus'
   inputs:
    connectionType: Kubernetes Service Connection
@@ -115,5 +124,5 @@ steps:
    action: patch
    kind: ingress
    name: ingress
-   patch: '{"metadata":{"annotations":{"cert-manager.io/cluster-issuer":"letsencrypt-production"}},"spec":{"tls":[{"hosts":["app.itadams.co.uk"],"secretName":"webblazor-production-tls"},{"hosts":["identity.itadams.co.uk"],"secretName":"identity-api-production-tls"},{"hosts":["status.itadams.co.uk"],"secretName":"webstatus-production-tls"},{"hosts": ["services.itadams.co.uk"], "secretName": "services-production-tls"}]}}'
+   patch: '{"metadata":{"annotations":{"cert-manager.io/cluster-issuer":"letsencrypt-production"}},"spec":{"tls":[{"hosts":["app.itadams.co.uk"],"secretName":"webblazor-production-tls"},{"hosts":["identity.itadams.co.uk"],"secretName":"identity-api-production-tls"},{"hosts":["status.itadams.co.uk"],"secretName":"webstatus-production-tls"},{"hosts":["api.itadams.co.uk"],"secretName":"api-production-tls"}]}}'
    kubernetesServiceConnection: 'Local K3S'
