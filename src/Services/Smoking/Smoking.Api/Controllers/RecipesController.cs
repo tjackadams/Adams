@@ -14,7 +14,7 @@ namespace Adams.Services.Smoking.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class RecipesController : ControllerBase
     {
         private readonly IMediator _mediator;
