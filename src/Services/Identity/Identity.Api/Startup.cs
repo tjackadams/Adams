@@ -72,7 +72,7 @@ namespace Adams.Services.Identity.Api
             var connectionString = Configuration.GetConnectionString("Identity");
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            var builder = services.AddIdentityServer(options =>
+            var identityBuilder = services.AddIdentityServer(options =>
                 {
                     options.Events.RaiseErrorEvents = true;
                     options.Events.RaiseInformationEvents = true;
@@ -81,11 +81,7 @@ namespace Adams.Services.Identity.Api
 
                     options.EmitStaticAudienceClaim = true;
                 })
-                .AddInMemoryClients(Config.Clients(clientUrls))
-                .AddInMemoryApiScopes(Config.ApiScopes())
-                .AddInMemoryIdentityResources(Config.IdentityResources())
-                .AddInMemoryApiResources(Config.ApiResources())
-                .AddOperationalStore(options =>
+                .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
                         sqlOptions =>
@@ -94,15 +90,26 @@ namespace Adams.Services.Identity.Api
                             sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
                         });
                 })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
+                        sqlOptions =>
+                        {
+                            sqlOptions.MigrationsAssembly(migrationsAssembly);
+                            sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
+                        });
+
+                    options.EnableTokenCleanup = true;
+                })
                 .AddAspNetIdentity<ApplicationUser>();
 
             if (Environment.IsDevelopment())
             {
-                builder.AddDeveloperSigningCredential();
+                identityBuilder.AddDeveloperSigningCredential();
             }
             else
             {
-                builder.AddSigningCredentialsFromAzureKeyVault(options =>
+                identityBuilder.AddSigningCredentialsFromAzureKeyVault(options =>
                 {
                     Configuration.Bind("AzureKeyVault", options);
                 });
