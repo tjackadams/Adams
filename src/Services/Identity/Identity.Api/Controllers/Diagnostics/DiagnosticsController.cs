@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adams.Services.Identity.Api.Controllers.Diagnostics
 {
-    [SecurityHeaders]
     [Authorize]
     public class DiagnosticsController : Controller
     {

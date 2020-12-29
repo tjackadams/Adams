@@ -18,7 +18,6 @@ using Microsoft.Extensions.Options;
 namespace Adams.Services.Identity.Api.Controllers.Device
 {
     [Authorize]
-    [SecurityHeaders]
     public class DeviceController : Controller
     {
         private readonly IEventService _events;

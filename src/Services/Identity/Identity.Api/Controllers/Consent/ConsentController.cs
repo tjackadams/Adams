@@ -16,7 +16,6 @@ namespace Adams.Services.Identity.Api.Controllers.Consent
     /// <summary>
     ///     This controller processes the consent UI
     /// </summary>
-    [SecurityHeaders]
     [Authorize]
     public class ConsentController : Controller
     {

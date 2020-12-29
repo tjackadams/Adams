@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adams.Services.Identity.Api.Controllers.Account
 {
-    [SecurityHeaders]
     [AllowAnonymous]
     public class AccountController : Controller
     {

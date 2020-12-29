@@ -18,7 +18,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Adams.Services.Identity.Api.Controllers.Account
 {
-    [SecurityHeaders]
     [AllowAnonymous]
     public class ExternalController : Controller
     {

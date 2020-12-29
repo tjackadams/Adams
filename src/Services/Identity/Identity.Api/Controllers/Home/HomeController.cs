@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Adams.Services.Identity.Api.Controllers.Home
 {
-    [SecurityHeaders]
     [AllowAnonymous]
     public class HomeController : Controller
     {

@@ -19,7 +19,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Trace;
+using Serilog;
 using StackExchange.Redis;
 
 namespace Adams.Services.Identity.Api
@@ -106,8 +108,28 @@ namespace Adams.Services.Identity.Api
                 });
             }
 
+            services.AddAuthentication()
+                .AddOpenIdConnect("Azure AD / Microsoft", "Azure AD / Microsoft", options =>
+                {
+                    options.ClientId = Configuration["External:Microsoft:ClientId"];
+                    options.ClientSecret = Configuration["External:Microsoft:ClientSecret"];
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    options.RemoteAuthenticationTimeout = TimeSpan.FromSeconds(30);
+                    options.Authority = "https://login.microsoftonline.com/common/v2.0/";
+                    options.ResponseType = "code";
 
-            services.AddAuthentication();
+                    options.UsePkce = false; // live does not support this yet
+
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        NameClaimType = "email",
+                    };
+                    options.CallbackPath = "/signin-microsoft";
+                    options.Prompt = "login";
+                });
 
             services.Configure<CookieAuthenticationOptions>(IdentityServerConstants.DefaultCookieAuthenticationScheme,
                 options =>
@@ -185,7 +207,27 @@ namespace Adams.Services.Identity.Api
                 });
             }
 
-            app.UseStaticFiles();
+            app.UseSerilogRequestLogging();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = context =>
+                {
+                    if (context.Context.Response.Headers["feature-policy"].Count == 0)
+                    {
+                        var featurePolicy = "accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'";
+
+                        context.Context.Response.Headers["feature-policy"] = featurePolicy;
+                    }
+
+                    if (context.Context.Response.Headers["X-Content-Security-Policy"].Count == 0)
+                    {
+                        var csp = "script-src 'self';style-src 'self';img-src 'self' data:;font-src 'self';form-action 'self';frame-ancestors 'self';block-all-mixed-content";
+                        // IE
+                        context.Context.Response.Headers["X-Content-Security-Policy"] = csp;
+                    }
+                }
+            });
 
             app.UseRouting();
             app.UseIdentityServer();

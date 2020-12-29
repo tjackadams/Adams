@@ -13,7 +13,6 @@ namespace Adams.Services.Identity.Api.Controllers.Grants
     /// <summary>
     ///     This sample controller allows a user to revoke grants given to clients
     /// </summary>
-    [SecurityHeaders]
     [Authorize]
     public class GrantsController : Controller
     {
