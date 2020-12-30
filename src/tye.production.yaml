@@ -74,10 +74,6 @@ services:
   dockerFileContext: .
   env:
   - ASPNETCORE_ENVIRONMENT
-  - HealthChecksUI__HealthChecks__1__Name="Identity HTTP Check"
-  - HealthChecksUI__HealthChecks__1__Uri=http://identity-api/hc
-  - HealthChecksUI__HealthChecks__2__Name="Smoking HTTP Check"
-  - HealthChecksUI__HealthChecks__2__Uri=http://smoking-api/hc
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv
@@ -93,7 +89,6 @@ services:
   - Serilog__SeqServerUrl
   - OrchestratorType
   - IsClusterEnv
-  - IdentityUrlHC="http://identity-api/hc"
   bindings:
   - name: http
     protocol: http
