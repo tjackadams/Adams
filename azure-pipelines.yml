@@ -45,22 +45,72 @@ steps:
     containerRegistry: 'DockerHub'
     command: 'login'
 
-- script: $(Agent.BuildDirectory)/tools/tye deploy tye.production.yaml --verbosity debug 
-  workingDirectory: 'src'
-  displayName: 'Build and deploy'
+- task: DotNetCoreCLI@2
+  displayName: 'generate identitydb application sql migration scripts'
+  inputs:
+    command: 'custom'
+    custom: 'ef'
+    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/identitydb-application.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Identity/Identity.Api/Identity.Api.csproj --configuration Production -c ApplicationDbContext
+
+- task: DotNetCoreCLI@2
+  displayName: 'generate identitydb configuration sql migration scripts'
+  inputs:
+    command: 'custom'
+    custom: 'ef'
+    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/identitydb-configuration.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Identity/Identity.Api/Identity.Api.csproj --configuration Production -c ApplicationConfigurationDbContext
+
+- task: DotNetCoreCLI@2
+  displayName: 'generate identitydb persisted grant sql migration scripts'
+  inputs:
+    command: 'custom'
+    custom: 'ef'
+    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/identitydb-persistedgrant.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Identity/Identity.Api/Identity.Api.csproj --configuration Production -c PersistedGrantDbContext
 
 - task: DotNetCoreCLI@2
   displayName: 'generate smokingdb sql migration scripts'
   inputs:
     command: 'custom'
     custom: 'ef'
-    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/smokingdb.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Smoking/Smoking.Api/Smoking.Api.csproj --configuration Debug
+    arguments: migrations script --output $(Build.SourcesDirectory)/migrations/smokingdb.sql --idempotent --project $(Build.SourcesDirectory)/src/Services/Smoking/Smoking.Api/Smoking.Api.csproj --configuration Production
    
 - task: PublishBuildArtifacts@1
   displayName: 'publish smokingdb sql migration scripts'
   inputs:
-    PathtoPublish: $(Build.SourcesDirectory)/migrations/smokingdb.sql
+    PathtoPublish: $(Build.SourcesDirectory)/migrations/
     ArtifactName: scripts
+
+- task: SqlDacpacDeploymentOnMachineGroup@0
+  displayName: 'deploy identity db application'
+  inputs:
+    TaskType: 'sqlQuery'
+    SqlFile: '$(Build.SourcesDirectory)\migrations\identitydb-application.sql'
+    ServerName: '192.168.139.29'
+    DatabaseName: 'Adams.Service.IdentityDb'
+    AuthScheme: 'sqlServerAuthentication'
+    SqlUsername: 'sa'
+    SqlPassword: 'Jasper2854'
+
+- task: SqlDacpacDeploymentOnMachineGroup@0
+  displayName: 'deploy identity db configuration'
+  inputs:
+    TaskType: 'sqlQuery'
+    SqlFile: '$(Build.SourcesDirectory)\migrations\identitydb-configuration.sql'
+    ServerName: '192.168.139.29'
+    DatabaseName: 'Adams.Service.IdentityDb'
+    AuthScheme: 'sqlServerAuthentication'
+    SqlUsername: 'sa'
+    SqlPassword: 'Jasper2854'
+
+- task: SqlDacpacDeploymentOnMachineGroup@0
+  displayName: 'deploy identity db persisted grant'
+  inputs:
+    TaskType: 'sqlQuery'
+    SqlFile: '$(Build.SourcesDirectory)\migrations\identitydb-persistedgrant.sql'
+    ServerName: '192.168.139.29'
+    DatabaseName: 'Adams.Service.IdentityDb'
+    AuthScheme: 'sqlServerAuthentication'
+    SqlUsername: 'sa'
+    SqlPassword: 'Jasper2854'
 
 - task: SqlDacpacDeploymentOnMachineGroup@0
   displayName: 'deploy smoking db'
@@ -72,6 +122,10 @@ steps:
     AuthScheme: 'sqlServerAuthentication'
     SqlUsername: 'sa'
     SqlPassword: 'Jasper2854'
+
+- script: $(Agent.BuildDirectory)/tools/tye deploy tye.production.yaml --verbosity debug 
+  workingDirectory: 'src'
+  displayName: 'Build and deploy'
 
 - task: Kubernetes@1
   displayName: 'rollout identity-api'
