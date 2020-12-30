@@ -31,11 +31,10 @@ services:
   - AZURE_TENANT_ID
   - AzureKeyVault__VaultUri
   - AzureKeyVault__CertificateName
-  - BlazorClient=https://app.itadams.co.uk
-  - SmokingApiClient=https://api.itadams.co.uk/s
   - OpenTelemetry__Zipkin__ServerUrl
   - External__Microsoft__ClientSecret
   - External__Microsoft__ClientId
+  - IdentityUrl="https://identity.itadams.co.uk"
   bindings:
   - name: http
     protocol: http

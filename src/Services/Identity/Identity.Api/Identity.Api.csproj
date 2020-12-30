@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Adams.Services.Identity.Api</RootNamespace>
     <UserSecretsId>1bd1efc2-c1f7-4c76-80f2-a78dcc111294</UserSecretsId>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <Choose>
@@ -36,10 +37,12 @@
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc1.1" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc1.1" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\Adams.AspNetCore.Extensions\Adams.AspNetCore.Extensions.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Adams.Core\Adams.Core.csproj" />
     <ProjectReference Include="..\..\..\Shared\Adams.IdentityServer.AzureKeyVault\Adams.IdentityServer.AzureKeyVault.csproj" />
   </ItemGroup>
 </Project>

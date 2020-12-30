@@ -1,15 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using Adams.Services.Identity.Api.Data;
-using Adams.Services.Identity.Api.Models;
-using IdentityModel;
-using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -33,45 +25,6 @@ namespace Adams.Services.Identity.Api
             {
                 Log.Information("Configuring web host ({ApplicationContext})...", AppName);
                 var host = BuildWebHost(configuration, args);
-
-                Log.Information("Applying migrations ({ApplicationContext})...", AppName);
-                host.MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
-                    .MigrateDbContext<ApplicationDbContext>(async (_, services) =>
-                    {
-                        using (var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope())
-                        {
-                            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                            var tom = await userManager.FindByEmailAsync("tjackadams@itadams.co.uk");
-                            if (tom == null)
-                            {
-                                tom = new ApplicationUser
-                                {
-                                    UserName = "tjackadams@itadams.co.uk",
-                                    Email = "tjackadams@itadams.co.uk",
-                                    EmailConfirmed = true
-                                };
-
-                                var result = await userManager.CreateAsync(tom, "Jasper2854");
-                                if (!result.Succeeded)
-                                {
-                                    throw new Exception(result.Errors.First().Description);
-                                }
-
-                                result = await userManager.AddClaimsAsync(tom, new[]
-                                {
-                                    new Claim(JwtClaimTypes.Name, "Thomas Adams"),
-                                    new Claim(JwtClaimTypes.GivenName, "Thomas"),
-                                    new Claim(JwtClaimTypes.FamilyName, "Adams"),
-                                    new Claim(JwtClaimTypes.WebSite,
-                                        "https://blog.itadams.co.uk")
-                                });
-                                if (!result.Succeeded)
-                                {
-                                    throw new Exception(result.Errors.First().Description);
-                                }
-                            }
-                        }
-                    });
 
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);
                 host.Run();
