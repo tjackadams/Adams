@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Adams.Services.Identity.Api</RootNamespace>
     <UserSecretsId>1bd1efc2-c1f7-4c76-80f2-a78dcc111294</UserSecretsId>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <Choose>
