@@ -8,6 +8,6 @@ namespace Adams.Services.Identity.Api.Configuration
     public class AuthorizationConstants
     {
         public const string AdministrationPolicy = "RequireAdministratorRole";
-        public const string AdministrationRole = "IdentityAdminAdministration";
+        public const string AdministrationRole = "Administration";
     }
 }
