@@ -12,17 +12,19 @@ namespace Adams.Services.Identity.Api.Data.EntityConfigurations
                 new Client
                 {
                     Id = 1, Enabled = true, ClientId = "webblazor", ClientName = "Blazor Client Application",
-                    FrontChannelLogoutUri = "https://app.itadams.co.uk/signout-oidc", AllowOfflineAccess = true
+                    FrontChannelLogoutUri = "https://app.itadams.co.uk/signout-oidc", AllowOfflineAccess = true,
+                    RequireClientSecret = false
                 },
                 new Client
                 {
                     Id = 2, Enabled = true, ClientId = "smokingswaggerui", ClientName = "Smoking Swagger UI",
-                    AllowAccessTokensViaBrowser = true
+                    AllowAccessTokensViaBrowser = true, RequireClientSecret = false
                 },
                 new Client
                 {
                     Id = 3, Enabled = true, ClientId = "identityswaggerui",
-                    ClientName = "Identity Administration Swagger UI", AllowAccessTokensViaBrowser = true
+                    ClientName = "Identity Administration Swagger UI", AllowAccessTokensViaBrowser = true,
+                    RequireClientSecret = false
                 }
             );
         }
