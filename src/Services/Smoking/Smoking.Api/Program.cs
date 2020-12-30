@@ -31,8 +31,7 @@ namespace Adams.Services.Smoking.Api
                 Log.Information("Configuring web host ({ApplicationContext})...", AppName);
                 var host = BuildWebHost(configuration, args);
 
-                Log.Information("Applying migrations ({ApplicationContext})...", AppName);
-                host.MigrateDbContext<SmokingContext>((context, services) => { });
+                host.MigrateDbContext<SmokingContext>();
 
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);
                 host.Run();

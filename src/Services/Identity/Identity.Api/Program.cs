@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using Adams.Services.Identity.Api.Data;
+using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +27,10 @@ namespace Adams.Services.Identity.Api
             {
                 Log.Information("Configuring web host ({ApplicationContext})...", AppName);
                 var host = BuildWebHost(configuration, args);
+
+                host.MigrateDbContext<ApplicationDbContext>();
+                host.MigrateDbContext<ApplicationConfigurationDbContext>();
+                host.MigrateDbContext<PersistedGrantDbContext>();
 
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);
                 host.Run();
