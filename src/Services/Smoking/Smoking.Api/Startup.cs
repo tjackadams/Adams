@@ -235,7 +235,7 @@ namespace Adams.Services.Smoking.Api
                     Type = SecuritySchemeType.OAuth2,
                     Flows = new OpenApiOAuthFlows
                     {
-                        Implicit = new OpenApiOAuthFlow
+                        AuthorizationCode = new OpenApiOAuthFlow
                         {
                             AuthorizationUrl =
                                 new Uri($"{configuration.GetValue<string>("IdentityUrl")}/connect/authorize"),

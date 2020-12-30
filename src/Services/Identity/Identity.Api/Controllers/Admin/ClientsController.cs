@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Adams.Services.Identity.Api.Configuration;
-using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Interfaces;
+using Adams.Services.Identity.Api.Data;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +14,14 @@ namespace Adams.Services.Identity.Api.Controllers.Admin
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json", "application/problem+json")]
-    [Authorize(Policy = AuthorizationConstants.AdministrationPolicy)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
+        Policy = AuthorizationConstants.AdministrationPolicy)]
     public class ClientsController : ControllerBase
     {
+        private readonly ApplicationConfigurationDbContext _db;
         private readonly IClientStore _store;
-        private readonly ConfigurationDbContext _db;
-        public ClientsController(IClientStore store, ConfigurationDbContext db)
+
+        public ClientsController(IClientStore store, ApplicationConfigurationDbContext db)
         {
             _store = store;
             _db = db;

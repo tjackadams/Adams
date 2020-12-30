@@ -11,6 +11,7 @@ using HealthChecks.UI.Client;
 using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -201,12 +202,7 @@ namespace Adams.Services.Identity.Api
             {
                 options.AddPolicy(AuthorizationConstants.AdministrationPolicy, policy =>
                 {
-                    policy.RequireAssertion(context => context.User.HasClaim(c =>
-                            c.Type == JwtClaimTypes.Role && c.Value == AuthorizationConstants.AdministrationRole ||
-                            c.Type == $"client_{JwtClaimTypes.Role}" &&
-                            c.Value == AuthorizationConstants.AdministrationRole
-                        )
-                    );
+                    policy.RequireRole(AuthorizationConstants.AdministrationRole);
                 });
             });
 
@@ -369,6 +365,11 @@ namespace Adams.Services.Identity.Api
             }
 
             services.AddAuthentication()
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = configuration["IdentityUrl"];
+                    options.Audience = "identity";
+                })
                 .AddOpenIdConnect("Azure AD / Microsoft", "Azure AD / Microsoft", options =>
                 {
                     options.ClientId = configuration["External:Microsoft:ClientId"];
