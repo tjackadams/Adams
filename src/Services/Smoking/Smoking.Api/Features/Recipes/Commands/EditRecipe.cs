@@ -38,7 +38,7 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                 public int Id { get; init; }
                 public int Step { get; init; }
                 public string Description { get; init; }
-                public string? Duration { get; init; }
+                public string Duration { get; init; }
                 public double? Temperature { get; init; }
             }
         }
@@ -54,8 +54,6 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var protein = await _db.Proteins.Where(p => p.Id == request.ProteinId).SingleAsync(cancellationToken);
-
                 var recipe = await _db.Recipes.Where(r => r.Name == request.Name)
                     .Include(r => r.Protein)
                     .Include(r => r.Steps)
