@@ -62,7 +62,6 @@ namespace Adams.Services.Identity.Api
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -179,6 +178,7 @@ namespace Adams.Services.Identity.Api
         public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
         {
             services
+                .AddDatabaseDeveloperPageExceptionFilter()
                 .AddRouting(options => options.LowercaseUrls = true)
                 .AddControllers();
 
