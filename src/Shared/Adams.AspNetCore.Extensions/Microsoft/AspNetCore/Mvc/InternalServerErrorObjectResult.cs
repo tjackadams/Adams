@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Adams.Services.Smoking.Api.Infrastructure.ActionResults
+namespace Adams.AspNetCore.Extensions.Microsoft.AspNetCore.Mvc
 {
     public class InternalServerErrorObjectResult : ObjectResult
     {
