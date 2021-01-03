@@ -10,35 +10,12 @@
         <BSRow>
             <BSCol MD="6">
 
-                <h4>Recipe</h4>
+                <h2 class="font-weight-light text-center text-muted py-3">@Data.DisplayName - <BSBadge Color="Color.Primary" IsPill="true">@Data.Protein.Humanize()</BSBadge></h2>
+                <p class="text-justify">
+                    @Data.Description
+                </p>
+                
 
-                <BSBasicForm>
-
-                    <BSFormGroup IsRow="true">
-                        <BSLabel For="@Data.DisplayName" SM="3">Display name</BSLabel>
-                        <BSCol SM="9">
-                            <BSBasicInput Id="@Data.DisplayName" InputType="InputType.Text" IsReadonly="true" IsPlaintext="true" Value="Data.DisplayName"/>
-                        </BSCol>
-                    </BSFormGroup>
-                    
-                    <BSFormGroup IsRow="true">
-                        <BSLabel For="@Data.Protein" SM="3">Protein</BSLabel>
-                        <BSCol SM="9">
-                            <BSBasicInput Id="@Data.Protein" InputType="InputType.Text" IsReadonly="true" IsPlaintext="true" Value="Data.Protein.Humanize()"/>
-                        </BSCol>
-                    </BSFormGroup>
-
-                    <BSFormGroup IsRow="true">
-                        <BSLabel For="@Data.Description" SM="3">Description</BSLabel>
-                        <BSCol SM="9">
-                            <BSBasicInput Id="@Data.Description" InputType="InputType.TextArea" IsReadonly="true" IsPlaintext="true" Value="Data.Description"/>
-                        </BSCol>
-                    </BSFormGroup>
-
-                    <BSButton Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Go back</BSButton>
-                    <BSButton Color="Color.Primary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo($"/smoker/{Name}/edit"))">Edit</BSButton>
-
-                </BSBasicForm>
             </BSCol>
             <BSCol MD="6">
                 <BSContainer>
