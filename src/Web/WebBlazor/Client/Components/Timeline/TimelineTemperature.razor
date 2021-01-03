@@ -2,14 +2,38 @@
 
 <span class="fa-stack">
     <i class="fas fa-square fa-stack-2x"></i>
-    <i class="fas fa-thermometer-half fa-stack-1x fa-inverse"></i>
+    @_icon
+
 </span>
 
-&nbsp; Grill: @Item.GrillTemperature &deg;F / @ToCelsius(Item.GrillTemperature) &deg;C
+&nbsp; @_label: @Item.GrillTemperature &deg;F / @ToCelsius(Item.GrillTemperature) &deg;C
 
 @code {
     [Parameter]
     public Details.Query.QueryStep Item { get; set; }
+
+    [Parameter]
+    public TemperatureType Type { get; set; }
+
+    private string _label;
+
+    private RenderFragment _icon;
+
+    static readonly RenderFragment GrillIcon = __builder =>
+    {
+        <i class="fas fa-thermometer-half fa-stack-1x fa-inverse"></i>
+    };
+
+    static readonly RenderFragment ProbeIcon = __builder =>
+    {
+        <i class="fas fa-thermometer fa-stack-1x fa-inverse"></i>
+    };
+
+    public enum TemperatureType
+    {
+        Grill,
+        Probe
+    }
 
     static double? ToCelsius(double? farenheit)
     {
@@ -21,4 +45,24 @@
         return Math.Round((double)(farenheit - 32) * 5 / 9);
     }
 
+    protected override void OnParametersSet()
+    {
+        switch (Type)
+        {
+            case TemperatureType.Grill:
+
+                _label = "Grill";
+                _icon = GrillIcon;
+
+                break;
+            case TemperatureType.Probe:
+
+                _label = "Probe";
+                _icon = ProbeIcon;
+
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
 }
