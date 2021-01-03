@@ -7,45 +7,34 @@
         <BSCard CardType="CardType.Text">
 
             <BSFormGroup>
-                <BSBasicInput InputType="InputType.TextArea" @bind-Value="Step.Description" IsReadonly="Step.IsReadOnly" />
+                <BSBasicInput InputType="InputType.TextArea" @bind-Value="Step.Description" />
             </BSFormGroup>
+            <div class="form-row">
 
-            @if (!Step.IsReadOnly)
-            {
-                <div class="form-row">
-                    
-                    <div class="col-md-6">
-                        <BSLabel For="Step.GrillTemperature">Grill Temperature</BSLabel>
-                        <div class="input-group">
-                            <BSBasicInput Id="Step.Temperature" InputType="InputType.Number" @bind-Value="Step.GrillTemperature" min="0" max="500" step="5"/>
-                            <div class="input-group=append">
-                                <span class="input-group-text">F</span>
-                            </div>
+                <div class="col-md-6">
+                    <BSLabel For="Step.GrillTemperature">Grill Temperature</BSLabel>
+                    <div class="input-group">
+                        <BSBasicInput Id="Step.Temperature" InputType="InputType.Number" @bind-Value="Step.GrillTemperature" min="0" max="500" step="5" />
+                        <div class="input-group=append">
+                            <span class="input-group-text">F</span>
                         </div>
                     </div>
-
+                </div>
                 <BSFormGroup Class="col-md-6">
                     <BSLabel For="Step.Duration">Duration</BSLabel>
-                    <BSBasicInput Id="Step.Duration" InputType="InputType.Time" @bind-Value="Step.Duration"/>
+                    <BSBasicInput Id="Step.Duration" InputType="InputType.Time" @bind-Value="Step.Duration" />
                 </BSFormGroup>
             </div>
-            }
-
-
         </BSCard>
     </BSCard>
     <BSCard CardType="CardType.Footer">
-        @if (!Step.IsReadOnly)
-                {
         <a @onclick="@(() => OnRemoveClick.InvokeAsync(Step))" class="btn text-danger" title="Delete Step">
             <i class="far fa-trash-alt"></i>
         </a>
-        }
     </BSCard>
 </BSCard>
 
 @code {
-
     [Parameter]
     public Edit.Command.CommandStep Step { get; set; }
 

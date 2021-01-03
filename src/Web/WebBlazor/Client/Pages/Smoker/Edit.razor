@@ -71,7 +71,7 @@
                             </BSCol>
                         </BSRow>
 
-                        <Plk.Blazor.DragDrop.Dropzone Items="Data.Steps" Context="step" AllowsDrag="(d) => !d.IsReadOnly" OnItemDrop="@(i => { LastDropped = i; SortSteps(); })" TItem="Command.CommandStep">
+                        <Plk.Blazor.DragDrop.Dropzone Items="Data.Steps" Context="step" OnItemDrop="@(i => { LastDropped = i; SortSteps(); })" TItem="Command.CommandStep">
                             <BSRow>
                                 <BSCol MD="12">
                                     <RecipeStep OnRemoveClick="HandleDeleteStep" Step="step"/>
@@ -98,8 +98,6 @@
     // insert the new item before the finish.
         var finishIndex = Data.Steps.FindIndex(s => s.Step == Data.Steps.Max(x => x.Step));
 
-        Logger.LogInformation("index: {index}", finishIndex);
-
         Data.Steps.Insert(finishIndex, new Command.CommandStep
         {
             Description = NewStepDescription
@@ -113,25 +111,6 @@
 
     private void SortSteps()
     {
-    // start should always be top of the list
-        var startIndex = Data.Steps.FindIndex(s => s.Description == "Start");
-        if (startIndex != 0)
-        {
-            var start = Data.Steps.ElementAt(startIndex);
-            Data.Steps.RemoveAt(startIndex);
-
-            Data.Steps.Insert(0, start);
-        }
-
-    // finish should always be at the end of the list
-        var finishIndex = Data.Steps.FindIndex(s => s.Description == "Finish");
-        if (finishIndex != Data.Steps.Count - 1)
-        {
-            var finish = Data.Steps.ElementAt(finishIndex);
-            Data.Steps.RemoveAt(finishIndex);
-            Data.Steps.Insert(Data.Steps.Count, finish);
-        }
-
         Data.Steps = Data.Steps.Select((s, i) =>
         {
             s.Step = i + 1;
@@ -178,19 +157,6 @@
             public string Duration { get; set; }
             public double? GrillTemperature { get; set; }
             public double? ProbeTemperature { get; set; }
-
-            public bool IsReadOnly
-            {
-                get
-                {
-                    if (Description == "Start" || Description == "Finish")
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }
-            }
         }
     }
 
