@@ -1,5 +1,6 @@
 ﻿@using WebBlazor.Client.Pages.Smoker
-<BSRow>
+
+<div class="row">
     <div class="col-auto text-center flex-column d-none d-sm-flex">
         <div class="row h-50">
             <div class="col @(IsFirstItem ? string.Empty : "border-right")">&nbsp;</div>
@@ -14,25 +15,27 @@
         </div>
     </div>
     <div class="col py-2">
-        <BSCard CardType="CardType.Card" Class="@(IsFirstItem ? "border-success" : string.Empty)">
-            <BSCard CardType="CardType.Body">
-                <BSCard HeadingSize="HeadingSize.H4" CardType="CardType.Title" Class="@(IsFirstItem ? "text-success" : "text-muted")">
+        <div class="card @(IsFirstItem ? "border-success shadow" : string.Empty)">
+            <div class="card-body">
+                @*<div class="float-right text-muted">Mon, Jan 9th 2020 7:00 AM</div>*@
+                <h4 class="card-title @(IsFirstItem ? "text-success" : "text-muted")">
                     Step @Item.Step
-                </BSCard>
-                <BSCard CardType="CardType.Text">
+                </h4>
+                <p class="card-text">
                     @Item.Description
-                </BSCard>
-                
+                </p>
+
                 @if (Item.GrillTemperature.HasValue)
                 {
-                    <BSCard CardType="CardType.Text">
-                        <WebBlazor.Client.Components.Timeline.TimelineTemperature Item ="@Item" />
-                    </BSCard>
+                <p class="card-text">
+                    <WebBlazor.Client.Components.Timeline.TimelineTemperature Item="@Item" />
+                </p>
                 }
-            </BSCard>
-        </BSCard>
+
+            </div>
+        </div>
     </div>
-</BSRow>
+</div>
 
 @code {
 
@@ -44,5 +47,4 @@
 
     [Parameter]
     public bool IsFirstItem { get; set; }
-
 }
