@@ -49,7 +49,7 @@
                         <BSInput Id="@Data.Description" InputType="InputType.TextArea" @bind-Value="Data.Description"/>
                     </BSFormGroup>
 
-                    <BSButton Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo("/smoker"))">Cancel</BSButton>
+                    <BSButton Color="Color.Secondary" ButtonType="ButtonType.Button" @onclick="@(() => Router.NavigateTo($"/smoker/{Name}/details"))">Cancel</BSButton>
                     <BSButton Color="Color.Primary" ButtonType="ButtonType.Submit">Save</BSButton>
 
                 </BSCol>

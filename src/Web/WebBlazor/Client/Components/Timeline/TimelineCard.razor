@@ -1,4 +1,5 @@
 ﻿@using WebBlazor.Client.Pages.Smoker
+@using WebBlazor.Shared
 
 <div class="row">
     <div class="col-auto text-center flex-column d-none d-sm-flex">
@@ -28,8 +29,15 @@
                 @if (Item.GrillTemperature.HasValue)
                 {
                 <p class="card-text">
-                    <WebBlazor.Client.Components.Timeline.TimelineTemperature Item="@Item" />
+                    <WebBlazor.Client.Components.Timeline.TimelineTemperature Item="@Item" Type="TemperatureType.Grill"/>
                 </p>
+                }
+                
+                @if (Item.ProbeTemperature.HasValue)
+                {
+                    <p class="card-text">
+                        <WebBlazor.Client.Components.Timeline.TimelineTemperature Item="@Item" Type="TemperatureType.Probe"/>
+                    </p>
                 }
 
             </div>
