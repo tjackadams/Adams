@@ -7,22 +7,28 @@
 
 <SpinLoader IsLoading="@(Data == null)">
     <ContentTemplate>
-        <BSRow>
-            <BSCol MD="6">
-
-                <h2 class="font-weight-light text-center text-muted py-3">@Data.DisplayName - <BSBadge Color="Color.Primary" IsPill="true">@Data.Protein.Humanize()</BSBadge></h2>
+        <div class="d-flex flex-row justify-content-between">
+            <div class="p-2">
+                <a href="/smoker">
+                    Return to list
+                </a>
+            </div>
+            <div class="p-2">
+                <BSButton Color="Color.Primary" @onclick="@(() => Router.NavigateTo($"/smoker/{Name}/edit"))"><i class="far fa-edit fa-fw"></i>&nbsp; Edit</BSButton>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-around">
+            <div class="p-2 col-md-6 col-sm-12">
+                <h2 class="font-weight-light text-muted py-3">@Data.DisplayName - <BSBadge Color="Color.Success" IsPill="true">@Data.Protein.Humanize()</BSBadge></h2>
                 <p class="text-justify">
                     @Data.Description
                 </p>
-                
-
-            </BSCol>
-            <BSCol MD="6">
-                <BSContainer>
-                    <Timeline Items="Data.Steps"/>
-                </BSContainer>
-            </BSCol>
-        </BSRow>
+            </div>
+            <div class="p-2 col-md-6 col-sm-12">
+                <h2 class="font-weight-light text-muted py-3">Steps</h2>
+                <Timeline Items="Data.Steps"/>
+            </div>
+        </div>
     </ContentTemplate>
 </SpinLoader>
 

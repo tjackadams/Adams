@@ -1,13 +1,10 @@
 ﻿@using WebBlazor.Client.Pages.Smoker
-<div class="container py-2">
 
-    <h2 class="font-weight-light text-center text-muted py-3">Steps</h2>
+@foreach (var item in Items.OrderBy(i => i.Step))
+{
+<TimelineCard Item="item" IsLastItem="IsLastItem(item)" IsFirstItem="IsFirstItem(item)" />
+}
 
-    @foreach (var item in Items.OrderBy(i => i.Step))
-    {
-    <TimelineCard Item="item" IsLastItem="IsLastItem(item)" IsFirstItem="IsFirstItem(item)" />
-    }
-</div>
 
 @code {
     private int LastIndex { get; set; }

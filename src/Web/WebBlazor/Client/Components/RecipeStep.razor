@@ -1,4 +1,5 @@
 ﻿@using WebBlazor.Client.Pages.Smoker
+
 <BSCard>
     <BSCard CardType="CardType.Header">
         Step: @Step.Step
@@ -14,17 +15,33 @@
                 <div class="col-md-6">
                     <BSLabel For="Step.GrillTemperature">Grill Temperature</BSLabel>
                     <div class="input-group">
-                        <BSBasicInput Id="Step.Temperature" InputType="InputType.Number" @bind-Value="Step.GrillTemperature" min="0" max="500" step="5" />
-                        <div class="input-group=append">
+                        <BSBasicInput Id="Step.GrillTemperature" InputType="InputType.Number" @bind-Value="Step.GrillTemperature" min="0" max="500" step="5" />
+                        <div class="input-group-append">
                             <span class="input-group-text">F</span>
                         </div>
                     </div>
                 </div>
+
                 <BSFormGroup Class="col-md-6">
                     <BSLabel For="Step.Duration">Duration</BSLabel>
                     <BSBasicInput Id="Step.Duration" InputType="InputType.Time" @bind-Value="Step.Duration" />
                 </BSFormGroup>
             </div>
+            
+            <div class="form-row">
+
+                <div class="col-md-6">
+                    <BSLabel For="Step.GrillTemperature">Probe Temperature</BSLabel>
+                    <div class="input-group">
+                        <BSBasicInput Id="Step.ProbeTemperature" InputType="InputType.Number" @bind-Value="Step.ProbeTemperature" min="0" max="500" step="5" />
+                        <div class="input-group-append">
+                            <span class="input-group-text">F</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </BSCard>
     </BSCard>
     <BSCard CardType="CardType.Footer">
