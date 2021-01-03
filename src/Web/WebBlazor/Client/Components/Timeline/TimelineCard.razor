@@ -23,7 +23,7 @@
                     @Item.Description
                 </BSCard>
                 
-                @if (Item.Temperature.HasValue)
+                @if (Item.GrillTemperature.HasValue)
                 {
                     <BSCard CardType="CardType.Text">
                         <WebBlazor.Client.Components.Timeline.TimelineTemperature Item ="@Item" />

@@ -39,7 +39,8 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                 public int Step { get; init; }
                 public string Description { get; init; }
                 public string Duration { get; init; }
-                public double? Temperature { get; init; }
+                public double? GrillTemperature { get; init; }
+                public double? ProbeTemperature { get; init; }
             }
         }
 
@@ -79,8 +80,9 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                         Step = modelStep.Step, 
                         Description = modelStep.Description, 
                         Duration = duration,
-                        Temperature = modelStep.Temperature, 
-                        Id = modelStep.Id
+                        GrillTemperature = modelStep.GrillTemperature, 
+                        Id = modelStep.Id,
+                        ProbeTemperature = modelStep.ProbeTemperature
                     };
                 });
                 entity.Name = model.Name;
@@ -128,9 +130,15 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Commands
                     x.RuleFor(p => p.Step)
                         .NotEmpty();
 
-                    x.When(p => p.Temperature.HasValue, () =>
+                    x.When(p => p.GrillTemperature.HasValue, () =>
                     {
-                        x.RuleFor(p => p.Temperature)
+                        x.RuleFor(p => p.GrillTemperature)
+                            .InclusiveBetween(RecipeStep.MinimumTemperature, RecipeStep.MaximumTemperature);
+                    });
+
+                    x.When(p => p.ProbeTemperature.HasValue, () =>
+                    {
+                        x.RuleFor(p => p.ProbeTemperature)
                             .InclusiveBetween(RecipeStep.MinimumTemperature, RecipeStep.MaximumTemperature);
                     });
                 });

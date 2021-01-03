@@ -25,6 +25,7 @@ namespace Adams.Services.Smoking.Domain.AggregatesModel.RecipeAggregate
         public int Step { get; set; }
         public string Description { get; set; }
         public TimeSpan? Duration { get; set; } = null;
-        public double? Temperature { get; set; } = null;
+        public double? GrillTemperature { get; set; } = null;
+        public double? ProbeTemperature { get; set; } = null;
     }
 }

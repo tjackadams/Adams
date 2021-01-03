@@ -16,6 +16,7 @@ namespace Adams.Services.Smoking.Api.Features.Recipes.Models
         public int Step { get; init; }
         public string Description { get; init; }
         public TimeSpan? Duration { get; init; }
-        public double? Temperature { get; init; }
+        public double? GrillTemperature { get; init; }
+        public double? ProbeTemperature { get; init; }
     }
 }
