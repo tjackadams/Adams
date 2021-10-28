@@ -3,19 +3,19 @@
   "isRoot": true,
   "tools": {
     "dotnet-format": {
-      "version": "4.1.131201",
+      "version": "5.1.250801",
       "commands": [
         "dotnet-format"
       ]
     },
     "microsoft.tye": {
-      "version": "0.6.0-alpha.21070.5",
+      "version": "0.10.0-alpha.21420.1",
       "commands": [
         "tye"
       ]
     },
     "dotnet-ef": {
-      "version": "5.0.2",
+      "version": "5.0.11",
       "commands": [
         "dotnet-ef"
       ]
