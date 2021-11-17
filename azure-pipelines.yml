@@ -15,7 +15,7 @@ steps:
   displayName: 'install dotnet 5.x'
   inputs:
     packageType: 'sdk'
-    version: '5.x'
+    version: '6.x'
 
 - task: gitversion/setup@0
   inputs:
