@@ -3,6 +3,11 @@ trigger:
 
 variables:
 
+  dockerRegistryServiceConnection: 'DockerHub'
+  imageRepository: 'tjackadams'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+  
   poolName: 'Laptop'
 
 stages:
