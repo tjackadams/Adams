@@ -165,7 +165,6 @@ namespace Adams.Services.Identity.Api
                             .AddHttpClientInstrumentation()
                             .AddZipkinExporter(options =>
                             {
-                                options.ServiceName = "identity-api";
                                 options.Endpoint =
                                     new Uri(configuration.GetValue<string>("OpenTelemetry:Zipkin:ServerUrl"));
                             });
