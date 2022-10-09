@@ -1,15 +1,17 @@
 parameters:
   - name: dockerFilePath
+  - name: projectName
     
 steps:
   - script: |
       docker buildx create --name multibuilder
+    displayName: Create Docker Multi-Builder
   - script: |
       docker buildx inspect multibuilder --bootstrap
-  - script: |
-      docker buildx ls
+    displayName: Bootstrap Docker Multi-Builder
   - script: |
       docker buildx use multibuilder
+    displayName: Use Docker Multi-Buildder
   - script: |
-      docker buildx build -f "${{ parameters.dockerFilePath }}" --platform linux/amd64,linux/arm64 .
+      docker buildx build -f "${{ parameters.dockerFilePath }}" --platform linux/amd64,linux/arm64 -t ${{ lower(parameters.projectName) }} .
      

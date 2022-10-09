@@ -4,8 +4,9 @@ parameters:
   - name: projectName
 
 jobs:
-  - job: Build_${{ parameters.projectName }}
+  - job: Build_${{ replace(parameters.projectName, '.','_') }}
     steps:
      - template: ../tasks/docker_build_cli_task.yml
        parameters:
         dockerFilePath: ${{ parameters.dockerFilePath }}
+        projectName: ${{ parameters.projectName }}
