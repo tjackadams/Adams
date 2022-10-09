@@ -11,6 +11,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Gateway", "Nexus.Hub\Nexus.Gateway\Nexus.Gateway.csproj", "{A5FA1C0C-6559-4FE8-B494-A337684249D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Portal", "Nexus.Hub\Nexus.Portal\Nexus.Portal.csproj", "{0351EE75-9559-4CE4-ADEB-DCD24573B05D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{A5FA1C0C-6559-4FE8-B494-A337684249D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5FA1C0C-6559-4FE8-B494-A337684249D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5FA1C0C-6559-4FE8-B494-A337684249D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0351EE75-9559-4CE4-ADEB-DCD24573B05D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0351EE75-9559-4CE4-ADEB-DCD24573B05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0351EE75-9559-4CE4-ADEB-DCD24573B05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0351EE75-9559-4CE4-ADEB-DCD24573B05D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6FF12EE5-2C6B-4D04-BEC2-8FD540FB5314} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 		{A5FA1C0C-6559-4FE8-B494-A337684249D3} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
+		{0351EE75-9559-4CE4-ADEB-DCD24573B05D} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28EB9091-5BCF-4817-A952-25DD179D6AC7}
