@@ -12,6 +12,6 @@ stages:
       - ${{ each projectName in parameters.projectNames }}:
         - template: ../jobs/docker_build_and_push_job.yml
           parameters:
-            dockerFilePath: ${{ variables.solutionPath }}${{ projectName }}**/Dockerfile
+            dockerFilePath: ${{ variables.solutionPath }}${{ projectName }}/Dockerfile
             projectName: ${{ replace(projectName, '.','_' ) }}
     
