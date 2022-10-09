@@ -1,0 +1,12 @@
+parameters:
+  - name: projectNames
+    type: object
+    default: ['Nexus.Portal']
+  - name: solutionName
+    type: string
+    default: 'Nexus.Hub'
+stages:
+  - template: ../stages/docker-build-and-publish.yml
+    parameters:
+     projectNames: ${{ parameters.projectNames }}
+     solutionName: ${{ parameters.solutionName }}

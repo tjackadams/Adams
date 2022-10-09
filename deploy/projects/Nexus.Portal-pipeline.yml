@@ -1,0 +1,8 @@
+trigger: none
+
+pool: 
+  vmImage: 'ubuntu-latest'
+
+name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:r)
+stages:
+  - template: Nexus.Portal-template.yml

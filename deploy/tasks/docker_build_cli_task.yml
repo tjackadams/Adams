@@ -1,0 +1,13 @@
+parameters:
+  - name: dockerFilePath
+    
+steps:
+  - script: |
+      docker buildx create --name multibuilder
+  - script: |
+      docker buildx inspect multibuilder --bootstrap
+  - script: |
+      docker buildx ls
+  - script: |
+      docker buildx build -f "${{ parameters.dockerFilePath }}" --platform linux\amd64,linux\arm64 .
+     

@@ -1,0 +1,11 @@
+parameters:
+  - name: dockerFilePath
+    type: string
+  - name: projectName
+
+jobs:
+  - job: Build_${{ parameters.projectName }}
+    steps:
+     - template: ../tasks/docker_build_clie_task.yml
+       parameters:
+        dockerFilePath: ${{ parameter.dockerFilePath }}
