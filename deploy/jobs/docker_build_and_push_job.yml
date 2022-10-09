@@ -6,6 +6,6 @@ parameters:
 jobs:
   - job: Build_${{ parameters.projectName }}
     steps:
-     - template: ../tasks/docker_build_clie_task.yml
+     - template: ../tasks/docker_build_cli_task.yml
        parameters:
         dockerFilePath: ${{ parameters.dockerFilePath }}
