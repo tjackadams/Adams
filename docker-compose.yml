@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  nexus.portal:
+    image: ${DOCKER_REGISTRY-}nexusportal
+    build:
+      context: .
+      dockerfile: Nexus.Hub/Nexus.Portal/Dockerfile
+    
+  nexus.todo.api:
+    image: ${DOCKER_REGISTRY-}nexustodoapi
+    build:
+      context: .
+      dockerfile: Nexus.Hub/Nexus.Todo.Api/Dockerfile
+
+  nexus.gateway:
+    image: ${DOCKER_REGISTRY-}nexusgateway
+    build:
+      context: .
+      dockerfile: Nexus.Hub/Nexus.Gateway/Dockerfile
+
