@@ -5,7 +5,7 @@ parameters:
     type: object
     
 stages:
-  - stage: ${{ parameters.solutionName }}_Build
+  - stage: ${{ replace(parameters.solutionName, '.','_') }}_Build
     variables:
       solutionPath: '$(Build.SourcesDirectory)/${{ parameters.solutionName }}/'
     jobs:
