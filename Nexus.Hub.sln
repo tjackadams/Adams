@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Sites", "Web Sites", "{81E99265-74E7-43BB-BF6A-9271F64A9ABD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Portal", "Web Sites\Nexus.Portal\Nexus.Portal.csproj", "{D527D13C-D8A3-44EF-9D12-2FB4A587A8CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D527D13C-D8A3-44EF-9D12-2FB4A587A8CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D527D13C-D8A3-44EF-9D12-2FB4A587A8CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D527D13C-D8A3-44EF-9D12-2FB4A587A8CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D527D13C-D8A3-44EF-9D12-2FB4A587A8CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D527D13C-D8A3-44EF-9D12-2FB4A587A8CD} = {81E99265-74E7-43BB-BF6A-9271F64A9ABD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {28EB9091-5BCF-4817-A952-25DD179D6AC7}
+	EndGlobalSection
+EndGlobal
