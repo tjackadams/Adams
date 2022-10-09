@@ -9,7 +9,7 @@ stages:
     variables:
       solutionPath: '$(Build.SourcesDirectory)/${{ parameters.solutionName }}/'
     jobs:
-      - ${{ each projectName in projectNames }}:
+      - ${{ each projectName in parameters.projectNames }}:
         - template: ../jobs/docker_build_and_push_job.yml
           parameters:
             dockerFilePath: ${{ variables.solutionPath }}${{ projectName }}**/Dockerfile
