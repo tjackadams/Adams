@@ -9,5 +9,7 @@ steps:
   - script: |
       docker buildx ls
   - script: |
+      docker buildx use multibuilder
+  - script: |
       docker buildx build -f "${{ parameters.dockerFilePath }}" --platform linux/amd64,linux/arm64 .
      
