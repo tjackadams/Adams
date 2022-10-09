@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Web Sites/Nexus.Portal/Nexus.Portal.csproj", "Web Sites/Nexus.Portal/"]
-RUN dotnet restore "Web Sites/Nexus.Portal/Nexus.Portal.csproj"
+COPY ["Nexus.Hub/Nexus.Portal/Nexus.Portal.csproj", "Nexus.Hub/Nexus.Portal/"]
+RUN dotnet restore "Nexus.Hub/Nexus.Portal/Nexus.Portal.csproj"
 COPY . .
-WORKDIR "/src/Web Sites/Nexus.Portal"
+WORKDIR "/src/Nexus.Hub/Nexus.Portal"
 RUN dotnet build "Nexus.Portal.csproj" -c Release -o /app/build
 
 FROM build AS publish
