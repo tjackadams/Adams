@@ -6,7 +6,7 @@ parameters:
     type: string
     default: 'Nexus.Hub'
 stages:
-  - template: ../stages/docker-build-and-publish.yml
+  - template: ../stages/docker_build_and_push_stage.yml
     parameters:
      projectNames: ${{ parameters.projectNames }}
      solutionName: ${{ parameters.solutionName }}
