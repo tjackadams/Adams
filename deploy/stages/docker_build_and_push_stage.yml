@@ -13,5 +13,5 @@ stages:
         - template: ../jobs/docker_build_and_push_job.yml
           parameters:
             dockerFilePath: ${{ variables.solutionPath }}${{ projectName }}/Dockerfile
-            projectName: projectName
+            projectName: ${{ parameters.projectName }}
     
