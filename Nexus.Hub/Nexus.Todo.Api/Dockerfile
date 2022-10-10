@@ -1,12 +1,12 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-ARG TF_BUILD
-
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+
+ARG TF_BUILD
 
 WORKDIR /src
 COPY ["Nexus.Hub/Nexus.Todo.Api/Nexus.Todo.Api.csproj", "Nexus.Hub/Nexus.Todo.Api/"]
