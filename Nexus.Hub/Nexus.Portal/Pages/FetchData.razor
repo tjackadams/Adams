@@ -2,8 +2,9 @@
 
 <PageTitle>Weather forecast</PageTitle>
 
-@using Nexus.Portal.Data
-@inject WeatherForecastService ForecastService
+@using Nexus.Todo
+@using Nexus.Todo.Contracts
+@inject Client ForecastService
 
 <h1>Weather forecast</h1>
 
@@ -28,7 +29,7 @@ else
             @foreach (var forecast in forecasts)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.Date.DateTime.ToShortDateString()</td>
                     <td>@forecast.TemperatureC</td>
                     <td>@forecast.TemperatureF</td>
                     <td>@forecast.Summary</td>
@@ -39,10 +40,11 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private IReadOnlyCollection<WeatherForecast>? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        forecasts = await ForecastService.GetWeatherforecastsAsync() as IReadOnlyCollection<WeatherForecast>;
+
     }
 }

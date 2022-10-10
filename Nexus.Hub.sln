@@ -5,13 +5,15 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nexus.Hub", "Nexus.Hub", "{D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Todo.Api", "Nexus.Hub\Nexus.Todo.Api\Nexus.Todo.Api.csproj", "{6FF12EE5-2C6B-4D04-BEC2-8FD540FB5314}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Todo.Api", "Nexus.Hub\Nexus.Todo.Api\Nexus.Todo.Api.csproj", "{6FF12EE5-2C6B-4D04-BEC2-8FD540FB5314}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D9EC01CF-ADD2-46DB-AE08-2C8C32746ABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Gateway", "Nexus.Hub\Nexus.Gateway\Nexus.Gateway.csproj", "{A5FA1C0C-6559-4FE8-B494-A337684249D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Gateway", "Nexus.Hub\Nexus.Gateway\Nexus.Gateway.csproj", "{A5FA1C0C-6559-4FE8-B494-A337684249D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Portal", "Nexus.Hub\Nexus.Portal\Nexus.Portal.csproj", "{0351EE75-9559-4CE4-ADEB-DCD24573B05D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Portal", "Nexus.Hub\Nexus.Portal\Nexus.Portal.csproj", "{0351EE75-9559-4CE4-ADEB-DCD24573B05D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Todo.Client", "Nexus.Hub\Nexus.Todo.Client\Nexus.Todo.Client.csproj", "{1438A17B-46AC-4915-97D5-5DFD8425E5D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{0351EE75-9559-4CE4-ADEB-DCD24573B05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0351EE75-9559-4CE4-ADEB-DCD24573B05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0351EE75-9559-4CE4-ADEB-DCD24573B05D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1438A17B-46AC-4915-97D5-5DFD8425E5D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1438A17B-46AC-4915-97D5-5DFD8425E5D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1438A17B-46AC-4915-97D5-5DFD8425E5D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1438A17B-46AC-4915-97D5-5DFD8425E5D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{6FF12EE5-2C6B-4D04-BEC2-8FD540FB5314} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 		{A5FA1C0C-6559-4FE8-B494-A337684249D3} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 		{0351EE75-9559-4CE4-ADEB-DCD24573B05D} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
+		{1438A17B-46AC-4915-97D5-5DFD8425E5D6} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28EB9091-5BCF-4817-A952-25DD179D6AC7}
