@@ -22,43 +22,22 @@ namespace Nexus.Todo.Contracts
     
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class WeatherForecast
+    public partial class Result
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public WeatherForecast(System.DateTimeOffset @date, string? @summary, int @temperatureC, int @temperatureF)
+        public Result(System.Collections.Generic.ICollection<string> @todos)
 
         {
 
-            this.Date = @date;
-
-            this.TemperatureC = @temperatureC;
-
-            this.TemperatureF = @temperatureF;
-
-            this.Summary = @summary;
+            this.Todos = @todos;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("date")]
+        [System.Text.Json.Serialization.JsonPropertyName("todos")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.DateTimeOffset Date { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("temperatureC")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
-        public int TemperatureC { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("temperatureF")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
-        public int TemperatureF { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("summary")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string? Summary { get; }
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<string> Todos { get; }
 
     }
 
