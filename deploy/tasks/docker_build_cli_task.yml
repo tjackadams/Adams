@@ -11,7 +11,7 @@ steps:
     displayName: Bootstrap Docker Multi-Builder
   - script: |
       docker buildx use multibuilder
-    displayName: Use Docker Multi-Buildder
+    displayName: Use Docker Multi-Builder
   - script: |
       docker buildx build -f "${{ parameters.dockerFilePath }}" --platform linux/amd64,linux/arm64 -t ${{ lower(parameters.projectName) }} .
     displayName: Build Docker Image ${{ replace(parameters.projectName, '.','_') }}
