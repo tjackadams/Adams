@@ -13,7 +13,7 @@ steps:
       docker buildx use multibuilder
     displayName: Use Docker Multi-Builder
   - script: |
-      docker buildx build -f "${{ parameters.dockerFilePath }}" --platform linux/amd64,linux/arm64 -t ${{ lower(parameters.projectName) }} --build-arg TFBUILD=$TF_BUILD .
+      docker buildx build -f "${{ parameters.dockerFilePath }}" --platform linux/amd64,linux/arm64 -t ${{ lower(parameters.projectName) }} --build-arg TF_BUILD=$TF_BUILD .
     displayName: Build Docker Image ${{ replace(parameters.projectName, '.','_') }}
     env:
       TF_BUILD: $(TF_BUILD)
