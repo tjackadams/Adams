@@ -15,4 +15,6 @@ steps:
   - script: |
       docker buildx build -f "${{ parameters.dockerFilePath }}" --platform linux/amd64,linux/arm64 -t ${{ lower(parameters.projectName) }} .
     displayName: Build Docker Image ${{ replace(parameters.projectName, '.','_') }}
+    env:
+      TF_BUILD: $(TF_BUILD)
      
