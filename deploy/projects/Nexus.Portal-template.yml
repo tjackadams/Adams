@@ -1,7 +1,7 @@
 parameters:
   - name: projectNames
     type: object
-    default: ['Nexus.Portal']
+    default: ['Nexus.Todo.Api','Nexus.Portal']
   - name: solutionName
     type: string
     default: 'Nexus.Hub'
