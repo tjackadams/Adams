@@ -7,6 +7,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Nexus.Hub/Nexus.Portal/Nexus.Portal.csproj", "Nexus.Hub/Nexus.Portal/"]
+COPY ["Nexus.Hub/Nexus.Todo.Client/Nexus.Todo.Client.csproj", "Nexus.Hub/Nexus.Todo.Client/"]
 RUN dotnet restore "Nexus.Hub/Nexus.Portal/Nexus.Portal.csproj"
 COPY . .
 WORKDIR "/src/Nexus.Hub/Nexus.Portal"
