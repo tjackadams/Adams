@@ -26,18 +26,37 @@ namespace Nexus.Todo.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public Result(System.Collections.Generic.ICollection<string> @todos)
+        public Result(System.Collections.Generic.ICollection<TodoId> @data)
 
         {
 
-            this.Todos = @todos;
+            this.Data = @data;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("todos")]
+        [System.Text.Json.Serialization.JsonPropertyName("data")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
         [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.ICollection<string> Todos { get; }
+        public System.Collections.Generic.ICollection<TodoId> Data { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TodoId
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public TodoId(int @value)
+
+        {
+
+            this.Value = @value;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("value")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
+        public int Value { get; }
 
     }
 

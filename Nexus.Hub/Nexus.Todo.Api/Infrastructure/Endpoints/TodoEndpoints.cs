@@ -1,4 +1,4 @@
-﻿using MassTransit.Mediator;
+﻿using MediatR;
 using Nexus.Todo.Api.Features.Todo.Query;
 
 namespace Nexus.Todo.Api.Infrastructure.Endpoints;
@@ -15,10 +15,8 @@ public static class TodoEndpoints
 
     private static async Task<IResult> GetTodoListAsync(IMediator mediator, CancellationToken cancellationToken)
     {
-        var client = mediator.CreateRequestClient<GetTodoList.Query>();
+        var response = await mediator.Send(new GetTodoList.Query(), cancellationToken);
 
-        var response = await client.GetResponse<GetTodoList.Result>(new GetTodoList.Query(), cancellationToken);
-
-        return Results.Ok(response.Message);
+        return Results.Ok(response);
     }
 }
