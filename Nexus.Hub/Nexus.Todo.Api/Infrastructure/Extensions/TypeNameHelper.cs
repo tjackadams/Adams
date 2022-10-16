@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Nexus.Todo.Api.Infrastructure.TypeNameHelper;
+namespace Nexus.Todo.Api.Infrastructure.Extensions;
 
 internal static class TypeNameHelper
 {

@@ -3,15 +3,22 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nexus.Todo.Api.Infrastructure;
 using Nexus.Todo.Api.Infrastructure.Endpoints;
+using Nexus.Todo.Api.Infrastructure.NSwag;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerDocument();
+builder.Services.AddSwaggerDocument(options =>
+{
+    options.Title = "Nexus Todo API";
+
+    options.SchemaNameGenerator = new NexusSchemaNameGenerator();
+});
 
 builder.Services.AddDbContext<TodoDbContext>(options =>
 {
-    options.UseInMemoryDatabase("todo");
+    options
+        .UseSqlServer(builder.Configuration.GetConnectionString("Nexus"));
 });
 
 builder.Services.AddMediatR(typeof(Program));
@@ -28,3 +35,5 @@ app.MapTodo();
 app.Run();
 
 public partial class Program { }
+
+

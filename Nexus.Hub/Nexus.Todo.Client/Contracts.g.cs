@@ -22,11 +22,11 @@ namespace Nexus.Todo.Contracts
     
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Result
+    public partial class GetTodoList_Result
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public Result(System.Collections.Generic.ICollection<TodoId> @data)
+        public GetTodoList_Result(System.Collections.Generic.ICollection<TodoId> @data)
 
         {
 
@@ -57,6 +57,167 @@ namespace Nexus.Todo.Contracts
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
         public int Value { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetTodoItems_Result
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public GetTodoItems_Result(TodoId @id, string @title)
+
+        {
+
+            this.Id = @id;
+
+            this.Title = @title;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
+        [System.ComponentModel.DataAnnotations.Required]
+        public TodoId Id { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("title")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Title { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class HttpValidationProblemDetails : ProblemDetails
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public HttpValidationProblemDetails(string? @detail, System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>> @errors, string? @instance, int? @status, string? @title, string? @type)
+
+            : base(detail, instance, status, title, type)
+
+        {
+
+            this.Errors = @errors;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("errors")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.IDictionary<string, System.Collections.Generic.ICollection<string>> Errors { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ProblemDetails
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public ProblemDetails(string? @detail, string? @instance, int? @status, string? @title, string? @type)
+
+        {
+
+            this.Type = @type;
+
+            this.Title = @title;
+
+            this.Status = @status;
+
+            this.Detail = @detail;
+
+            this.Instance = @instance;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public string? Type { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("title")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public string? Title { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("status")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public int? Status { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("detail")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public string? Detail { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("instance")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public string? Instance { get; }
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [System.Text.Json.Serialization.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateTodoList_Result
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public CreateTodoList_Result(System.DateTimeOffset @createdTime, TodoId @id, string @title)
+
+        {
+
+            this.Id = @id;
+
+            this.Title = @title;
+
+            this.CreatedTime = @createdTime;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
+        [System.ComponentModel.DataAnnotations.Required]
+        public TodoId Id { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("title")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Title { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("createdTime")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset CreatedTime { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateTodoList_Command
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public CreateTodoList_Command(string? @title)
+
+        {
+
+            this.Title = @title;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("title")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public string? Title { get; }
 
     }
 

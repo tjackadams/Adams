@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Nexus.Portal
+namespace Nexus.Portal;
+
+public class Settings
 {
-    public class Settings
-    {
-        [Required]
-        public Uri ApiGatewayUrl { get; set; }
-    }
+    [Required]
+    public Uri ApiGatewayUrl { get; set; }
 }
