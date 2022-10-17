@@ -6,7 +6,7 @@ using Nexus.Todo.Api.Infrastructure;
 
 namespace Nexus.Todo.Api.Features.Todo.Query;
 
-public static class GetTodoItems
+public static class GetTodoTasks
 {
     public record Query(TodoId Id) : IRequest<Result?>;
 

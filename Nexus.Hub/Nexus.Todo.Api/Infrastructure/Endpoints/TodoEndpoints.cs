@@ -14,9 +14,9 @@ public static class TodoEndpoints
             .WithTags(EndpointTags.Todo)
             .Produces<GetTodoList.Result>();
 
-        routes.MapGet("todos/{id}", GetTodoItemsAsync)
+        routes.MapGet("todos/{id}", GetTodoTasksAsync)
             .WithTags(EndpointTags.Todo)
-            .Produces<GetTodoItems.Result>()
+            .Produces<GetTodoTasks.Result>()
             .ProducesValidationProblem();
 
         routes.MapPost("todos", CreateTodoListAsync)
@@ -34,10 +34,10 @@ public static class TodoEndpoints
         return Results.Ok(result);
     }
 
-    private static async Task<IResult> GetTodoItemsAsync([FromRoute] TodoId id, IMediator mediator,
+    private static async Task<IResult> GetTodoTasksAsync([FromRoute] TodoId id, IMediator mediator,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetTodoItems.Query(id), cancellationToken);
+        var result = await mediator.Send(new GetTodoTasks.Query(id), cancellationToken);
 
         return Results.Ok(result);
     }
