@@ -64,6 +64,7 @@
   <ItemGroup>
     <Build Include="Security\Schemas\Todo.sql" />
     <Build Include="Todo\Tables\Todos.sql" />
+    <Build Include="Todo\Tables\TodoTasks.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Nexus.Database.publish.xml" />

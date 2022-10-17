@@ -31,6 +31,9 @@ public class TodoDbContext : DbContext
 
             e.Property(p => p.Title)
                 .HasMaxLength(Domain.Todo.MaximumTitleLength);
+
+            var navigation = e.Metadata.FindNavigation(nameof(Domain.Todo.Tasks));
+            navigation?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
 
         modelBuilder.Entity<Domain.TodoTask>(e =>
