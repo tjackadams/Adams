@@ -44,6 +44,11 @@ public class Todo
     public DateTimeOffset CreatedTime { get; private set; }
 
     public IReadOnlyCollection<TodoTask> Tasks { get; }
+
+    public void AddTask(string title)
+    {
+        _tasks.Add(TodoTask.Create(title));
+    }
 }
 
 [StronglyTypedId(StronglyTypedIdBackingType.Int,
@@ -60,5 +65,14 @@ public class TodoTask
 
     }
 
+    public static TodoTask Create(string title)
+    {
+        return new TodoTask { Title = title };
+    }
+
     public TodoTaskId TodoTaskId { get; set; }
+
+    public string Title { get; set; }
+
+    
 }
