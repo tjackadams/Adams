@@ -3,8 +3,9 @@ trigger:
     include:
     - main
   paths:
-    exclude:
-    - "Nexus.Hub/Nexus.Gateway"
+    include:
+    - "Nexus.Hub/Nexus.Portal"
+    - "Nexus.Hub/Nexus.Todo.Client"
 
 pool: 
   vmImage: 'ubuntu-latest'

@@ -1,5 +1,8 @@
 {
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_build_cli_task.yml"
+    "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": [
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_build_cli_task.yml",
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_push_cli_task.yml"
+    ]
   }
 }

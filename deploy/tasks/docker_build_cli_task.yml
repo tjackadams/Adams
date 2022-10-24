@@ -3,18 +3,11 @@ parameters:
   - name: projectName
     
 steps:
-  - script: |
-      docker buildx create --name multibuilder
-    displayName: Create Docker Multi-Builder
-  - script: |
-      docker buildx inspect multibuilder --bootstrap
-    displayName: Bootstrap Docker Multi-Builder
-  - script: |
-      docker buildx use multibuilder
-    displayName: Use Docker Multi-Builder
-  - script: |
-      docker buildx build -f "${{ parameters.dockerFilePath }}" --platform linux/amd64,linux/arm64 -t ${{ lower(parameters.projectName) }} --build-arg TF_BUILD=$TF_BUILD .
-    displayName: Build Docker Image ${{ replace(parameters.projectName, '.','_') }}
+  - task: Docker@2
+    displayName: Build Docker Image
+    inputs:
+      Dockerfile: ${{ parameters.dockerFilePath }}
+      arguments: '--build-arg TF_BUILD=$TF_BUILD'
     env:
       TF_BUILD: $(TF_BUILD)
      

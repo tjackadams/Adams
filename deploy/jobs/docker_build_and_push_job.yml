@@ -10,3 +10,7 @@ jobs:
        parameters:
         dockerFilePath: ${{ parameters.dockerFilePath }}
         projectName: ${{ parameters.projectName }}
+     - template: ../tasks/docker_push_cli_task.yml
+       parameters:
+        dockerFilePath: ${{ parameters.dockerFilePath }}
+        projectName: ${{ parameters.projectName }}
