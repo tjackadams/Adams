@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Todo.Client", "Nexus.
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Nexus.Database", "Nexus.Hub\Nexus.Database\Nexus.Database.sqlproj", "{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Edge.Router", "Nexus.Hub\Nexus.Edge.Router\Nexus.Edge.Router.csproj", "{5C8386A2-2562-4EEE-B491-37729A65A9CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5C8386A2-2562-4EEE-B491-37729A65A9CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8386A2-2562-4EEE-B491-37729A65A9CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8386A2-2562-4EEE-B491-37729A65A9CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8386A2-2562-4EEE-B491-37729A65A9CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{0351EE75-9559-4CE4-ADEB-DCD24573B05D} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 		{1438A17B-46AC-4915-97D5-5DFD8425E5D6} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 		{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
+		{5C8386A2-2562-4EEE-B491-37729A65A9CD} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28EB9091-5BCF-4817-A952-25DD179D6AC7}

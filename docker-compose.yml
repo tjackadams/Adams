@@ -23,3 +23,9 @@ services:
     depends_on:
       - nexus.gateway
 
+  nexus.edge.router:
+    image: ${DOCKER_REGISTRY-}nexusedgerouter
+    build:
+      context: .
+      dockerfile: Nexus.Hub/Nexus.Edge.Router/Dockerfile
+

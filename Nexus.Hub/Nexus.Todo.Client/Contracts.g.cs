@@ -61,11 +61,11 @@ namespace Nexus.Todo.Contracts
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetTodoItems_Result
+    public partial class GetTodoTasks_Result
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetTodoItems_Result(TodoId @id, string @title)
+        public GetTodoTasks_Result(TodoId @id, string @title)
 
         {
 
