@@ -2,19 +2,7 @@ parameters:
   - name: dockerFilePath
   - name: projectName
     
-steps:
-  - task: Docker@2
-    displayName: Build Docker Image
-    enabled: "false"
-    inputs:
-      containerRegistry: 'DockerHub'
-      repository: 'tjackadams/nexus'
-      command: 'build'
-      Dockerfile: ${{ parameters.dockerFilePath }}
-      buildContext: '.'
-      arguments: '--build-arg $(TF_BUILD)'    
-      tags: '$(Build.BuildNumber)' 
-     
+steps:     
   - task: DockerCompose@0
     displayName: Builder Docker Image
     inputs:
@@ -24,4 +12,4 @@ steps:
       action: 'Build services'
       includeSourceTags: true
       includeLatestTag: true
-      arguments: '--build-arg TF_BUILD=$(TF_BUILD)'
+      arguments: '--build-arg TF_BUILD="$(TF_BUILD)"'
