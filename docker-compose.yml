@@ -2,13 +2,13 @@ version: '3.4'
 
 services:    
   nexus.todo.api:
-    image: ${DOCKER_REGISTRY-}nexustodoapi
+    image: ${DOCKER_REGISTRY:-tjackadams}nexus.todo.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Nexus.Hub/Nexus.Todo.Api/Dockerfile
 
   nexus.gateway:
-    image: ${DOCKER_REGISTRY-}nexusgateway
+    image: ${DOCKER_REGISTRY:-tjackadams}nexus.gateway:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Nexus.Hub/Nexus.Gateway/Dockerfile
@@ -16,7 +16,7 @@ services:
       - nexus.todo.api
 
   nexus.portal:
-    image: ${DOCKER_REGISTRY-}nexusportal
+    image: ${DOCKER_REGISTRY:-tjackadams}nexus.portal:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Nexus.Hub/Nexus.Portal/Dockerfile
@@ -24,7 +24,7 @@ services:
       - nexus.gateway
 
   nexus.edge.router:
-    image: ${DOCKER_REGISTRY-}nexusedgerouter
+    image: ${DOCKER_REGISTRY:-tjackadams}}nexus.edge.router:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Nexus.Hub/Nexus.Edge.Router/Dockerfile

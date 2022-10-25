@@ -5,6 +5,7 @@ parameters:
 steps:
   - task: Docker@2
     displayName: Build Docker Image
+    enabled: "false"
     inputs:
       containerRegistry: 'DockerHub'
       repository: 'tjackadams/nexus'
@@ -14,3 +15,13 @@ steps:
       arguments: '--build-arg $(TF_BUILD)'    
       tags: '$(Build.BuildNumber)' 
      
+  - task: DockerCompose@0
+    displayName: Builder Docker Image
+    inputs:
+      containerregistrytype: 'Container Registry'
+      dockerRegistryEndpoint: 'DockerHub'
+      dockerComposeFile: '**/docker-compose.yml'
+      action: 'Build services'
+      includeSourceTags: true
+      includeLatestTag: true
+      arguments: '--build-arg TF_BUILD=$(TF_BUILD)'
