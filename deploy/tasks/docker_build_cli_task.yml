@@ -13,3 +13,5 @@ steps:
       includeSourceTags: true
       includeLatestTag: true
       arguments: '--build-arg TF_BUILD="$(TF_BUILD)"'
+    env:
+      TF_BUILD: $(TF_BUILD)
