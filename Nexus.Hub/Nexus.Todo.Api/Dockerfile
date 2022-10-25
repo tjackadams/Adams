@@ -6,7 +6,9 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
-ENV TF_BUILD=False
+ARG TF_BUILD=False
+
+RUN echo $TF_BUILD
 
 WORKDIR /src
 COPY ["Nexus.Hub/Nexus.Todo.Api/Nexus.Todo.Api.csproj", "Nexus.Hub/Nexus.Todo.Api/"]
