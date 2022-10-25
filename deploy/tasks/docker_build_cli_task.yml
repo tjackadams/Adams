@@ -7,7 +7,7 @@ steps:
     displayName: Build Docker Image
     inputs:
       containerRegistry: 'DockerHub'
-      repository: 'tjackadams'
+      repository: 'tjackadams/nexus'
       command: 'build'
       Dockerfile: ${{ parameters.dockerFilePath }}
       buildContext: '.'

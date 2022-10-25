@@ -7,6 +7,6 @@ steps:
     displayName: Push Docker Image
     inputs:
       containerRegistry: 'DockerHub'
-      repository: 'tjackadams'
+      repository: 'tjackadams/nexus'
       command: 'push'     
       tags: '$(Build.BuildNumber)'
