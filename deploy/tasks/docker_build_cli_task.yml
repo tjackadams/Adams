@@ -9,6 +9,7 @@ steps:
       Dockerfile: ${{ parameters.dockerFilePath }}
       arguments: '--build-arg TF_BUILD=$TF_BUILD'
       command: 'build'
+      buildContext: '.'
     env:
       TF_BUILD: $(TF_BUILD)
      
