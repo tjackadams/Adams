@@ -10,6 +10,6 @@ steps:
       dockerRegistryEndpoint: 'DockerHub'
       dockerComposeFile: 'docker-compose.yml'
       additionalDockerComposeFiles: 'docker-compose.prod.yml'
-      action: 'Build services'
-      arguments: '${{ lower(parameters.projectName) }} --build-arg TF_BUILD=$($TF_BUILD)'
+      action: Run a Docker Compose command
       additionalImageTags: $(Build.BuildId)
+      dockerComposeCommand: build ${{ lower(parameters.projectName) }} --build-arg TF_BUILD=$($TF_BUILD)
