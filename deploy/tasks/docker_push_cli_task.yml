@@ -9,3 +9,4 @@ steps:
       containerRegistry: 'DockerHub'
       repository: 'tjackadams'
       command: 'push'     
+      tags: '$(Build.BuildNumber)'
