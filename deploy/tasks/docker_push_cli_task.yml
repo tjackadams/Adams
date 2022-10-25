@@ -8,7 +8,8 @@ steps:
     inputs:
       containerregistrytype: 'Container Registry'
       dockerRegistryEndpoint: 'DockerHub'
-      dockerComposeFile: '**/docker-compose.yml'
-      additionalDockerComposeFiles: '**/docker-compose.prod.yml'
+      dockerComposeFile: 'docker-compose.yml'
+      additionalDockerComposeFiles: 'docker-compose.prod.yml'
       action: 'Push services'   
       arguments: '${{ lower(parameters.projectName) }}'
+      additionalImageTags: $(Build.BuildId)
