@@ -11,5 +11,5 @@ steps:
       dockerComposeFile: '**/docker-compose.yml'
       additionalDockerComposeFiles: '**/docker-compose.prod.yml'
       action: 'Build services'
-      arguments: '${{ lower(parameters.projectName) }}'
+      arguments: '${{ lower(parameters.projectName) }} --build-arg TF_BUILD=$(TF_BUILD)'
       

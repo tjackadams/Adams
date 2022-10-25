@@ -2,9 +2,6 @@ version: '3.4'
 
 services:
   nexus.todo.api:
-    build: 
-      args: 
-        - TF_BUILD=True
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80
     ports:
