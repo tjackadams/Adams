@@ -10,8 +10,5 @@ steps:
       dockerRegistryEndpoint: 'DockerHub'
       dockerComposeFile: '**/docker-compose.yml'
       action: 'Build services'
-      includeSourceTags: true
-      includeLatestTag: true
-      arguments: '--build-arg TF_BUILD="$(TF_BUILD)"'
-    env:
-      TF_BUILD: $(TF_BUILD)
+      arguments: '${{ lower(parameters.projectName }}'
+      

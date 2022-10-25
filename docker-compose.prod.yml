@@ -2,15 +2,16 @@ version: '3.4'
 
 services:
   nexus.todo.api:
+    build: 
+      args: 
+        - TF_BUILD=True
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
     ports:
       - "5300:80"
 
   nexus.gateway:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
     ports:
       - "5100:80"
@@ -18,7 +19,6 @@ services:
 
   nexus.portal:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
     ports:
       - "5200:80"
@@ -26,7 +26,6 @@ services:
 
   nexus.edge.router:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
       - "80"
