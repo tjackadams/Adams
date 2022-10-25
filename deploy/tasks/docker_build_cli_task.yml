@@ -11,8 +11,6 @@ steps:
       command: 'build'
       Dockerfile: ${{ parameters.dockerFilePath }}
       buildContext: '.'
-      arguments: '--build-arg TF_BUILD=$TF_BUILD'    
+      arguments: '--build-arg $(TF_BUILD)'    
       tags: '$(Build.BuildNumber)' 
-    env:
-      TF_BUILD: $(TF_BUILD)
      
