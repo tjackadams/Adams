@@ -3,10 +3,12 @@ parameters:
   - name: projectName
     
 steps:
-  - task: Docker@2
+  - task: DockerCompose@0
     displayName: Push Docker Image
     inputs:
-      containerRegistry: 'DockerHub'
-      repository: 'tjackadams/nexus'
-      command: 'push'     
-      tags: '$(Build.BuildNumber)'
+      containerregistrytype: 'Container Registry'
+      dockerRegistryEndpoint: 'DockerHub'
+      dockerComposeFile: '**/docker-compose.yml'
+      additionalDockerComposeFiles: '**/docker-compose.prod.yml'
+      action: 'Push services'   
+      arguments: '${{ lower(parameters.projectName) }}'

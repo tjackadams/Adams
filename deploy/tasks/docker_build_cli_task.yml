@@ -4,11 +4,12 @@ parameters:
     
 steps:     
   - task: DockerCompose@0
-    displayName: Builder Docker Image
+    displayName: Build Docker Image
     inputs:
       containerregistrytype: 'Container Registry'
       dockerRegistryEndpoint: 'DockerHub'
       dockerComposeFile: '**/docker-compose.yml'
+      additionalDockerComposeFiles: '**/docker-compose.prod.yml'
       action: 'Build services'
       arguments: '${{ lower(parameters.projectName) }}'
       
