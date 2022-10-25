@@ -4,7 +4,10 @@ trigger:
     - main
   paths:
     include:
+    - "deploy"
     - "Nexus.Hub/Nexus.Portal"
+    - "Nexus.Hub/Nexus.Gateway"
+    - "Nexus.Hub/Nexus.Todo.Api"
     - "Nexus.Hub/Nexus.Todo.Client"
 
 pool: 
