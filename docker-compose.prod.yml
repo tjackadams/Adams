@@ -27,5 +27,5 @@ services:
     ports:
       - "80"
       - "443"
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    # volumes:
+    #   - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
