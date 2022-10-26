@@ -1,2 +1,2 @@
 variables:
-  containerRegister: 'DockerHub'
+  containerRegistry: 'DockerHub'
