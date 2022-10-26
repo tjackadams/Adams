@@ -1,17 +1,11 @@
 parameters:
-  - name: solutionName
+  - name: projectName
     type: string
-  - name: projectNames
-    type: object
     
 stages:
-  - stage: ${{ replace(parameters.solutionName, '.','_') }}_Build
-    variables:
-      solutionPath: '$(Build.SourcesDirectory)/${{ parameters.solutionName }}/'
+  - stage: ${{ replace(parameters.projectName, '.','_') }}_Build
     jobs:
-      - ${{ each projectName in parameters.projectNames }}:
-        - template: ../jobs/docker_build_and_push_job.yml
-          parameters:
-            dockerFilePath: ${{ variables.solutionPath }}${{ projectName }}/Dockerfile
-            projectName: ${{ projectName }}
+      - template: ../jobs/docker_build_and_push_job.yml
+        parameters:
+          projectName: ${{ projectName }}
     

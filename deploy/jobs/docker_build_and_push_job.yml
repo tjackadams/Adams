@@ -1,16 +1,9 @@
 parameters:
-  - name: dockerFilePath
-    type: string
   - name: projectName
+    type: string
 
 jobs:
   - job: Build_${{ replace(parameters.projectName, '.','_') }}
     steps:
      - template: ../tasks/docker_build_cli_task.yml
-       parameters:
-        dockerFilePath: ${{ parameters.dockerFilePath }}
-        projectName: ${{ parameters.projectName }}
      - template: ../tasks/docker_push_cli_task.yml
-       parameters:
-        dockerFilePath: ${{ parameters.dockerFilePath }}
-        projectName: ${{ parameters.projectName }}

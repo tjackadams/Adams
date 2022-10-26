@@ -1,15 +1,4 @@
-parameters:
-  - name: dockerFilePath
-  - name: projectName
-    
-steps:     
-  - task: DockerCompose@0
+ steps:     
+  - script: |
+      docker compose -f .\docker-compose.yml -f .\docker-compose.prod.yml build --build-arg TF_BUILD=$($TF_BUILD)
     displayName: Build Docker Image
-    inputs:
-      containerregistrytype: 'Container Registry'
-      dockerRegistryEndpoint: 'DockerHub'
-      dockerComposeFile: 'docker-compose.yml'
-      additionalDockerComposeFiles: 'docker-compose.prod.yml'
-      action: Run a Docker Compose command
-      additionalImageTags: $(Build.BuildId)
-      dockerComposeCommand: build ${{ lower(parameters.projectName) }} --build-arg TF_BUILD=$($TF_BUILD)

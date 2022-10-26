@@ -1,15 +1,4 @@
-parameters:
-  - name: dockerFilePath
-  - name: projectName
-    
 steps:
-  - task: DockerCompose@0
+  - script: |
+      docker compose -f .\docker-compose.yml -f .\docker-compose.prod.yml build --build-arg TF_BUILD=$($TF_BUILD)
     displayName: Push Docker Image
-    inputs:
-      containerregistrytype: 'Container Registry'
-      dockerRegistryEndpoint: 'DockerHub'
-      dockerComposeFile: 'docker-compose.yml'
-      additionalDockerComposeFiles: 'docker-compose.prod.yml'
-      action: 'Push services'   
-      arguments: '${{ lower(parameters.projectName) }}'
-      additionalImageTags: $(Build.BuildId)

@@ -13,19 +13,18 @@ services:
     ports:
       - "5100:80"
      
-
   nexus.portal:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80
     ports:
       - "5200:80"
 
-
   nexus.edge.router:
     environment:
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ReverseProxy__Clusters__cluster1__Destinations__destination1__Address=https://nexus.portal
     ports:
-      - "80"
-      - "443"
+      - "6000:80"
+      - "6001:443"
     # volumes:
     #   - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
