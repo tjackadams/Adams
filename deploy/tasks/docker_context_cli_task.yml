@@ -1,0 +1,8 @@
+parameters:
+  - name: context
+    type: string
+
+steps:     
+  - script: |
+      docker context use ${{ parameters.context }}
+    displayName: 'Changing Docker Context: ${{ parameters.context }}'

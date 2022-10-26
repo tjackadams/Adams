@@ -1,0 +1,5 @@
+variables:
+  projectName: 'Nexus'
+  containerRegistry: 'DockerHub'
+  buildContext: 'default'
+  deployContext: 'nas'

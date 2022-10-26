@@ -1,0 +1,12 @@
+parameters:
+  - name: projectName
+    type: string
+
+jobs:
+  - job: Deploy_${{ replace(parameters.projectName, '.','_') }}
+    steps:
+     - template: ../tasks/docker_context_cli_task.yml
+       parameters:
+        context: $(deployContext)
+     - template: ../tasks/docker_up_cli_task.yml
+  
