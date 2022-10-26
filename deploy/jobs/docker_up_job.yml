@@ -5,6 +5,7 @@ parameters:
 jobs:
   - job: Deploy_${{ replace(parameters.projectName, '.','_') }}
     steps:
+     - template: ../tasks/docker_install_task.yml
      - template: ../tasks/docker_context_cli_task.yml
        parameters:
         context: $(deployContext)

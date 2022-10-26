@@ -8,7 +8,8 @@
       "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/jobs/docker_up_job.yml",
       "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/stages/docker_up_stage.yml",
       "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_up_cli_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/jobs/docker_build_and_push_job.yml"
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/jobs/docker_build_and_push_job.yml",
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_install_task.yml"
     ]
   }
 }
