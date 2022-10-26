@@ -2,5 +2,5 @@ steps:
   - task: Docker@2
     displayName: Docker Login
     inputs:
-     containerRegistry: $($containerRegistry)
+     containerRegistry: $[ variables.containerRegistry ]
      command: login
