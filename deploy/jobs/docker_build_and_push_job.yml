@@ -5,5 +5,6 @@ parameters:
 jobs:
   - job: Build_${{ replace(parameters.projectName, '.','_') }}
     steps:
+     - template: ../tasks/docker_login_cli_task.yml
      - template: ../tasks/docker_build_cli_task.yml
      - template: ../tasks/docker_push_cli_task.yml
