@@ -6,7 +6,7 @@
     <ProjectGuid>d9ec01cf-add2-46db-ae08-2c8c32746abe</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>nexus.todo.api</DockerServiceName>
+    <DockerServiceName>nexus.edge.router</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Todo.Client", "Nexus.
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Nexus.Database", "Nexus.Hub\Nexus.Database\Nexus.Database.sqlproj", "{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.Edge.Router", "Nexus.Hub\Nexus.Edge.Router\Nexus.Edge.Router.csproj", "{5C8386A2-2562-4EEE-B491-37729A65A9CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Edge.Router", "Nexus.Hub\Nexus.Edge.Router\Nexus.Edge.Router.csproj", "{5C8386A2-2562-4EEE-B491-37729A65A9CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
