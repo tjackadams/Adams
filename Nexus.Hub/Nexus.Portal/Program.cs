@@ -1,9 +1,11 @@
+﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MudBlazor.Services;
 using Nexus.Portal;
+using Nexus.Portal.Infrastructure.Extensions;
 using Nexus.Todo;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +14,7 @@ var initialScopes = builder.Configuration["DownstreamApi:Scopes"]?.Split(' ') ??
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
         .EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
-            .AddDownstreamWebApi("DownstreamApi",builder.Configuration.GetSection("DownstreamApi"))
+            .AddDownstreamWebApi("DownstreamApi", builder.Configuration.GetSection("DownstreamApi"))
             .AddInMemoryTokenCaches();
 
 builder.Services.AddControllersWithViews()
@@ -29,16 +31,13 @@ builder.Services.AddOptions<Settings>()
     .ValidateDataAnnotations();
 
 // Add services to the container.
+builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddMudServices();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 
-builder.Services.AddHttpClient<Client>((sp, client) =>
-{
-    var settings = sp.GetRequiredService<IOptions<Settings>>();
-    client.BaseAddress = settings.Value.ApiGatewayUrl;
-});
+builder.Services.AddServices();
 
 var app = builder.Build();
 
