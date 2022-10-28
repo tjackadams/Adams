@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using MudBlazor.Services;
 using Nexus.Portal;
 using Nexus.Todo;
 
@@ -28,6 +29,7 @@ builder.Services.AddOptions<Settings>()
     .ValidateDataAnnotations();
 
 // Add services to the container.
+builder.Services.AddMudServices();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
