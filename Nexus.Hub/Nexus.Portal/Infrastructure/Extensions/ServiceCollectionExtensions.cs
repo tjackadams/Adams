@@ -10,6 +10,8 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<ClientSettingsManager>();
 
+        services.AddScoped<GuidFormatter>();
+
         services.AddHttpClient<Client>((sp, client) =>
         {
             var settings = sp.GetRequiredService<IOptions<Settings>>();

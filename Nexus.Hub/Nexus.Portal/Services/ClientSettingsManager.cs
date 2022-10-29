@@ -2,7 +2,8 @@
 
 namespace Nexus.Portal.Services;
 
-public record ClientSetting(bool IsDarkMode);
+public record ClientSetting(bool IsDarkMode, GuidGeneratorOptions? GuidSettings);
+public record GuidGeneratorOptions(bool Uppercase, bool Brackets, bool Hyphens);
 public class ClientSettingsManager
 {
     private readonly ILocalStorageService _storage;
@@ -21,7 +22,7 @@ public class ClientSettingsManager
         var settings =  await _storage.GetItemAsync<ClientSetting>("Setting");
         if(settings == null)
         {
-            return new ClientSetting(false);
+            return new ClientSetting(false, null);
         }
 
         return settings;

@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Nexus.Todo.Client\Nexus.Todo.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\js\site.js" />
+  </ItemGroup>
+
 </Project>
