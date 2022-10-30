@@ -11,4 +11,4 @@ steps:
       solution: ${{ parameters.solutionPath }}
       platform: AnyCPU 
       configuration: Release
-      msbuildArguments: '/p:OutputPath=$(Build.BinariesDirectory)\${{ parameter.projectName }}'
+      msbuildArguments: '/p:OutputPath=$(Build.BinariesDirectory)\${{ parameters.projectName }}'
