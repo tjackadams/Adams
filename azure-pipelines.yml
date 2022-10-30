@@ -11,7 +11,7 @@ stages:
     parameters:
       projectName: ${{ variables.projectName }}
   
-  - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/main') }}:
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
     - template: ./deploy/stages/app_deploy_stage.yml
       parameters:
         projectName: ${{ variables.projectName }}
