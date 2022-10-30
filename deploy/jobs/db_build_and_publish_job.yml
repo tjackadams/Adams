@@ -8,7 +8,7 @@ jobs:
       vmImage: 'windows-latest'
     variables:
       - name: solutionPath
-        value: '**/${{ parameters.projectName }}'
+        value: '**/${{ parameters.projectName }}.sqlproj'
       - name: targetPath
         value: '$(Build.BinariesDirectory)\${{ parameters.projectName }}'
     steps:
