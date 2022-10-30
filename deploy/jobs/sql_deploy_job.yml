@@ -19,7 +19,7 @@ jobs:
          - template: ../tasks/ado_download_pipeline_task.yml
          - template: ../tasks/dacpac_deploy_task.yml
            parameters:
-            dacpacFile: ${{ varoables.dacpacFile }}
+            dacpacFile: ${{ variables.dacpacFile }}
             sqlServerName: $(sqlServerName)
             sqlDatabase: $(sqlDatabase)
             sqlUsername: $(sqlUsername)
