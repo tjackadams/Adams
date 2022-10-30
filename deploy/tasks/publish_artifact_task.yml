@@ -1,0 +1,12 @@
+parameters:
+  - name: name
+    type: string
+  - name: targetPath
+    type: string
+
+steps: 
+  - task: PublishPipelineArtifact@1
+    inputs:
+      path: ${{ parameters.targetPath }}
+      artifactName: ${{ parameters.name }}
+      parallel: true

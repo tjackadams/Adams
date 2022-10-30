@@ -1,0 +1,23 @@
+parameters:
+  - name: projectName
+    type: string
+
+jobs:
+  - job: Build_${{ replace(parameters.projectName, '.','_') }}
+    pool:
+      vmImage: 'windows-latest'
+    variables:
+      - name: solutionPath
+        value: '**/${{ parameters.projectName }}'
+      - name: targetPath
+        value: '$(Build.BinariesDirectory)\${{ parameters.projectName }}'
+    steps:
+     - template: ../tasks/msbuild_task.yml
+       parameters:
+         projectName: projectName
+         solutionPath: ${{ variables.solutionPath }}
+     - template: ../tasks/publish_artifact_task.yml
+       parameters:
+         name: drop
+         targetPath: ${{ variables.targetPath }}
+       

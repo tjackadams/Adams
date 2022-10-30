@@ -10,7 +10,11 @@
       "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_up_cli_task.yml",
       "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/jobs/docker_build_and_push_job.yml",
       "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_install_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_context_create_cli_task.yml"
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_context_create_cli_task.yml",
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/msbuild_task.yml",
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/jobs/msbuild_build_and_publish_job.yml",
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/publish_artifact_task.yml",
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/stages/db_build_and_publish_stage.yml"
     ]
   }
 }

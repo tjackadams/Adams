@@ -7,6 +7,9 @@ variables:
 
 name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:r)
 stages:
+  - template: ./deploy/stages/db_build_and_publish_stage.yml
+    parameters:
+      projectName: Nexus.Database
   - template: ./deploy/stages/docker_build_and_push_stage.yml
     parameters:
       projectName: ${{ variables.projectName }}
