@@ -3,7 +3,7 @@ parameters:
     type: string
     
 stages:
-  - stage: ${{ replace(parameters.projectName, '.','_') }}_Build
+  - stage: build_${{ parameters.projectName }}
     jobs:
       - template: ../jobs/docker_build_and_push_job.yml
         parameters:
