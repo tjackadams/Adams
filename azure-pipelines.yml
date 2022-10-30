@@ -7,14 +7,11 @@ variables:
 
 name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:r)
 stages:
-  - template: ./deploy/stages/db_build_and_publish_stage.yml
-    parameters:
-      projectName: Nexus.Database
   - template: ./deploy/stages/docker_build_and_push_stage.yml
     parameters:
       projectName: ${{ variables.projectName }}
   
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/main') }}:
-    - template: ./deploy/stages/docker_up_stage.yml
+    - template: ./deploy/stages/app_deploy_stage.yml
       parameters:
         projectName: ${{ variables.projectName }}

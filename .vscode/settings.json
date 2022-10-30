@@ -1,20 +1,7 @@
 {
   "yaml.schemas": {
     "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": [
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_build_cli_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_push_cli_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_login_cli_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_context_cli_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/jobs/docker_up_job.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/stages/docker_up_stage.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_up_cli_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/jobs/docker_build_and_push_job.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_install_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/docker_context_create_cli_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/msbuild_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/jobs/msbuild_build_and_publish_job.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/tasks/publish_artifact_task.yml",
-      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/deploy/stages/db_build_and_publish_stage.yml"
+      "**/deploy/**/**.yml"
     ]
   }
 }

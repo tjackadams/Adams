@@ -1,0 +1,9 @@
+parameters:
+- name: artifactName
+  type: string
+  default: 'drop'
+
+steps:
+  - task: DownloadPipelineArtifact@2
+    inputs:
+     artifactName: ${{ parameter.artifactName }}

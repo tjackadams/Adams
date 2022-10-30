@@ -8,4 +8,8 @@ stages:
       - template: ../jobs/docker_build_and_push_job.yml
         parameters:
           projectName: ${{ parameters.projectName }}
+      - template: ../jobs/db_build_and_publish_jobs.yml
+        parameters:
+          projectName: ${{ parameters.projectName }}.Database
+          
     
