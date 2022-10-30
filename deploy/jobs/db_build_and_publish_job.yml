@@ -16,8 +16,5 @@ jobs:
        parameters:
          projectName: ${{ parameters.projectName }}
          solutionPath: ${{ variables.solutionPath }}
-     - template: ../tasks/publish_artifact_task.yml
-       parameters:
-         name: drop
-         targetPath: ${{ variables.targetPath }}
+     - template: ../tasks/ado_publish_pipeline_task.yml
        
