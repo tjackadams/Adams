@@ -10,9 +10,9 @@ jobs:
   environment: ${{ parameters.environmentName }}
   variables:
     - name: dacpacFile
-      value: $(Pipeline.Workspace)\${{ parameters.projectName }}.Database.dacpac
+      value: $(Pipeline.Workspace)/${{ parameters.projectName }}.Database/${{ parameters.projectName }}.Database.dacpac
     - name: connectionString
-      value: 'Server=$(sqlServerName);Database=$(sqlDatabase);User Id=$(sqlUsername);Password=$(sqlPassword);'
+      value: 'Server=$(sqlHostname);Database=$(sqlDatabase);User Id=$(sqlUsername);Password=$(sqlPassword);'
 
   strategy: 
    runOnce:

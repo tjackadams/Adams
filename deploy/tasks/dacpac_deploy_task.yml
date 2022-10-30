@@ -13,3 +13,4 @@ parameters:
 steps:
   - script: |
       /opt/sqlpackage/sqlpackage /a:Publish /p:BlockOnPossibleDataLoss=${{ parameters.blockOnPossibleDataLoss }} /p:GenerateSmartDefaults=${{ parameters.generateSmartDefaults }} /tcs:"${{ parameters.connectionString }}" /sf:"${{ parameters.dacpacFile }}" 
+    displayName: Deploy Dacpac
