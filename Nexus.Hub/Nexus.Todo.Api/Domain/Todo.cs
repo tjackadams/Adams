@@ -27,7 +27,7 @@ public class Todo
 {
     public const int MaximumTitleLength = 2000;
 
-    private List<TodoTask> _tasks = new List<TodoTask>();
+    private readonly List<TodoTask> _tasks = new List<TodoTask>();
     private Todo()
     {
         Tasks = _tasks.AsReadOnly();
@@ -40,7 +40,7 @@ public class Todo
 
     public TodoId TodoId { get; private set; }
 
-    public string Title { get; private set; }
+    public string Title { get; private set; } = null!;
     public DateTimeOffset CreatedTime { get; private set; }
 
     public IReadOnlyCollection<TodoTask> Tasks { get; }
@@ -72,7 +72,7 @@ public class TodoTask
 
     public TodoTaskId TodoTaskId { get; set; }
 
-    public string Title { get; set; }
+    public string Title { get; set; } = null!;
 
-    
+
 }

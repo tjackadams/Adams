@@ -5,5 +5,5 @@ namespace Nexus.Portal;
 public class Settings
 {
     [Required]
-    public Uri ApiGatewayUrl { get; set; }
+    public Uri ApiGatewayUrl { get; set; } = null!;
 }

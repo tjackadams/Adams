@@ -7,13 +7,13 @@ namespace Nexus.Portal.Pages.Tools;
 public partial class GuidGenerator
 {
     [Inject]
-    public ClientSettingsManager Settings { get; set; }
+    public ClientSettingsManager Settings { get; set; } = null!;
 
     [Inject]
-    public GuidFormatter Formatter { get; set; }
+    public GuidFormatter Formatter { get; set; } = null!;
 
     [Inject]
-    public IJSRuntime JSRuntime { get; set; }
+    public IJSRuntime JSRuntime { get; set; } = null!;
 
     public bool Uppercase { get; set; }
 
@@ -23,7 +23,7 @@ public partial class GuidGenerator
 
     private Guid _value;
 
-    public string Value { get; set; }
+    public string? Value { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
