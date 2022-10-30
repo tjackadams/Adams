@@ -1,0 +1,28 @@
+﻿@page "/tools/guid"
+
+<MudGrid Justify="Justify.SpaceEvenly">
+    <MudItem xs="12">
+        <MudStack Row="true" Justify="Justify.Center">
+            <MudSpacer />
+            <MudTextField
+                @bind-Value="@Value"
+                ReadOnly="true"
+                Adornment="Adornment.End"
+                AdornmentIcon="@Icons.Material.Filled.ContentCopy"
+                OnAdornmentClick="@(OnCopy)"/>
+            <MudSpacer />
+        </MudStack>
+    </MudItem>
+    <MudItem xs="12">
+        <MudStack Row="true" Justify="Justify.SpaceEvenly">
+            <MudSwitch CheckedChanged="@(OnUppercaseChange)" Label="@(Uppercase ? "Lowercase" : "Uppercase")" T="bool"/>
+            <MudSwitch CheckedChanged="@(OnBracketsChange)" Label="Include brackets" T="bool" />
+            <MudSwitch CheckedChanged="@(OnHyphenChange)" Label="Include hyphens" T="bool" />
+        </MudStack>
+        </MudItem>
+    <MudItem xs="12">
+        <MudStack Row="true" Justify="Justify.Center">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(GenerateAsync)">Generate</MudButton>
+        </MudStack>
+    </MudItem>
+</MudGrid>

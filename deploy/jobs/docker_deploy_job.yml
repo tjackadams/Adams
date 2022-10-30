@@ -1,0 +1,24 @@
+parameters:
+  - name: projectName
+    type: string
+  - name: environmentName
+    type: string
+    default: 'production'
+
+jobs:
+  - deployment: '${{ parameters.projectName }}_${{ parameters.environmentName }}'
+    environment: ${{ parameters.environment }}
+
+    strategy: 
+      runOnce:
+        deploy:
+          steps:
+            - template: ../tasks/docker_context_create_cli_task.yml
+              parameters:
+                context: $(deployContext)
+                connectionString: $(dockerConnectionString)
+            - template: ../tasks/docker_context_cli_task.yml
+              parameters:
+                context: $(deployContext)
+            - template: ../tasks/docker_up_cli_task.yml
+  

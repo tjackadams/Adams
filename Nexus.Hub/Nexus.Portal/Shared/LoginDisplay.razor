@@ -1,0 +1,17 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <MudMenu Icon="@Icons.Material.Filled.Person" AnchorOrigin="Origin.BottomLeft">
+            <MudMenuItem>
+                Signed in as <br />
+                @context.User.Identity?.Name
+            </MudMenuItem>
+            <MudDivider />
+            <MudMenuItem>
+                <MudLink Href="MicrosoftIdentity/Account/SignOut">Sign out</MudLink>
+            </MudMenuItem>
+        </MudMenu>
+    </Authorized>
+    <NotAuthorized>
+        <MudLink Href="MicrosoftIdentity/Account/SignIn">Log in</MudLink>
+    </NotAuthorized>
+</AuthorizeView>

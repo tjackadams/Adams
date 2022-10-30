@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  nexus.todo.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    ports:
+      - "5300:80"
+
+  nexus.gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    ports:
+      - "5100:80"
+     
+  nexus.portal:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - 5200:443
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  nexus.edge.router:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ReverseProxy__Clusters__cluster1__Destinations__destination1__Address=https://localhost:5200
+    ports:
+      - "6000:80"
+      - "6001:443"
+    volumes:
+      - ~/.aspnet/https:/https:ro

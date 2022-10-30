@@ -1,0 +1,14 @@
+parameters:
+  - name: projectName
+    type: string
+  - name: solutionPath
+    type: string
+
+steps:
+  - task: MSBuild@1
+    displayName: Build ${{ parameters.projectName }}
+    inputs:
+      solution: ${{ parameters.solutionPath }}
+      platform: AnyCPU 
+      configuration: Release
+      msbuildArguments: '/p:OutputPath=$(Build.ArtifactStagingDirectory)\${{ parameters.projectName }}'

@@ -1,8 +1,0 @@
-{
-  "Routes": [
-  ],
-  "GlobalConfiguration": {
-    "AdministrationPth": "/administration",
-    "RequestIdKey": "OcRequestId"
-  }
-}

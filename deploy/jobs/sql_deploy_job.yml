@@ -1,0 +1,26 @@
+parameters:
+  - name: projectName
+    type: string
+  - name: environmentName
+    type: string
+    default: 'production'
+
+jobs:
+- deployment: '${{ parameters.projectName }}_${{ parameters.environmentName }}_SQL'
+  environment: ${{ parameters.environmentName }}
+  variables:
+    - name: dacpacFile
+      value: $(Pipeline.Workspace)\${{ parameters.projectName }}.Database.dacpac
+
+  strategy: 
+   runOnce:
+     deploy:
+       steps:
+         - template: ../tasks/ado_download_pipeline_task.yml
+         - template: ../tasks/dacpac_deploy_task.yml
+           parameters:
+            dacpacFile: ${{ varoables.dacpacFile }}
+            sqlServerName: $(sqlServerName)
+            sqlDatabase: $(sqlDatabase)
+            sqlUsername: $(sqlUsername)
+            sqlPassword: $(sqlPassword)

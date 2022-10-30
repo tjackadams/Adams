@@ -1,0 +1,16 @@
+parameters:
+  - name: projectName
+    type: string
+
+stages:
+  - stage: deploy_${{ parameters.projectName }}
+    jobs:
+      - template: ../jobs/docker_deploy_job.yml
+        parameters:
+          projectName: ${{ parameters.projectName }}
+      - template: ../jobs/sql_deploy_job.yml
+        parameters:
+          projectName: ${{ parameters.projectName }}
+          
+          
+  

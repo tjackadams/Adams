@@ -1,0 +1,10 @@
+parameters:
+  - name: context
+    type: string
+  - name: connectionString
+    type: string
+
+steps:     
+  - script: |
+      docker context create ${{ parameters.context }} --docker "${{ parameters.connectionString }}"
+    displayName: 'Changing Docker Context: ${{ parameters.context }}'

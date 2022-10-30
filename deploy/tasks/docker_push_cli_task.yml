@@ -1,0 +1,4 @@
+steps:
+  - script: |
+      docker compose -f docker-compose.yml -f docker-compose.prod.yml push
+    displayName: Push Docker Compose

@@ -1,30 +1,17 @@
-trigger:
-- main
+pool: 
+  name: 'Default'
 
 variables:
+  - template: ./deploy/variables/variables.yml
+  - group: variables
 
-  dockerRegistryServiceConnection: 'DockerHub'
-  imageRepository: 'tjackadams'
-  dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
-
-  vmImageName: 'ubuntu-latest'
-
+name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:r)
 stages:
-- stage: Build
-  displayName: Build stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        containerRegistry: '$(dockerRegistryServiceConnection)'
-        repository: '$(imageRepository)'
-        command: 'build'
-        Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
-        arguments: '--platform linux/arm64'
+  - template: ./deploy/stages/app_build_stage.yml
+    parameters:
+      projectName: ${{ variables.projectName }}
+  
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/main') }}:
+    - template: ./deploy/stages/app_deploy_stage.yml
+      parameters:
+        projectName: ${{ variables.projectName }}

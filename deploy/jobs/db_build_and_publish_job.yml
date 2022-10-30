@@ -1,0 +1,20 @@
+parameters:
+  - name: projectName
+    type: string
+
+jobs:
+  - job: Build_${{ replace(parameters.projectName, '.','_') }}
+    pool:
+      vmImage: 'windows-latest'
+    variables:
+      - name: solutionPath
+        value: '**/${{ parameters.projectName }}.sqlproj'
+      - name: targetPath
+        value: '$(Build.BinariesDirectory)\${{ parameters.projectName }}'
+    steps:
+     - template: ../tasks/msbuild_task.yml
+       parameters:
+         projectName: ${{ parameters.projectName }}
+         solutionPath: ${{ variables.solutionPath }}
+     - template: ../tasks/ado_publish_pipeline_task.yml
+       
