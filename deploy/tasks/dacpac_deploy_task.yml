@@ -1,20 +1,15 @@
 parameters:
   - name: dacpacFile
     type: string
-  - name: sqlServerName
-  - name: sqlDatabase
-  - name: sqlUsername
-  - name: sqlPassword
+  - name: connectionStirng
+    type: string
+  - name: blockOnPossibleDataLoss
+    type: string
+    default: 'false'
+  - name: generateSmartDefaults
+    type: string
+    default: 'true'
 
 steps:
-  - task: SqlDacpacDeploymentOnMachineGroup@0
-    displayName: 'Deploy ${{ parameters.sqlDatabase }} on ${{ parameters.sqlServerName }}'
-    inputs:
-      TaskType: 'dacpac'
-      DacpacFile: ${{ parameters.dacpacFile }}
-      TargetMethod: 'server'
-      ServerName: ${{ parameters.sqlServerName }}
-      DatabaseName: ${{ parameters.sqlDatabase }}
-      AuthScheme: 'sqlServerAuthentication'
-      SqlUsername: ${{ parameters.sqlUsername }}
-      SqlPassword: ${{ parameters.sqlPassword }}
+  - script: |
+      /opt/sqlpackage/sqlpackage /a:Publish /p:BlockOnPossibleDataLoss=${{ parameters.blockOnPossibleDataLoss }} /p:GenerateSmartDefaults=${{ parameters.generateSmartDefaults }} /tcs:"${{ parameters.connectionString }}" /sf:"${{ parameters.dacpacPath }}" 

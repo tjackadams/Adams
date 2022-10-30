@@ -11,6 +11,8 @@ jobs:
   variables:
     - name: dacpacFile
       value: $(Pipeline.Workspace)\${{ parameters.projectName }}.Database.dacpac
+    - name: connectionString
+      value: 'Server=$(sqlServerName);Database=$(sqlDatabase);User Id=$(sqlUsername);Password=$(sqlPassword);'
 
   strategy: 
    runOnce:
