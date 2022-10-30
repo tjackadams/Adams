@@ -22,7 +22,4 @@ jobs:
          - template: ../tasks/dacpac_deploy_task.yml
            parameters:
             dacpacFile: ${{ variables.dacpacFile }}
-            sqlServerName: $(sqlServerName)
-            sqlDatabase: $(sqlDatabase)
-            sqlUsername: $(sqlUsername)
-            sqlPassword: $(sqlPassword)
+            connectionString: ${{ variables.connectionString }}
