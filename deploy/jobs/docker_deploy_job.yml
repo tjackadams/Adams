@@ -7,7 +7,7 @@ parameters:
 
 jobs:
   - deployment: '${{ parameters.projectName }}_${{ parameters.environmentName }}'
-    environment: ${{ parameters.environment }}
+    environment: ${{ parameters.environmentName }}
 
     strategy: 
       runOnce:
