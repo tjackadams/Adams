@@ -1,7 +1,7 @@
 parameters:
   - name: dacpacFile
     type: string
-  - name: connectionStirng
+  - name: connectionString
     type: string
   - name: blockOnPossibleDataLoss
     type: string
