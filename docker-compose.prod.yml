@@ -22,7 +22,10 @@ services:
   nexus.edge.router:
     environment:
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - PfxPassword=password
       - ReverseProxy__Clusters__cluster1__Destinations__destination1__Address=http://nexus.portal
     ports:
       - "6000:80"
       - "6001:443"
+    volumes: 
+      - docker/data/nexus.edge.router:/data:rw

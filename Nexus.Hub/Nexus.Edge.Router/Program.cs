@@ -1,8 +1,11 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using LettuceEncrypt;
+
+var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsProduction())
 {
-    builder.Services.AddLettuceEncrypt();
+    builder.Services.AddLettuceEncrypt()
+        .PersistDataToDirectory(new DirectoryInfo("data"), builder.Configuration.GetValue<string>("PfxPassword"));
 }
 
 builder.Services.AddReverseProxy()
