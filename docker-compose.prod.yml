@@ -28,4 +28,4 @@ services:
       - "6000:80"
       - "6001:443"
     volumes: 
-      - docker/data/nexus.edge.router:/data:rw
+      - /volume1/docker/data/nexus.edge.router:/data:rw
