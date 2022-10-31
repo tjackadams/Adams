@@ -5,8 +5,8 @@ parameters:
     type: string
 
 steps:     
-  - script: |
-      contexts = docker context ls --format='{{.Name}}'
+  - bash: |
+      contexts=$(docker context ls --format='{{.Name}}')
       if grep -q "${{ parameters.context }}" <<< "$contexts"; then
         echo "context ${{ parameters.context }} already exists"
       else
