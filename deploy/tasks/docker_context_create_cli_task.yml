@@ -6,5 +6,10 @@ parameters:
 
 steps:     
   - script: |
-      docker context create ${{ parameters.context }} --docker "${{ parameters.connectionString }}"
-    displayName: 'Changing Docker Context: ${{ parameters.context }}'
+      contexts = docker context ls --format='{{json .Name}}'
+      if grep -q "${{ parameters.context }}" <<< "$contexts"; then
+        echo "context ${{ parameter.context }} already exists"
+      else
+        docker context create ${{ parameters.context }} --docker "${{ parameters.connectionString }}"
+      fi
+    displayName: 'Creating Docker Context: ${{ parameters.context }}'
