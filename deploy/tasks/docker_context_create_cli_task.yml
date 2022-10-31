@@ -8,7 +8,7 @@ steps:
   - script: |
       contexts = docker context ls --format='{{json .Name}}'
       if grep -q "${{ parameters.context }}" <<< "$contexts"; then
-        echo "context ${{ parameter.context }} already exists"
+        echo "context ${{ parameters.context }} already exists"
       else
         docker context create ${{ parameters.context }} --docker "${{ parameters.connectionString }}"
       fi
