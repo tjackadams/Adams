@@ -1,3 +1,5 @@
+
+
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
@@ -12,13 +14,14 @@ RUN echo $TF_BUILD
 
 WORKDIR /src
 COPY ["Nexus.Hub/Nexus.Todo.Api/Nexus.Todo.Api.csproj", "Nexus.Hub/Nexus.Todo.Api/"]
+COPY ["Nexus.Hub/Nexus.AspNetCore/Nexus.AspNetCore.csproj", "Nexus.Hub/Nexus.AspNetCore/"]
 RUN dotnet restore "Nexus.Hub/Nexus.Todo.Api/Nexus.Todo.Api.csproj"
 COPY . .
 WORKDIR "/src/Nexus.Hub/Nexus.Todo.Api"
 RUN dotnet build "Nexus.Todo.Api.csproj" -c Release -o /app/build /p:TF_BUILD=$TF_BUILD
 
 FROM build AS publish
-RUN dotnet publish "Nexus.Todo.Api.csproj" -c Release -o /app/publish /p:TF_BUILD=$TF_BUILD
+RUN dotnet publish "Nexus.Todo.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false /p:TF_BUILD=$TF_BUILD
 
 FROM base AS final
 WORKDIR /app
