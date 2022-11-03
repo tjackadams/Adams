@@ -7,4 +7,5 @@ steps:
         EmailAddress="$(emailAddress)"
         PfxPassword="$(pfxPassword)"
         ClientSecret="$(clientSecret)"
+        NexusDatabase="$(connectionString)"
       outputFile: 'prod.env'

@@ -4,12 +4,14 @@ services:
   nexus.todo.api:
     environment:
       - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__Nexus=${NexusDatabase}Application Name=nexus.todo.api
     ports:
       - "5300:80"
 
   nexus.weighttracker.api:
     environment:
       - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__Nexus=${NexusDatabase}Application Name=nexus.weighttracker.api
     ports:
       - "5301:80"
 

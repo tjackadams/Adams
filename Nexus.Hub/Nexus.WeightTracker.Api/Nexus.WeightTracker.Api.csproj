@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Weight\Command\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Nexus.AspNetCore\Nexus.AspNetCore.csproj" />
   </ItemGroup>
 
