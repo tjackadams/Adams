@@ -1,4 +1,4 @@
  steps:     
   - script: |
-      docker compose --env-file prod.env -f docker-compose.yml -f docker-compose.prod.yml up -d --no-build
+      docker compose --env-file prod.env -f docker-compose.yml -f docker-compose.prod.yml up -d --no-build --remove-orphans
     displayName: Deploy Docker Compose
