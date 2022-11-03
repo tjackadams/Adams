@@ -20,6 +20,7 @@ services:
       - LettuceEncrypt__DomainNames__0=${DomainName}
       - LettuceEncrypt__EmailAddress=${EmailAddress}
       - PfxPassword=${PfxPassword}
+      - AzureAD__ClientSecret=${ClientSecret}
     ports:
       - "5200:443"
     volumes: 

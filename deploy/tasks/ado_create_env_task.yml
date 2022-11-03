@@ -3,7 +3,8 @@ steps:
     inputs:
       inputType: 'inline'
       content: |
-        DomainName="$($domainName)"
+        DomainName="$(domainName)"
         EmailAddress="$(emailAddress)"
         PfxPassword="$(pfxPassword)"
+        ClientSecret="$(clientSecret)"
       outputFile: 'prod.env'
