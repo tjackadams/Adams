@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Nexus.Todo.Api.Infrastructure.Extensions;
-
-internal static class TypeNameHelper
+namespace Nexus.AspNetCore.Helpers;
+public static class TypeNameHelper
 {
     private const char DefaultNestedTypeDelimiter = '+';
 

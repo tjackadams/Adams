@@ -1,10 +1,10 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
+using FluentValidation;
 using MediatR;
-using Nexus.Todo.Api.Infrastructure.Extensions;
+using Microsoft.Extensions.Logging;
+using Nexus.AspNetCore.Helpers;
 
-namespace Nexus.Todo.Api.Infrastructure.Behaviours;
-
+namespace Nexus.AspNetCore.Behaviours;
 public class ValidatorBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {

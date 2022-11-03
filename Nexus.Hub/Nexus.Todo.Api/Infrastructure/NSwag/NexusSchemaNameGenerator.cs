@@ -1,5 +1,4 @@
-﻿
-using Nexus.Todo.Api.Infrastructure.Extensions;
+﻿using Nexus.AspNetCore.Helpers;
 using NJsonSchema.Generation;
 
 namespace Nexus.Todo.Api.Infrastructure.NSwag;
