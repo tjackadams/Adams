@@ -1,4 +1,15 @@
  steps:     
-  - script: |
-      docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-build
+  - task: DockerCompose@0
+    inputs:
+      containerregistrytype: 'Container Registry'
+      dockerRegistryEndpoint: 'DockerHub'
+      dockerComposeFile: 'docker-compose.yml'
+      additionalDockerComposeFiles: 'docker-compose.prod.yml'
+      dockerComposeFileArgs: |
+        DomainName="${{ variables.domainName }}"
+        EmailAddress="${{ variables.emailAddress }}"
+        PfxPassword="${{ variables.pfxPassword }}"
+      projectName: 
+      action: 'Run services'
+      buildImages: false
     displayName: Deploy Docker Compose

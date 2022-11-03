@@ -7,7 +7,6 @@
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "commandVersion": "1.0",
       "serviceActions": {
-        "nexus.edge.router": "DoNotStart",
         "nexus.gateway": "StartDebugging",
         "nexus.portal": "StartDebugging",
         "nexus.todo.api": "StartDebugging"

@@ -1,12 +1,11 @@
 ﻿using Blazored.LocalStorage;
+using LettuceEncrypt;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MudBlazor.Services;
 using Nexus.Portal;
 using Nexus.Portal.Infrastructure.Extensions;
-using Nexus.Todo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +38,12 @@ builder.Services.AddServerSideBlazor()
 
 builder.Services.AddServices();
 
+if (builder.Environment.IsProduction())
+{
+    builder.Services.AddLettuceEncrypt()
+        .PersistDataToDirectory(new DirectoryInfo("data"), builder.Configuration.GetValue<string>("PfxPassword"));
+}
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,6 +51,12 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
+else
+{
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
