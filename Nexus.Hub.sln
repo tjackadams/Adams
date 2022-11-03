@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Todo.Client", "Nexus.
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Nexus.Database", "Nexus.Hub\Nexus.Database\Nexus.Database.sqlproj", "{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.WeightTracker.Api", "Nexus.Hub\Nexus.WeightTracker.Api\Nexus.WeightTracker.Api.csproj", "{FFEE5BB4-BADF-485E-924A-5C25B7144DBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.AspNetCore", "Nexus.Hub\Nexus.AspNetCore\Nexus.AspNetCore.csproj", "{95C52AC5-81DC-42BF-8B60-5E62D3DB8796}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,14 @@ Global
 		{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{FFEE5BB4-BADF-485E-924A-5C25B7144DBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFEE5BB4-BADF-485E-924A-5C25B7144DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFEE5BB4-BADF-485E-924A-5C25B7144DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFEE5BB4-BADF-485E-924A-5C25B7144DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95C52AC5-81DC-42BF-8B60-5E62D3DB8796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95C52AC5-81DC-42BF-8B60-5E62D3DB8796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95C52AC5-81DC-42BF-8B60-5E62D3DB8796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95C52AC5-81DC-42BF-8B60-5E62D3DB8796}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +71,8 @@ Global
 		{0351EE75-9559-4CE4-ADEB-DCD24573B05D} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 		{1438A17B-46AC-4915-97D5-5DFD8425E5D6} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 		{8897D4B7-9856-4C9D-8AE9-CAB9F5267C7B} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
+		{FFEE5BB4-BADF-485E-924A-5C25B7144DBE} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
+		{95C52AC5-81DC-42BF-8B60-5E62D3DB8796} = {D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28EB9091-5BCF-4817-A952-25DD179D6AC7}
