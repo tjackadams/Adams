@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MudBlazor;
 using Nexus.Portal.Services;
 
 namespace Nexus.Portal.Pages.Tools;
@@ -14,6 +15,9 @@ public partial class GuidGenerator
 
     [Inject]
     public IJSRuntime JSRuntime { get; set; } = null!;
+
+    [Inject]
+    public ISnackbar SnackBar { get; set; } = null!;
 
     public bool Uppercase { get; set; }
 
@@ -70,6 +74,7 @@ public partial class GuidGenerator
     private async Task OnCopy()
     {
         await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", Value);
+        SnackBar.Add("Copied!", Severity.Info, options => options.VisibleStateDuration = 800);
     }
 
     private async Task FormatAsync()
