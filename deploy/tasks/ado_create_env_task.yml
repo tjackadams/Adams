@@ -1,0 +1,9 @@
+steps:
+  - task: EnvTransform@0
+    inputs:
+      inputType: 'inline'
+      content: |
+        DomainName="$($domainName)"
+        EmailAddress="$(emailAddress)"
+        PfxPassword="$(pfxPassword)"
+      outputFile: 'prod.env'

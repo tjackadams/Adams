@@ -20,5 +20,6 @@ jobs:
             - template: ../tasks/docker_context_cli_task.yml
               parameters:
                 context: $(deployContext)
+            - template: ../tasks/ado_create_env_task.yml
             - template: ../tasks/docker_up_cli_task.yml
   
