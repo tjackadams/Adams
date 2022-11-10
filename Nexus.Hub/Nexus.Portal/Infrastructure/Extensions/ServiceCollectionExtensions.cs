@@ -14,15 +14,15 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<GuidFormatter>();
 
-        services.AddTransient<LoggerProviderMessageHandler<Client>>();
+        services.AddTransient<LoggerProviderMessageHandler<TodoClient>>();
         services.AddTransient<LoggerProviderMessageHandler<WeightTrackerClient>>();
 
-        services.AddHttpClient<Client>((sp, client) =>
+        services.AddHttpClient<TodoClient>((sp, client) =>
         {
             var settings = sp.GetRequiredService<IOptions<Settings>>();
             client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "todo/");
         })
-            .AddHttpMessageHandler<LoggerProviderMessageHandler<Client>>()
+            .AddHttpMessageHandler<LoggerProviderMessageHandler<TodoClient>>()
             .AddDefaultRetryPolicy();
 
         services.AddHttpClient<WeightTrackerClient>((sp, client) =>
