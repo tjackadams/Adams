@@ -18,6 +18,8 @@ services:
   nexus.gateway:
     environment:
       - ASPNETCORE_URLS=http://+:80
+      - Clusters__nexustodoapi__Destinations__primary__Address=http://nexus.todo.api
+      - Clusters__nexusweighttrackerapi__Destinations__primary__Address=http://nexus.weighttracker.api
     ports:
       - "5100:80"
      
@@ -29,6 +31,7 @@ services:
       - LettuceEncrypt__EmailAddress=${EmailAddress}
       - PfxPassword=${PfxPassword}
       - AzureAD__ClientSecret=${ClientSecret}
+      - Settings__ApiGatewayUri=http://nexus.gateway
     ports:
       - "5200:443"
     volumes: 
