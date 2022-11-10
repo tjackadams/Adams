@@ -60,13 +60,21 @@
     <Folder Include="Security" />
     <Folder Include="Security\Schemas" />
     <Folder Include="Todo\Tables" />
+    <Folder Include="Weight" />
+    <Folder Include="Weight\Tables" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Security\Schemas\Todo.sql" />
     <Build Include="Todo\Tables\Todos.sql" />
     <Build Include="Todo\Tables\TodoTasks.sql" />
+    <Build Include="Security\Schemas\Weight.sql" />
+    <Build Include="Weight\Tables\Clients.sql" />
+    <Build Include="Weight\Tables\ClientMetrics.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Nexus.Database.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Nexus.Database.refactorlog" />
   </ItemGroup>
 </Project>

@@ -31,6 +31,9 @@ public class WeightDbContext : DbContext
 
             e.Property(p => p.Name)
                 .HasMaxLength(Client.MaximumNameLength);
+
+            var metrics = e.Metadata.FindNavigation(nameof(Client.Metrics));
+            metrics?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
 
         modelBuilder.Entity<ClientMetric>(e =>

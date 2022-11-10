@@ -1,0 +1,7 @@
+﻿CREATE TABLE [Weight].[Clients]
+(
+	[ClientId] INT NOT NULL IDENTITY(1,1), 
+    [Name] NVARCHAR(20) NOT NULL, 
+    [CreatedTime] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    CONSTRAINT PK_Clients PRIMARY KEY ([ClientId] ASC)
+)
