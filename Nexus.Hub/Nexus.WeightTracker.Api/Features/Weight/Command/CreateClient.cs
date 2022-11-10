@@ -20,7 +20,7 @@ public class CreateClient
         }
         public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
         {
-            var client = Client.Create(request.Name);
+            var client = new Client(request.Name);
 
             var entry = _db.Clients.Add(client);
 

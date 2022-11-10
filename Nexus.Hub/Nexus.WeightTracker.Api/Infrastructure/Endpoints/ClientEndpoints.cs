@@ -8,12 +8,15 @@ public static class ClientEndpoints
 {
     public static IEndpointRouteBuilder MapClient(this IEndpointRouteBuilder routes)
     {
-        routes.MapGet("clients", GetClientListAsync)
-            .WithTags(EndpointTags.Client)
+        var group = routes.MapGroup("clients");
+        group.WithTags(EndpointTags.Client);
+
+        group.MapGet("", GetClientListAsync)
+            .WithName(nameof(GetClientListAsync))
             .Produces<GetClientList.Result>();
 
-        routes.MapPost("clients", CreateClientAsync)
-            .WithTags(EndpointTags.Client)
+        group.MapPost("", CreateClientAsync)
+            .WithName(nameof(CreateClientAsync))
             .Produces<CreateClient.Result>(StatusCodes.Status201Created)
             .ProducesValidationProblem();
 

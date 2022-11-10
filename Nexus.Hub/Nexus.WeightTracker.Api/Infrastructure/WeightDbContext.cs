@@ -32,5 +32,17 @@ public class WeightDbContext : DbContext
             e.Property(p => p.Name)
                 .HasMaxLength(Client.MaximumNameLength);
         });
+
+        modelBuilder.Entity<ClientMetric>(e =>
+        {
+            e.HasKey(p => p.ClientMetricId);
+
+            e.Property(p => p.ClientMetricId)
+                .HasConversion(new ValueConverter<ClientMetricId, int>(c => c.Value, c => new ClientMetricId(c)))
+                .ValueGeneratedOnAdd();
+
+            e.Property(p => p.CreatedTime)
+                .ValueGeneratedOnAdd();
+        });
     }
 }

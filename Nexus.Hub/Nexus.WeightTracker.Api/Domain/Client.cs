@@ -1,10 +1,9 @@
-﻿using StronglyTypedIds;
+﻿using Nexus.WeightTracker.Api.Domain.ErrorHandling;
+using StronglyTypedIds;
 
 namespace Nexus.WeightTracker.Api.Domain;
 
-[StronglyTypedId(StronglyTypedIdBackingType.Int,
-    StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.SystemTextJson |
-    StronglyTypedIdConverter.EfCoreValueConverter)]
+[StronglyTypedId(StronglyTypedIdBackingType.Int, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.SystemTextJson | StronglyTypedIdConverter.EfCoreValueConverter)]
 public partial struct ClientId
 {
     public static bool TryParse(string? value, IFormatProvider? _, out ClientId result)
@@ -23,10 +22,17 @@ public partial struct ClientId
 
 public class Client
 {
+    private readonly List<ClientMetric> _metrics = new List<ClientMetric>();
+
     public const int MaximumNameLength = 20;
-    private Client()
+    protected Client()
     {
 
+    }
+
+    public Client(string name)
+    {
+        Name = name;
     }
 
     public ClientId ClientId { get; private set; }
@@ -35,8 +41,24 @@ public class Client
 
     public DateTimeOffset CreatedTime { get; private set; }
 
-    public static Client Create(string name)
+    public IReadOnlyCollection<ClientMetric> Metrics => _metrics.AsReadOnly();
+
+    public FluentResults.Result AddMetric(decimal recordedValue, DateOnly recordedDate)
     {
-        return new Client { Name = name };
+        var result = FluentResults.Result.Ok();
+
+        if (recordedValue <= 0)
+        {
+            result.WithError(DomainErrorProvider.InvalidRecordedValue(recordedValue));
+        }
+
+        if (_metrics.Any(m => m.RecordedDate == recordedDate))
+        {
+
+        }
+
+        _metrics.Add(new ClientMetric(recordedValue, recordedDate));
+
+        return result;
     }
 }
