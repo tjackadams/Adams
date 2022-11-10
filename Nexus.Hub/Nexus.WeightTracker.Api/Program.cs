@@ -1,6 +1,9 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Logging;
 using Nexus.AspNetCore.Behaviours;
 using Nexus.WeightTracker.Api.Domain;
 using Nexus.WeightTracker.Api.Infrastructure;
@@ -8,20 +11,53 @@ using Nexus.WeightTracker.Api.Infrastructure.Endpoints;
 using Nexus.WeightTracker.Api.Infrastructure.NSwag;
 using NJsonSchema;
 using NJsonSchema.Generation.TypeMappers;
+using NSwag;
+using NSwag.AspNetCore;
+using NSwag.Generation.Processors.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
+var swagger = builder.Configuration.GetRequiredSection("Swagger");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerDocument(options =>
+
+builder.Services.AddOpenApiDocument(document =>
 {
-    options.Title = "Nexus Weight Tracking API";
+    document.Title = "Nexus Weight Tracking API";
 
-    options.SchemaNameGenerator = new NexusSchemaNameGenerator();
+    document.SchemaNameGenerator = new NexusSchemaNameGenerator();
 
-    options.TypeMappers.Add(new PrimitiveTypeMapper(typeof(ClientId), schema =>
+    document.TypeMappers.Add(new PrimitiveTypeMapper(typeof(ClientId), schema =>
     {
         schema.Type = JsonObjectType.Integer;
     }));
+
+    document.AddSecurity(JwtBearerDefaults.AuthenticationScheme, Enumerable.Empty<string>(),
+        new OpenApiSecurityScheme
+        {
+            Type = OpenApiSecuritySchemeType.OAuth2,
+            Flow = OpenApiOAuth2Flow.AccessCode,
+            Flows = new OpenApiOAuthFlows
+            {
+                AuthorizationCode = new OpenApiOAuthFlow
+                {
+                    AuthorizationUrl = $"{swagger.GetValue<string>("Instance")}{swagger.GetValue<string>("TenantId")}/oauth2/v2.0/authorize",
+                    TokenUrl = $"{swagger.GetValue<string>("Instance")}{swagger.GetValue<string>("TenantId")}/oauth2/v2.0/token",
+                    Scopes = { { "api://cef30c8d-dc02-4e0f-aa61-52155ec9a9a6/nexus.weighttracker", "Nexus.WeightTracker" } }
+                }
+            }
+        });
+
+    document.OperationProcessors.Add(
+        new AspNetCoreOperationSecurityScopeProcessor(JwtBearerDefaults.AuthenticationScheme)
+    );
 });
 
 builder.Services.AddDbContext<WeightDbContext>(options =>
@@ -39,10 +75,25 @@ AssemblyScanner.FindValidatorsInAssembly(typeof(Program).Assembly)
 
 var app = builder.Build();
 
+IdentityModelEventSource.ShowPII = true;
+
 app.UseHttpLogging();
 
 app.UseOpenApi();
-app.UseSwaggerUi3();
+app.UseSwaggerUi3(settings =>
+{
+    settings.OAuth2Client = new OAuth2ClientSettings
+    {
+        AppName = "Nexus WeightTracker API - Swagger UI",
+        ClientId = swagger.GetValue<string>("ClientId"),
+        ClientSecret = string.Empty,
+        UsePkceWithAuthorizationCodeGrant = true,
+        Scopes = { "api://cef30c8d-dc02-4e0f-aa61-52155ec9a9a6/nexus.weighttracker" }
+    };
+});
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapClient();
 

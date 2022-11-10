@@ -9,8 +9,10 @@ public static class ClientEndpoints
 {
     public static IEndpointRouteBuilder MapClient(this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("clients");
-        group.WithTags(EndpointTags.Client);
+        var group = routes
+            .MapGroup("clients")
+            .RequireAuthorization()
+            .WithTags(EndpointTags.Client);
 
         group.MapGet("", GetClientListAsync)
             .WithName(nameof(GetClientListAsync));

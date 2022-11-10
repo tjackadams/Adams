@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Microsoft.Identity.Web;
 using Nexus.Portal.Infrastructure.Polly;
 using Nexus.Portal.Services;
 using Nexus.Todo;
@@ -31,7 +32,11 @@ public static class ServiceCollectionExtensions
             client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "weighttracker/");
         })
             .AddHttpMessageHandler<LoggerProviderMessageHandler<WeightTrackerClient>>()
-            .AddDefaultRetryPolicy();
+            .AddDefaultRetryPolicy()
+            .AddMicrosoftIdentityUserAuthenticationHandler(nameof(WeightTrackerClient), options =>
+            {
+                options.Scopes = "api://cef30c8d-dc02-4e0f-aa61-52155ec9a9a6/nexus.weighttracker";
+            });
 
         return services;
     }
