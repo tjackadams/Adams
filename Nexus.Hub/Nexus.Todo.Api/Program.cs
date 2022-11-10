@@ -27,6 +27,8 @@ AssemblyScanner.FindValidatorsInAssembly(typeof(Program).Assembly)
 
 var app = builder.Build();
 
+app.UseHttpLogging();
+
 app.UseOpenApi();
 app.UseSwaggerUi3();
 

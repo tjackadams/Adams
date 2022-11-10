@@ -44,6 +44,10 @@ public class WeightDbContext : DbContext
                 .HasConversion(new ValueConverter<ClientMetricId, int>(c => c.Value, c => new ClientMetricId(c)))
                 .ValueGeneratedOnAdd();
 
+            e.Property(p => p.RecordedDate)
+                .HasConversion(new ValueConverter<DateOnly, DateTime>(d => d.ToDateTime(TimeOnly.MinValue), d => DateOnly.FromDateTime(d)))
+                .HasColumnType("date");
+
             e.Property(p => p.CreatedTime)
                 .ValueGeneratedOnAdd();
         });

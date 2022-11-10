@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.WeightTracker.Api", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.AspNetCore", "Nexus.Hub\Nexus.AspNetCore\Nexus.AspNetCore.csproj", "{95C52AC5-81DC-42BF-8B60-5E62D3DB8796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexus.WeightTracker.Client", "Nexus.Hub\Nexus.WeightTracker.Client\Nexus.WeightTracker.Client.csproj", "{1A9AA386-A422-49BC-B09D-1C492CA3F3BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.WeightTracker.Client", "Nexus.Hub\Nexus.WeightTracker.Client\Nexus.WeightTracker.Client.csproj", "{1A9AA386-A422-49BC-B09D-1C492CA3F3BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

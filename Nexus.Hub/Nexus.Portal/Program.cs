@@ -26,7 +26,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddOptions<Settings>()
-    .Bind(builder.Configuration)
+    .Bind(builder.Configuration.GetSection(Settings.Section))
     .ValidateDataAnnotations();
 
 // Add services to the container.
@@ -45,6 +45,8 @@ if (builder.Environment.IsProduction())
 }
 
 var app = builder.Build();
+
+app.UseHttpLogging();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

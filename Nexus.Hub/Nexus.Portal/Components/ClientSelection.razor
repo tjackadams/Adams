@@ -1,0 +1,30 @@
+﻿@using Nexus.WeightTracker.Contracts;
+
+<MudGrid Spacing="4" Justify="Justify.FlexEnd">
+
+    <MudItem xs="7">
+        
+    </MudItem>
+
+    <MudItem xs="3">
+        @if (_clients is not null)
+        {
+
+            <MudSelect T="GetClientList_ClientModel" ValueChanged="@OnClientChanged" HelperText="Select a client"
+                   Label="Client"
+                   Variant="Variant.Text">
+
+                @foreach (var client in _clients.Data)
+                {
+                    <MudSelectItem Value="client">@client.Name</MudSelectItem>
+                }
+
+            </MudSelect>
+        }
+    </MudItem>
+
+    <MudItem xs="2">
+        <MudButton Variant="Variant.Filled" Color="@Color.Primary" StartIcon="@Icons.Filled.Add" Class="mt-5 mr-5">Add new</MudButton>
+    </MudItem>
+
+</MudGrid>
