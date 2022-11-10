@@ -37,7 +37,7 @@ public class Client
 
     public ClientId ClientId { get; private set; }
 
-    public string Name { get; private set; }
+    public string Name { get; private set; } = null!;
 
     public DateTimeOffset CreatedTime { get; private set; }
 
