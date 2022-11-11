@@ -15,11 +15,17 @@ public static class ClientEndpoints
             .WithTags(EndpointTags.Client);
 
         group.MapGet("", GetClientListAsync)
-            .WithName(nameof(GetClientListAsync));
+            .RequireAuthorization("Reader")
+            .WithName(nameof(GetClientListAsync))
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesProblem(StatusCodes.Status403Forbidden);
 
         group.MapPost("", CreateClientAsync)
+            .RequireAuthorization("Writer")
             .WithName(nameof(CreateClientAsync))
-            .ProducesValidationProblem();
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesProblem(StatusCodes.Status403Forbidden);
 
         return routes;
     }

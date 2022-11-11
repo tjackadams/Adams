@@ -8,6 +8,7 @@ using Nexus.AspNetCore.Behaviours;
 using Nexus.WeightTracker.Api.Domain;
 using Nexus.WeightTracker.Api.Infrastructure;
 using Nexus.WeightTracker.Api.Infrastructure.Endpoints;
+using Nexus.WeightTracker.Api.Infrastructure.ErrorHandling;
 using Nexus.WeightTracker.Api.Infrastructure.NSwag;
 using NJsonSchema;
 using NJsonSchema.Generation.TypeMappers;
@@ -17,14 +18,18 @@ using NSwag.Generation.Processors.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddProblemDetails();
 
 var swagger = builder.Configuration.GetRequiredSection("Swagger");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Reader", policy => policy.RequireRole("WeightTracker.Read"));
+    options.AddPolicy("Writer", policy => policy.RequireRole("WeightTracker.Write"));
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -75,9 +80,9 @@ AssemblyScanner.FindValidatorsInAssembly(typeof(Program).Assembly)
 
 var app = builder.Build();
 
-IdentityModelEventSource.ShowPII = true;
-
 app.UseHttpLogging();
+
+app.UseErrorHandling();
 
 app.UseOpenApi();
 app.UseSwaggerUi3(settings =>

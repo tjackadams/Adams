@@ -37,6 +37,10 @@
     <ProjectReference Include="..\Nexus.AspNetCore\Nexus.AspNetCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\Authorization\" />
+  </ItemGroup>
+
   <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition="'$(TF_BUILD)'!='True'">
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run nswag.json /variables:Configuration=$(Configuration)" />
   </Target>
