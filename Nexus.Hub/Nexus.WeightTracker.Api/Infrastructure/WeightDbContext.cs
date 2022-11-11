@@ -42,6 +42,8 @@ public class WeightDbContext : DbContext
 
         modelBuilder.Entity<ClientMetric>(e =>
         {
+            e.ToTable("ClientMetrics");
+
             e.HasKey(p => p.ClientMetricId);
 
             e.Property(p => p.ClientMetricId)
