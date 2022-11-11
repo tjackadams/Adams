@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nexus.WeightTracker.Api.Infrastructure;
 
@@ -11,9 +12,11 @@ using Nexus.WeightTracker.Api.Infrastructure;
 namespace Nexus.WeightTracker.Api.Migrations
 {
     [DbContext(typeof(WeightDbContext))]
-    partial class WeightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221111144357_mssql_migration_323")]
+    partial class mssqlmigration323
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,8 +40,7 @@ namespace Nexus.WeightTracker.Api.Migrations
 
                     b.Property<DateTimeOffset>("CreatedTime")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("SYSDATETIMEOFFSET()");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -69,8 +71,7 @@ namespace Nexus.WeightTracker.Api.Migrations
 
                     b.Property<DateTimeOffset>("CreatedTime")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("SYSDATETIMEOFFSET()");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime>("RecordedDate")
                         .HasColumnType("date");

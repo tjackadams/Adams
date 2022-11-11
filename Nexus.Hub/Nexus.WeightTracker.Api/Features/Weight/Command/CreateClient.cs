@@ -2,6 +2,7 @@
 using MediatR;
 using Nexus.WeightTracker.Api.Domain;
 using Nexus.WeightTracker.Api.Infrastructure;
+using Nexus.WeightTracker.Api.Infrastructure.Authorization;
 
 namespace Nexus.WeightTracker.Api.Features.Weight.Command;
 
@@ -14,13 +15,15 @@ public class CreateClient
     public class Handler : IRequestHandler<Command, Result>
     {
         private readonly WeightDbContext _db;
-        public Handler(WeightDbContext db)
+        private readonly IdentityClaimProvider _identity;
+        public Handler(WeightDbContext db, IdentityClaimProvider identity)
         {
             _db = db;
+            _identity = identity;
         }
         public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
         {
-            var client = new Client(request.Name);
+            var client = new Client(request.Name, _identity.GetObjectId());
 
             var entry = _db.Clients.Add(client);
 

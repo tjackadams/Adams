@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Authorization\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -27,7 +27,8 @@ public class WeightDbContext : DbContext
                 .ValueGeneratedOnAdd();
 
             e.Property(p => p.CreatedTime)
-                .ValueGeneratedOnAdd();
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("SYSDATETIMEOFFSET()");
 
             e.Property(p => p.Name)
                 .HasMaxLength(Client.MaximumNameLength);
@@ -55,7 +56,8 @@ public class WeightDbContext : DbContext
                 .HasColumnType("date");
 
             e.Property(p => p.CreatedTime)
-                .ValueGeneratedOnAdd();
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("SYSDATETIMEOFFSET()");
         });
     }
 }

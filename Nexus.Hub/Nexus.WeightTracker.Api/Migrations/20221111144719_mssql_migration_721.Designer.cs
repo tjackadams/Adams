@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nexus.WeightTracker.Api.Infrastructure;
 
@@ -11,9 +12,11 @@ using Nexus.WeightTracker.Api.Infrastructure;
 namespace Nexus.WeightTracker.Api.Migrations
 {
     [DbContext(typeof(WeightDbContext))]
-    partial class WeightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221111144719_mssql_migration_721")]
+    partial class mssqlmigration721
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

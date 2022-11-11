@@ -9,6 +9,7 @@ using Nexus.WeightTracker.Api.Domain;
 using Nexus.WeightTracker.Api.Infrastructure;
 using Nexus.WeightTracker.Api.Infrastructure.Endpoints;
 using Nexus.WeightTracker.Api.Infrastructure.ErrorHandling;
+using Nexus.WeightTracker.Api.Infrastructure.Extensions;
 using Nexus.WeightTracker.Api.Infrastructure.NSwag;
 using NJsonSchema;
 using NJsonSchema.Generation.TypeMappers;
@@ -77,6 +78,8 @@ builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavio
 
 AssemblyScanner.FindValidatorsInAssembly(typeof(Program).Assembly)
     .ForEach(item => builder.Services.AddScoped(typeof(IValidator), item.ValidatorType));
+
+builder.Services.AddServices();
 
 var app = builder.Build();
 

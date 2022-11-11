@@ -30,9 +30,10 @@ public class Client
 
     }
 
-    public Client(string name)
+    public Client(string name, string createdBy)
     {
         Name = name;
+        CreatedBy = createdBy;
     }
 
     public ClientId ClientId { get; private set; }
@@ -40,6 +41,8 @@ public class Client
     public string Name { get; private set; } = null!;
 
     public DateTimeOffset CreatedTime { get; private set; }
+
+    public string CreatedBy { get; private set; }
 
     public IReadOnlyCollection<ClientMetric> Metrics => _metrics.AsReadOnly();
 
