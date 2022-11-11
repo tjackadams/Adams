@@ -3,18 +3,25 @@ parameters:
     type: string
 
 jobs:
-  - job: Build_${{ replace(parameters.projectName, '.','_') }}
-    pool:
-      vmImage: 'windows-latest'
+  - job: build_publish_${{ parameters.projectName }}
     variables:
-      - name: solutionPath
-        value: '**/${{ parameters.projectName }}.sqlproj'
-      - name: targetPath
-        value: '$(Build.BinariesDirectory)\${{ parameters.projectName }}'
+      - name: projectName
+        value: ${{replace(parameters.projectName,'_','.')}}
+      - name: srcFilePath
+        value: "Nexus.Hub"
+      - name: projectPath
+        value: "$(Build.SourcesDirectory)/${{ variables.srcFilePath }}/${{ variables.projectName }}"
+      - name: dropLocation
+        value: "drop/${{ parameters.projectName }}"
     steps:
-     - template: ../tasks/msbuild_task.yml
-       parameters:
-         projectName: ${{ parameters.projectName }}
-         solutionPath: ${{ variables.solutionPath }}
-     - template: ../tasks/ado_publish_pipeline_task.yml
-       
+      - template: ../tasks/script_generate_ef_migration_script_task.yml
+        parameters:
+          projectPath: ${{ variables.projectPath }}
+          startUpProjectPath: ${{ variables.projectPath }}
+          dropLocation: ${{variables.dropLocation }}
+          projectName: ${{ variables.projectName }}
+
+      - template: ../tasks/ado_publish_pipeline_task.yml
+        parameters:
+          artifactName: ${{ parameters.projectName }}
+          targetPath: ${{ variables.dropLocation }}

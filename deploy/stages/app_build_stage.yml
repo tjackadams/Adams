@@ -1,15 +1,20 @@
 parameters:
   - name: projectName
     type: string
+  - name: dbProjects
+    type: object
+    default: ['Nexus.WeightTracker.Api']
     
 stages:
-  - stage: build_${{ parameters.projectName }}
-    jobs:
-      - template: ../jobs/docker_build_and_push_job.yml
-        parameters:
-          projectName: ${{ parameters.projectName }}
-      - template: ../jobs/db_build_and_publish_job.yml
-        parameters:
-          projectName: ${{ parameters.projectName }}.Database
+- stage: build_${{ parameters.projectName }}
+  jobs:
+  - template: ../jobs/docker_build_and_push_job.yml
+    parameters:
+      projectName: ${{ parameters.projectName }}
+      
+  - ${{ each dbProject in parameters.dbProjects }}:        
+    - template: ../jobs/db_build_and_publish_job.yml
+      parameters:
+        projectName: ${{ replace(parameters.dbProject,'.','_') }}
           
     

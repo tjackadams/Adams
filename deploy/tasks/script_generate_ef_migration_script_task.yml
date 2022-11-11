@@ -1,0 +1,15 @@
+parameters:
+    - name: projectPath
+      default: ''
+    - name: startUpProjectPath
+      default: ''
+    - name: dropLocation
+      default: ''
+    - name: projectName
+      default: ''
+
+steps:
+  - script: |
+        dotnet tool install dotnet-ef -g
+        dotnet ef migrations script --project ${{parameters.projectPath}} --startup-project ${{parameters.startUpProjectPath}}  --no-transactions --output ${{parameters.dropLocation}}/${{parameters.projectName}}_dbScript.sql;
+    displayName: 'Build EF Migration SQL Script'

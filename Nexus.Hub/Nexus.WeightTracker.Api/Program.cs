@@ -69,7 +69,7 @@ builder.Services.AddOpenApiDocument(document =>
 builder.Services.AddDbContext<WeightDbContext>(options =>
 {
     options
-        .UseSqlServer(builder.Configuration.GetConnectionString("Nexus"));
+        .UseSqlServer(builder.Configuration.GetConnectionString("Nexus"), x => x.MigrationsHistoryTable("__EFMigrationsHistory", "Weight"));
 });
 
 builder.Services.AddMediatR(typeof(Program));
