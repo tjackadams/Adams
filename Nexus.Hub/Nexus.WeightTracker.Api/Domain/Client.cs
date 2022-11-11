@@ -43,6 +43,8 @@ public class Client
 
     public IReadOnlyCollection<ClientMetric> Metrics => _metrics.AsReadOnly();
 
+    public byte[] Version { get; private set; }
+
     public FluentResults.Result AddMetric(decimal recordedValue, DateOnly recordedDate)
     {
         var result = FluentResults.Result.Ok();
