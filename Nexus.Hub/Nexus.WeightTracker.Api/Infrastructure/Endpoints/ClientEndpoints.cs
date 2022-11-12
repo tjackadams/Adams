@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Nexus.WeightTracker.Api.Domain;
 using Nexus.WeightTracker.Api.Features.Weight.Command;
 using Nexus.WeightTracker.Api.Features.Weight.Query;
 
@@ -27,6 +28,9 @@ public static class ClientEndpoints
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden);
 
+        group.MapGet("{clientId}/metrics", GetClientMetricListAsync)
+            .RequireAuthorization("Reader");
+
         return routes;
     }
 
@@ -42,6 +46,16 @@ public static class ClientEndpoints
         var result = await mediator.Send(command, cancellationToken);
 
         return TypedResults.Created($"/clients/{result.Id}", result);
+    }
+
+    private static async Task<Ok<GetClientMetricList.Result>> GetClientMetricListAsync(ClientId clientId,
+        IMediator mediator, CancellationToken cancellationToken
+
+    )
+    {
+        var result = await mediator.Send(new GetClientMetricList.Query(clientId), cancellationToken);
+
+        return TypedResults.Ok(result);
     }
 
     private static class EndpointTags

@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
-using Microsoft.IdentityModel.Logging;
 using Nexus.AspNetCore.Behaviours;
 using Nexus.WeightTracker.Api.Domain;
 using Nexus.WeightTracker.Api.Infrastructure;
@@ -41,6 +40,11 @@ builder.Services.AddOpenApiDocument(document =>
     document.SchemaNameGenerator = new NexusSchemaNameGenerator();
 
     document.TypeMappers.Add(new PrimitiveTypeMapper(typeof(ClientId), schema =>
+    {
+        schema.Type = JsonObjectType.Integer;
+    }));
+
+    document.TypeMappers.Add(new PrimitiveTypeMapper(typeof(ClientMetricId), schema =>
     {
         schema.Type = JsonObjectType.Integer;
     }));

@@ -188,6 +188,77 @@ namespace Nexus.WeightTracker.Contracts
 
     }
 
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetClientMetricList_Result
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public GetClientMetricList_Result(System.Collections.Generic.ICollection<GetClientMetricList_ClientMetric> @data)
+
+        {
+
+            this.Data = @data;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("data")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public System.Collections.Generic.ICollection<GetClientMetricList_ClientMetric> Data { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetClientMetricList_ClientMetric
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public GetClientMetricList_ClientMetric(ClientMetricId @clientMetricId, decimal @recordedValueImperial, decimal @recordedValueMetric)
+
+        {
+
+            this.ClientMetricId = @clientMetricId;
+
+            this.RecordedValueMetric = @recordedValueMetric;
+
+            this.RecordedValueImperial = @recordedValueImperial;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("clientMetricId")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public ClientMetricId ClientMetricId { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("recordedValueMetric")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public decimal RecordedValueMetric { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("recordedValueImperial")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public decimal RecordedValueImperial { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ClientMetricId
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public ClientMetricId(int @value)
+
+        {
+
+            this.Value = @value;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("value")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public int Value { get; }
+
+    }
+
 
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
