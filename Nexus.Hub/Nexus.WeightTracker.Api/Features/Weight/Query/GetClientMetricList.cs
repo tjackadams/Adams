@@ -3,26 +3,25 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nexus.WeightTracker.Api.Domain;
 using Nexus.WeightTracker.Api.Infrastructure;
-using Nexus.WeightTracker.Api.Infrastructure.ErrorHandling;
 
 namespace Nexus.WeightTracker.Api.Features.Weight.Query;
 
 public static class GetClientMetricList
 {
-    public record Query(ClientId ClientId) : IRequest<Result?>;
+    public record Query(ClientId ClientId) : IRequest<IResult>;
 
-    public record Result(IReadOnlyCollection<ClientMetric> Data);
+    public record Response(IReadOnlyCollection<ClientMetric> Data);
 
     public record ClientMetric(ClientMetricId ClientMetricId, decimal RecordedValueMetric,
         decimal RecordedValueImperial);
-    public class Handler : IRequestHandler<Query, Result?>
+    public class Handler : IRequestHandler<Query, IResult>
     {
         private readonly WeightDbContext _db;
         public Handler(WeightDbContext db)
         {
             _db = db;
         }
-        public async Task<Result?> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(Query request, CancellationToken cancellationToken)
         {
             var client = await _db.Clients
                 .Where(c => c.ClientId == request.ClientId)
@@ -31,10 +30,10 @@ public static class GetClientMetricList
 
             if (client is null)
             {
-                throw new ProblemDetailsException(StatusCodes.Status404NotFound);
+                return TypedResults.NotFound();
             }
 
-            return new Result(client.Metrics.Select(static m => ToModel(m)).ToArray());
+            return TypedResults.Ok(new Response(client.Metrics.Select(static m => ToModel(m)).ToArray()));
         }
 
         private static ClientMetric ToModel(Domain.ClientMetric metric)

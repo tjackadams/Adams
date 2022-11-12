@@ -16,7 +16,7 @@ public partial class ClientSelection
     [Parameter]
     public EventCallback<GetClientList_ClientModel> ClientChanged { get; set; }
 
-    private GetClientList_Result? _clients;
+    private GetClientList_Response? _clients;
 
     protected override async Task OnInitializedAsync()
     {

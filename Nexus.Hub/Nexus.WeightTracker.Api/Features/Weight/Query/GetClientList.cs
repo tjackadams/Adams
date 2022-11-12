@@ -7,13 +7,13 @@ namespace Nexus.WeightTracker.Api.Features.Weight.Query;
 
 public static class GetClientList
 {
-    public record Query() : IRequest<Result>;
+    public record Query() : IRequest<IResult>;
 
-    public record Result(IReadOnlyCollection<ClientModel> Data);
+    public record Response(IReadOnlyCollection<ClientModel> Data);
 
     public record ClientModel(ClientId Id, string Name);
 
-    public class Handler : IRequestHandler<Query, Result>
+    public class Handler : IRequestHandler<Query, IResult>
     {
         private readonly WeightDbContext _db;
 
@@ -22,13 +22,13 @@ public static class GetClientList
             _db = db;
         }
 
-        public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(Query request, CancellationToken cancellationToken)
         {
             var clients = await _db.Clients
-                .Select(c => ToModel(c))
+                .Select(static c => ToModel(c))
                 .ToListAsync(cancellationToken);
 
-            return new Result(clients);
+            return TypedResults.Ok(new Response(clients));
         }
 
         private static ClientModel ToModel(Client client)

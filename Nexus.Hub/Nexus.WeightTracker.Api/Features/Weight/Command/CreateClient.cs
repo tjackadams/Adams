@@ -8,11 +8,11 @@ namespace Nexus.WeightTracker.Api.Features.Weight.Command;
 
 public class CreateClient
 {
-    public record Command(string Name) : IRequest<Result>;
+    public record Command(string Name) : IRequest<IResult>;
 
-    public record Result(ClientId Id, string Name);
+    public record Response(ClientId Id, string Name);
 
-    public class Handler : IRequestHandler<Command, Result>
+    public class Handler : IRequestHandler<Command, IResult>
     {
         private readonly WeightDbContext _db;
         private readonly IdentityClaimProvider _identity;
@@ -21,7 +21,7 @@ public class CreateClient
             _db = db;
             _identity = identity;
         }
-        public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(Command request, CancellationToken cancellationToken)
         {
             var client = new Client(request.Name, _identity.GetObjectId());
 
@@ -29,12 +29,12 @@ public class CreateClient
 
             await _db.SaveChangesAsync(cancellationToken);
 
-            return ToModel(entry.Entity);
+            return TypedResults.Created($"/clients/{entry.Entity.ClientId}", ToModel(entry.Entity));
         }
 
-        private static Result ToModel(Client client)
+        private static Response ToModel(Client client)
         {
-            return new Result(client.ClientId, client.Name);
+            return new Response(client.ClientId, client.Name);
         }
     }
 
