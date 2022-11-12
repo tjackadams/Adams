@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Identity.Web;
 using Nexus.WeightTracker;
 using Nexus.WeightTracker.Contracts;
 
@@ -9,6 +10,9 @@ public partial class ClientSelection
     [Inject]
     public WeightTrackerClient TrackerClient { get; set; } = null!;
 
+    [Inject]
+    public MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler { get; set; } = null!;
+
     [Parameter]
     public EventCallback<GetClientList_ClientModel> ClientChanged { get; set; }
 
@@ -16,7 +20,15 @@ public partial class ClientSelection
 
     protected override async Task OnInitializedAsync()
     {
-        _clients = await TrackerClient.GetClientListAsync();
+        try
+        {
+            _clients = await TrackerClient.GetClientListAsync();
+        }
+        catch (Exception ex)
+        {
+            ConsentHandler.HandleException(ex);
+        }
+
     }
 
     private async Task OnClientChanged(GetClientList_ClientModel client)
