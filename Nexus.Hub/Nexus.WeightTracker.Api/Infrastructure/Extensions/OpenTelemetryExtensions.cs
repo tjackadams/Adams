@@ -40,7 +40,10 @@ public static class OpenTelemetryExtensions
             tracing.SetResourceBuilder(resourceBuilder)
                 .AddZipkinExporter(o =>
                 {
-                    o.Endpoint = new Uri(builder.Configuration.GetConnectionString("Zipkin")!);
+                    if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("Zipkin")))
+                    {
+                        o.Endpoint = new Uri(builder.Configuration.GetConnectionString("Zipkin")!);
+                    }
                 })
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()

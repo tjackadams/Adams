@@ -8,4 +8,9 @@ public static class DomainErrorProvider
     {
         return new InvalidRecordedValue(recordedValue);
     }
+
+    public static Error DuplicateRecordedDate(DateOnly recordedDate)
+    {
+        return new DuplicateRecordedDate(recordedDate);
+    }
 }
