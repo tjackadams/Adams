@@ -31,6 +31,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Writer", policy => policy.RequireRole("WeightTracker.Write"));
 });
 
+builder.AddOpenTelemetry();
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddOpenApiDocument(document =>

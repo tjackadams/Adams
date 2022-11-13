@@ -12,6 +12,7 @@ services:
     environment:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__Nexus=${NexusDatabase}Application Name=nexus.weighttracker.api
+      - ConnectionStrings__Zipkin=http://zipkin:9411
     ports:
       - "5301:80"
 

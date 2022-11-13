@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentResults" Version="3.15.0" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.3.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
@@ -28,10 +28,18 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.4.0-beta.3" />
     <PackageReference Include="StronglyTypedId" Version="1.0.0-beta06">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime;</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.9" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.EventCounters" Version="1.0.0-alpha.2" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.9" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.3" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.9" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="0.1.0-alpha.1" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.0.0" />
 
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />

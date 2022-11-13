@@ -2,7 +2,33 @@ version: '3.4'
 
 name: nexus
 
-services:    
+services:   
+  zipkin.storage:
+    image: ghcr.io/openzipkin/zipkin-mysql:${TAG:-latest}
+
+  zipkin:
+    image: ghcr.io/openzipkin/zipkin:${TAG:-latest}
+    environment:
+      - STORAGE_TYPE=mysql
+      - MYSQL_HOST=zipkin.storage
+      - MYSQL_USER=zipkin
+      - MYSQL_PASS=zipkin
+    depends_on:
+      - zipkin.storage
+    ports:
+      - 9411:9411
+    
+  zipkin.dependencies:
+    image: ghcr.io/openzipkin/zipkin-dependencies
+    entrypoint: crond -f
+    environment:
+      - STORAGE_TYPE=mysql
+      - MYSQL_HOST=zipkin.storage
+      - MYSQL_USER=zipkin
+      - MYSQL_PASS=zipkin
+    depends_on:
+      - zipkin.storage
+
   nexus.todo.api:
     image: ${DOCKER_REGISTRY:-tjackadams}/nexus.todo.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
@@ -16,7 +42,8 @@ services:
       context: .
       dockerfile: Nexus.Hub/Nexus.WeightTracker.Api/Dockerfile
     pull_policy: always
-
+    depends_on:
+      - zipkin
 
   nexus.gateway:
     image: ${DOCKER_REGISTRY:-tjackadams}/nexus.gateway:${PLATFORM:-linux}-${TAG:-latest}
@@ -26,6 +53,7 @@ services:
     pull_policy: always
     depends_on:
       - nexus.todo.api
+      - nexus.weighttracker.api
 
   nexus.portal:
     image: ${DOCKER_REGISTRY:-tjackadams}/nexus.portal:${PLATFORM:-linux}-${TAG:-latest}
