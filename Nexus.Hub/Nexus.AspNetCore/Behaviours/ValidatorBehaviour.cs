@@ -1,12 +1,13 @@
-﻿using FluentValidation.Results;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Nexus.AspNetCore.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace Nexus.AspNetCore.Behaviours;
 public class ValidatorBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
+    where TResponse : IResult
 {
     private readonly ILogger<ValidatorBehaviour<TRequest, TResponse>> _logger;
     private readonly IValidator[] _validators;
@@ -19,26 +20,41 @@ public class ValidatorBehaviour<TRequest, TResponse> : IPipelineBehavior<TReques
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var typeName = TypeNameHelper.GetTypeDisplayName(request);
-
-        _logger.LogInformation("---- Validating command {CommandType}", typeName);
-
-        var failures = new List<ValidationFailure>();
-        foreach (var validator in _validators.Where(v => v.CanValidateInstancesOfType(typeof(TRequest))))
+        if (_validators.Any())
         {
+            var typeName = TypeNameHelper.GetTypeDisplayName(request);
+
+            _logger.LogInformation("---- Validating command {CommandType}", typeName);
+
             var context = new ValidationContext<TRequest>(request);
-            var result = await validator.ValidateAsync(context, cancellationToken);
-            failures.AddRange(result.Errors);
+
+            var validationResults = await Task.WhenAll(
+                _validators
+                    .Where(v => v.CanValidateInstancesOfType(typeof(TRequest)))
+                    .Select(v => v.ValidateAsync(context, cancellationToken))
+                    );
+
+            var failures = validationResults
+                .Where(r => r.Errors.Any())
+                .SelectMany(r => r.Errors)
+                .ToArray();
+
+            if (failures.Any())
+            {
+                _logger.LogWarning(
+                    "Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}", typeName,
+                    request, failures);
+
+                var errors = failures
+                    .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
+                    .ToDictionary(
+                        e => e.Key,
+                        e => e.ToArray());
+
+                return (TResponse)((IResult)TypedResults.ValidationProblem(errors));
+            }
         }
 
-        if (failures.Any())
-        {
-            _logger.LogWarning(
-                "Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}", typeName,
-                request, failures);
-
-            throw new ValidationException($"{failures.Count} errors found while validating the request.", failures);
-        }
 
         return await next();
     }
