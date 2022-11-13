@@ -51,7 +51,7 @@ public class ValidatorBehaviour<TRequest, TResponse> : IPipelineBehavior<TReques
                         e => e.Key,
                         e => e.ToArray());
 
-                return (TResponse)((IResult)TypedResults.ValidationProblem(errors));
+                return (TResponse)Results.ValidationProblem(errors);
             }
         }
 
