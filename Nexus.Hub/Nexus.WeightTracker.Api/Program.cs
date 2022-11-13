@@ -4,17 +4,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Nexus.AspNetCore.Behaviours;
-using Nexus.WeightTracker.Api.Domain;
 using Nexus.WeightTracker.Api.Infrastructure;
 using Nexus.WeightTracker.Api.Infrastructure.Endpoints;
 using Nexus.WeightTracker.Api.Infrastructure.ErrorHandling;
 using Nexus.WeightTracker.Api.Infrastructure.Extensions;
-using Nexus.WeightTracker.Api.Infrastructure.NSwag;
-using NJsonSchema;
-using NJsonSchema.Generation.TypeMappers;
-using NSwag;
 using NSwag.AspNetCore;
-using NSwag.Generation.Processors.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
