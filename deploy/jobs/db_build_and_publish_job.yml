@@ -15,7 +15,7 @@ jobs:
         value: "drop/${{ parameters.projectName }}"
     steps:
       - template: ../tasks/dotnet_tools_restore_task.yml
-      - template: ../tasks/script_generate_ef_migration_bundle_task.yml
+      - template: ../tasks/ef_migration_bundle__build_task.yml
         parameters:
           projectPath: ${{ variables.projectPath }}
           startUpProjectPath: ${{ variables.projectPath }}
