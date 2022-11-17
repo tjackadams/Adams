@@ -1,0 +1,12 @@
+parameters:
+  - name: bundleLocation
+    type: string
+  - name: connectionString
+    type: string
+
+steps:
+  - script: |
+      chmod +x bundle
+      ./bundle --connection ${{ parameters.connectionString }} --verbose
+    workingDirectory: ${{ parameters.bundleLocation }}
+    displayName: Deploy Ef Core

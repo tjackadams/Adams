@@ -8,7 +8,7 @@ stages:
       - template: ../jobs/docker_deploy_job.yml
         parameters:
           projectName: ${{ parameters.projectName }}
-      - template: ../jobs/sql_deploy_job.yml
+      - template: ../jobs/db_deploy_job.yml
         parameters:
           projectName: ${{ parameters.projectName }}
           

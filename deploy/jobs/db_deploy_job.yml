@@ -9,8 +9,8 @@ jobs:
 - deployment: '${{ parameters.projectName }}_${{ parameters.environmentName }}_SQL'
   environment: ${{ parameters.environmentName }}
   variables:
-    - name: dacpacFile
-      value: $(Pipeline.Workspace)/${{ parameters.projectName }}.Database/${{ parameters.projectName }}.Database.dacpac
+    - name: bundleLocation
+      value: $(Pipeline.Workspace)/${{ parameters.projectName }}
     - name: connectionString
       value: 'Server=$(sqlHostname);Database=$(sqlDatabase);User Id=$(sqlUsername);Password=$(sqlPassword);'
 
@@ -19,7 +19,7 @@ jobs:
      deploy:
        steps:
          - template: ../tasks/ado_download_pipeline_task.yml
-         - template: ../tasks/dacpac_deploy_task.yml
+         - template: ../tasks/ef_migration_bundle_deploy_task.yml
            parameters:
-            dacpacFile: ${{ variables.dacpacFile }}
+            bundleLocation: ${{ variables.bundleLocation }}
             connectionString: ${{ variables.connectionString }}
