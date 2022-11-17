@@ -1,4 +1,4 @@
  steps:     
   - script: |
-      docker compose -f docker-compose.yml -f docker-compose.prod.yml build --build-arg TF_BUILD=True
+      docker compose -f docker-compose.yml -f docker-compose.prod.yml build
     displayName: Build Docker Compose

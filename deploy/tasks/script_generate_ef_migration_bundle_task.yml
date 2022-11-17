@@ -10,8 +10,7 @@ parameters:
 
 steps:
   - script: |
-        dotnet ef migrations bundle --self-contained \
-          --project ${{ parameters.projectPath }} \
+        dotnet ef migrations bundle --project ${{ parameters.projectPath }} \
           --startup-project ${{ parameters.startUpProjectPath }} \
-          --output ${{ parameters.dropLocation }}/${{ parameters.projectName }}
+          --output ${{ parameters.dropLocation }}/${{ parameters.projectName }}/bundle
     displayName: 'Build EF Migration Bundle'

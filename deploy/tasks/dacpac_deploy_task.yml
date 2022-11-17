@@ -1,16 +1,13 @@
 parameters:
-  - name: dacpacFile
+  - name: bundleLocation
     type: string
   - name: connectionString
     type: string
-  - name: blockOnPossibleDataLoss
-    type: string
-    default: 'false'
-  - name: generateSmartDefaults
-    type: string
-    default: 'true'
 
 steps:
+  - script: |
+      chmod +x 
+    workingDirectory: ${{ parameters.bundleLocation }}
   - script: |
       /opt/sqlpackage/sqlpackage /a:Publish /p:BlockOnPossibleDataLoss=${{ parameters.blockOnPossibleDataLoss }} /p:GenerateSmartDefaults=${{ parameters.generateSmartDefaults }} /tcs:"${{ parameters.connectionString }}" /sf:"${{ parameters.dacpacFile }}" 
     displayName: Deploy Dacpac
