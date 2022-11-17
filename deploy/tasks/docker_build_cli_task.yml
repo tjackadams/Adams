@@ -1,4 +1,5 @@
  steps:     
   - script: |
+      export DOCKER_BUILDKIT=1
       docker compose -f docker-compose.yml -f docker-compose.prod.yml build
     displayName: Build Docker Compose
