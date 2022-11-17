@@ -12,5 +12,6 @@ steps:
   - script: |
         dotnet ef migrations bundle --project ${{ parameters.projectPath }} \
           --startup-project ${{ parameters.startUpProjectPath }} \
-          --output ${{ parameters.dropLocation }}/${{ parameters.projectName }}/bundle
+          --output ${{ parameters.dropLocation }}/${{ parameters.projectName }}/bundle \
+          --verbose
     displayName: 'Build EF Migration Bundle'
