@@ -1,6 +1,9 @@
 parameters:
   - name: projectName
     type: string
+  - name: dbProjects
+    type: object
+    default: ['Nexus.WeightTracker.Api']
 
 stages:
   - stage: deploy_${{ parameters.projectName }}
@@ -8,9 +11,11 @@ stages:
       - template: ../jobs/docker_deploy_job.yml
         parameters:
           projectName: ${{ parameters.projectName }}
-      - template: ../jobs/db_deploy_job.yml
-        parameters:
-          projectName: ${{ parameters.projectName }}
+
+  - ${{ each dbProject in parameters.dbProjects }}:
+    - template: ../jobs/db_deploy_job.yml
+      parameters:
+        projectName: ${{ replace(dbProject,'.','_') }}
           
           
   

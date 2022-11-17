@@ -6,7 +6,7 @@ parameters:
     default: 'production'
 
 jobs:
-- deployment: '${{ parameters.projectName }}_${{ parameters.environmentName }}_SQL'
+- deployment: '${{ parameters.projectName }}_${{ parameters.environmentName }}_Database'
   environment: ${{ parameters.environmentName }}
   variables:
     - name: bundleLocation
@@ -19,6 +19,8 @@ jobs:
      deploy:
        steps:
          - template: ../tasks/ado_download_pipeline_task.yml
+           parameters:
+             artifactName: ${{ parameters.projectName }}
          - template: ../tasks/dotnet_sdk_task.yml
          - template: ../tasks/ef_migration_bundle_deploy_task.yml
            parameters:
