@@ -18,3 +18,8 @@ steps:
           --configuration Release \
           --verbose
     displayName: 'Build EF Migration Bundle'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: ${{ parameters.projectPath }}
+      Contents: '**appsettings.*.json'
+      TargetFolder: ${{ parameters.dropLocation }}
