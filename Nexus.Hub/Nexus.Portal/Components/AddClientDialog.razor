@@ -1,0 +1,21 @@
+﻿<EditForm Model="@_model" OnSubmit="@SubmitAsync">
+    <MudDialog>
+        <DialogContent>
+            <MudCard>
+                <FluentValidationValidator DisableAssemblyScanning="@true" @ref="@_clientValidator"/>
+                <ServerValidator @ref="@_serverValidator"/>
+                <MudCardContent>
+                    <MudTextField @bind-Value="_model.Name"
+                                  For="@(() => _model.Name)"
+                                  Immediate="true" 
+                                  Label="Client Name"
+                                  HelperText="@string.Format("Max 20 characters {0}/20", _model.Name?.Length ?? 0)"/>
+                </MudCardContent>
+            </MudCard>
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="Cancel">Cancel</MudButton>
+            <MudButton Color="Color.Primary" ButtonType="ButtonType.Submit">Create</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>

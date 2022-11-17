@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Identity.Web;
+using MudBlazor;
 using Nexus.WeightTracker;
 using Nexus.WeightTracker.Contracts;
 
@@ -12,6 +13,9 @@ public partial class ClientSelection
 
     [Inject]
     public MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler { get; set; } = null!;
+
+    [Inject]
+    public IDialogService DialogService { get; set; } = null!;
 
     [Parameter]
     public EventCallback<GetClientList_ClientModel> ClientChanged { get; set; }
@@ -34,5 +38,10 @@ public partial class ClientSelection
     private async Task OnClientChanged(GetClientList_ClientModel client)
     {
         await ClientChanged.InvokeAsync(client);
+    }
+
+    private void OpenDialog()
+    {
+        var reference = DialogService.Show<AddClientDialog>("Add Client");
     }
 }

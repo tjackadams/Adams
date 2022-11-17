@@ -3,7 +3,7 @@
 <MudGrid Spacing="4" Justify="Justify.FlexEnd">
 
     <MudItem xs="7">
-        
+
     </MudItem>
 
     <MudItem xs="3">
@@ -24,7 +24,11 @@
     </MudItem>
 
     <MudItem xs="2">
-        <MudButton Variant="Variant.Filled" Color="@Color.Primary" StartIcon="@Icons.Filled.Add" Class="mt-5 mr-5">Add new</MudButton>
+        <MudButton @onclick="OpenDialog"
+                   Variant="Variant.Filled"
+                   Color="@Color.Primary"
+                   StartIcon="@Icons.Filled.Add"
+                   Class="mt-5 mr-5">Add new</MudButton>
     </MudItem>
 
 </MudGrid>
