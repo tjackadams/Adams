@@ -12,7 +12,7 @@ jobs:
     - name: bundleLocation
       value: $(Pipeline.Workspace)/${{ parameters.projectName }}
     - name: connectionString
-      value: 'Server=$(sqlHostname);Database=$(sqlDatabase);User Id=$(sqlUsername);Password=$(sqlPassword);'
+      value: 'Server=$(sqlHostname);Database=$(sqlDatabase);User Id=$(sqlUsername);Password=$(sqlPassword);Encrypt=False;TrustServerCertificate=False;'
 
   strategy: 
    runOnce:
