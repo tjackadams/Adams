@@ -15,6 +15,6 @@ stages:
   - ${{ each dbProject in parameters.dbProjects }}:        
     - template: ../jobs/db_build_and_publish_job.yml
       parameters:
-        projectName: ${{ replace(parameters.dbProject,'.','_') }}
+        projectName: ${{ replace(dbProject,'.','_') }}
           
     

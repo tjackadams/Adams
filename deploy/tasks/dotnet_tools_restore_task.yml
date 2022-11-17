@@ -1,3 +1,4 @@
 steps:
   - script: |
      dotnet tool restore
+    displayName: dotnet tool restore
