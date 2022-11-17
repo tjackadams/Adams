@@ -19,6 +19,7 @@ jobs:
      deploy:
        steps:
          - template: ../tasks/ado_download_pipeline_task.yml
+         - template: ../tasks/dotnet_sdk_task.yml
          - template: ../tasks/ef_migration_bundle_deploy_task.yml
            parameters:
             bundleLocation: ${{ variables.bundleLocation }}
