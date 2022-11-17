@@ -10,9 +10,10 @@ parameters:
 
 steps:
   - script: |
+        mkdir ${{ parameters.dropLocation }}
         dotnet ef migrations bundle --project ${{ parameters.projectPath }} \
           --startup-project ${{ parameters.startUpProjectPath }} \
-          --output ${{ parameters.dropLocation }}/${{ parameters.projectName }}/bundle \
+          --output ${{ parameters.dropLocation }}/bundle \
           --self-contained \
           --configuration Release \
           --verbose
