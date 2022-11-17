@@ -8,14 +8,15 @@ parameters:
 stages:
   - stage: deploy_${{ parameters.projectName }}
     jobs:
-      - template: ../jobs/docker_deploy_job.yml
-        parameters:
-          projectName: ${{ parameters.projectName }}
-
       - ${{ each dbProject in parameters.dbProjects }}:
         - template: ../jobs/db_deploy_job.yml
           parameters:
             projectName: ${{ replace(dbProject,'.','_') }}
+      - template: ../jobs/docker_deploy_job.yml
+        parameters:
+          projectName: ${{ parameters.projectName }}
+
+
           
           
   
