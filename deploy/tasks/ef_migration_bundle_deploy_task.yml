@@ -7,6 +7,6 @@ parameters:
 steps:
   - script: |
       chmod +x bundle
-      ./bundle --connection ${{ parameters.connectionString }} --verbose
+      ./bundle --connection "${{ parameters.connectionString }}" --verbose
     workingDirectory: ${{ parameters.bundleLocation }}
     displayName: Deploy Ef Core
