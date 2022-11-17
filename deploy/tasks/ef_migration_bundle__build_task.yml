@@ -13,5 +13,6 @@ steps:
         dotnet ef migrations bundle --project ${{ parameters.projectPath }} \
           --startup-project ${{ parameters.startUpProjectPath }} \
           --output ${{ parameters.dropLocation }}/${{ parameters.projectName }}/bundle \
+          --configuration Release
           --verbose
     displayName: 'Build EF Migration Bundle'
