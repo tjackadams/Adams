@@ -26,7 +26,7 @@ namespace Nexus.Todo.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetTodoList_Result(System.Collections.Generic.ICollection<TodoId> @data)
+        public GetTodoList_Result(System.Collections.Generic.ICollection<string> @data)
 
         {
 
@@ -37,26 +37,7 @@ namespace Nexus.Todo.Contracts
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
         [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.ICollection<TodoId> Data { get; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class TodoId
-    {
-        [System.Text.Json.Serialization.JsonConstructor]
-
-        public TodoId(int @value)
-
-        {
-
-            this.Value = @value;
-
-        }
-        [System.Text.Json.Serialization.JsonPropertyName("value")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
-        public int Value { get; }
+        public System.Collections.Generic.ICollection<string> Data { get; }
 
     }
 
@@ -65,7 +46,7 @@ namespace Nexus.Todo.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetTodoTasks_Result(TodoId @id, string @title)
+        public GetTodoTasks_Result(string @id, string @title)
 
         {
 
@@ -77,8 +58,8 @@ namespace Nexus.Todo.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("id")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
-        [System.ComponentModel.DataAnnotations.Required]
-        public TodoId Id { get; }
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Id { get; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
 
@@ -171,7 +152,7 @@ namespace Nexus.Todo.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public CreateTodoList_Result(System.DateTimeOffset @createdTime, TodoId @id, string @title)
+        public CreateTodoList_Result(System.DateTimeOffset @createdTime, string @id, string @title)
 
         {
 
@@ -185,8 +166,8 @@ namespace Nexus.Todo.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("id")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.Never)]   
-        [System.ComponentModel.DataAnnotations.Required]
-        public TodoId Id { get; }
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Id { get; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
 
