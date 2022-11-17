@@ -1,0 +1,17 @@
+parameters:
+    - name: projectPath
+      default: ''
+    - name: startUpProjectPath
+      default: ''
+    - name: dropLocation
+      default: ''
+    - name: projectName
+      default: ''
+
+steps:
+  - script: |
+        dotnet ef migrations bundle --self-contained \
+          --project ${{ parameters.projectPath }} \
+          --startup-project ${{ parameters.startUpProjectPath }} \
+          --output ${{ parameters.dropLocation }}/${{ parameters.projectName }}
+    displayName: 'Build EF Migration Bundle'

@@ -14,6 +14,7 @@ jobs:
       - name: dropLocation
         value: "drop/${{ parameters.projectName }}"
     steps:
+      - template: ../tasks/dotnet_tools_restore_task.yml
       - template: ../tasks/script_generate_ef_migration_script_task.yml
         parameters:
           projectPath: ${{ variables.projectPath }}
