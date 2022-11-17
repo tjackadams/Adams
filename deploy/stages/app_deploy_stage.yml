@@ -12,10 +12,10 @@ stages:
         parameters:
           projectName: ${{ parameters.projectName }}
 
-  - ${{ each dbProject in parameters.dbProjects }}:
-    - template: ../jobs/db_deploy_job.yml
-      parameters:
-        projectName: ${{ replace(dbProject,'.','_') }}
+    - ${{ each dbProject in parameters.dbProjects }}:
+      - template: ../jobs/db_deploy_job.yml
+        parameters:
+          projectName: ${{ replace(dbProject,'.','_') }}
           
           
   
