@@ -12,7 +12,7 @@ jobs:
       - name: projectPath
         value: "$(Build.SourcesDirectory)/${{ variables.srcFilePath }}/${{ variables.projectName }}"
       - name: dropLocation
-        value: "drop/${{ parameters.projectName }}"
+        value: "$(Build.ArtifactStagingDirectory)/${{ parameters.projectName }}"
     steps:
       - template: ../tasks/dotnet_sdk_task.yml
       - template: ../tasks/dotnet_tools_restore_task.yml
