@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Nexus.WeightTracker.Api.Features.Weight.Command;
 using Nexus.WeightTracker.Api.Features.Weight.Query;
+using Nexus.WeightTracker.Api.Infrastructure.Authorization;
 using Nexus.WeightTracker.Api.Infrastructure.Routing;
 
 namespace Nexus.WeightTracker.Api.Features.Weight;
@@ -11,32 +12,30 @@ public static class ClientEndpoints
     {
         var group = routes
             .MapGroup("clients")
-            .RequireAuthorization()
+            .RequireAuthorization(AuthorizationPolicyNames.Reader)
             .WithTags(EndpointTags.Client)
             .WithOpenApi();
 
         group.Get<GetClientList.Query>("")
             .Produces<GetClientList.Response>()
-            .RequireAuthorization("Reader")
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden);
 
         group.Post<CreateClient.Command>("")
             .Produces<CreateClient.Response>(StatusCodes.Status201Created)
-            .RequireAuthorization("Writer")
+            .RequireAuthorization(AuthorizationPolicyNames.Writer)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden);
 
         group.Get<GetClientMetricList.Query>("{clientId}/metrics")
             .Produces<GetClientMetricList.Response>()
-            .RequireAuthorization("Reader")
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden);
 
         group.Post<CreateClientMetric.Command>("{clientId}/metrics")
             .Produces<Created>()
-            .RequireAuthorization("Writer")
+            .RequireAuthorization(AuthorizationPolicyNames.Writer)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using Nexus.WeightTracker.Api.Infrastructure.Authorization;
 
 namespace Nexus.WeightTracker.Api.Infrastructure.Extensions;
 
@@ -12,8 +13,8 @@ public static class AuthenticationExtensions
 
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("Reader", policy => policy.RequireRole("WeightTracker.Read"));
-            options.AddPolicy("Writer", policy => policy.RequireRole("WeightTracker.Write"));
+            options.AddPolicy(AuthorizationPolicyNames.Reader, policy => policy.RequireRole("WeightTracker.Read"));
+            options.AddPolicy(AuthorizationPolicyNames.Writer, policy => policy.RequireRole("WeightTracker.Write"));
         });
 
         return builder;
