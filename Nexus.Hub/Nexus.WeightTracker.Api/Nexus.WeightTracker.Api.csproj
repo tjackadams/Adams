@@ -21,11 +21,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="1.25.5" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.25.7" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.17.0" />
-    <PackageReference Include="NSwag.MSBuild" Version="13.17.0">
+    <PackageReference Include="NSwag.AspNetCore" Version="13.18.0" />
+    <PackageReference Include="NSwag.MSBuild" Version="13.18.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -41,9 +41,6 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.9" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="0.1.0-alpha.1" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.0.0" />
-
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,7 +52,7 @@
   </ItemGroup>
 
   <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition="'$(Configuration)'!='Release'">
-    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run nswag.json /variables:Configuration=$(Configuration)" />
+    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run nswag.json /variables:Configuration=$(Configuration)" />
   </Target>
 
 </Project>
