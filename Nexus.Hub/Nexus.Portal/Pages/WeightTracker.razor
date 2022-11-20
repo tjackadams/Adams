@@ -1,3 +1,6 @@
 ﻿@page "/tracker/weight"
 
-<ClientSelection ClientChanged="@OnClientChanged"></ClientSelection>
+<ClientStateProvider>
+    <ClientSelection></ClientSelection>
+    <ClientMetricTable></ClientMetricTable>
+</ClientStateProvider>

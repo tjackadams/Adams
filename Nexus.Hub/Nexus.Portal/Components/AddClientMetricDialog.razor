@@ -1,0 +1,12 @@
+﻿<EditForm Model="@_model">
+
+
+    <MudDialog>
+        <DialogContent>
+            <MudCard>
+                <MudDatePicker Label="Measurement Date" @bind-Date="@_model.RecordedDate" Editable="true" Placeholder="Select Date"></MudDatePicker>
+            </MudCard>
+        </DialogContent>
+    </MudDialog>
+
+</EditForm>

@@ -20,6 +20,9 @@ public partial class ClientSelection
     [Parameter]
     public EventCallback<GetClientList_ClientModel> ClientChanged { get; set; }
 
+    [CascadingParameter]
+    public ClientStateProvider? ClientStateProvider { get; set; }
+
     private GetClientList_Response? _clients;
 
     protected override async Task OnInitializedAsync()
@@ -37,7 +40,10 @@ public partial class ClientSelection
 
     private async Task OnClientChanged(GetClientList_ClientModel client)
     {
-        await ClientChanged.InvokeAsync(client);
+        if (ClientStateProvider is not null)
+        {
+            await ClientStateProvider.SetClientAsync(client);
+        }
     }
 
     private void OpenDialog()

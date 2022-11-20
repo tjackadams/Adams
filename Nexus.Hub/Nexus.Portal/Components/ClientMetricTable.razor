@@ -1,0 +1,20 @@
+﻿@using Nexus.WeightTracker.Contracts
+
+@if (ClientStateProvider is not null)
+{
+    if (ClientStateProvider.Metrics is not null)
+    {
+        <MudGrid>
+            <MudItem>
+                <MudButton @onclick="OpenDialog" StartIcon="@Icons.Filled.Add">
+                    New Measurement 
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+        <MudDataGrid Items="ClientStateProvider.Metrics.Data">
+            <Columns>
+                <Column T="GetClientMetricList_ClientMetric" Field="RecordedDate" FieldType="typeof(DateOnly)" Title="Recorded Date"></Column>
+            </Columns>
+        </MudDataGrid>
+    }
+}

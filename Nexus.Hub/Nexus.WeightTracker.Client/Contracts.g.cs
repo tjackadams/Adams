@@ -116,7 +116,7 @@ namespace Nexus.WeightTracker.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientMetricList_ClientMetric(int @clientMetricId, decimal @recordedValueImperial, decimal @recordedValueMetric)
+        public GetClientMetricList_ClientMetric(int @clientMetricId, System.DateTimeOffset @recordedDate, decimal @recordedValueImperial, decimal @recordedValueMetric)
 
         {
 
@@ -125,6 +125,8 @@ namespace Nexus.WeightTracker.Contracts
             this.RecordedValueMetric = @recordedValueMetric;
 
             this.RecordedValueImperial = @recordedValueImperial;
+
+            this.RecordedDate = @recordedDate;
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("clientMetricId")]
@@ -141,6 +143,12 @@ namespace Nexus.WeightTracker.Contracts
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public decimal RecordedValueImperial { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("recordedDate")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
+        public System.DateTimeOffset RecordedDate { get; }
 
     }
 

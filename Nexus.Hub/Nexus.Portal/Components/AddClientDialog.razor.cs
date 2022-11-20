@@ -9,6 +9,10 @@ namespace Nexus.Portal.Components;
 
 public partial class AddClientDialog
 {
+    private readonly ClientModel _model = new();
+    private FluentValidationValidator? _clientValidator;
+    private ServerValidator? _serverValidator;
+
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = null!;
 
@@ -33,11 +37,11 @@ public partial class AddClientDialog
             }
         }
     }
-    private void Cancel() => MudDialog.Cancel();
 
-    private readonly ClientModel _model = new ClientModel();
-    private FluentValidationValidator? _clientValidator;
-    private ServerValidator? _serverValidator;
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
 
     public class ClientModel
     {
@@ -49,9 +53,8 @@ public partial class AddClientDialog
         public Validator()
         {
             RuleFor(c => c.Name)
-                .NotEmpty();
-            //.MaximumLength(20);
+                .NotEmpty()
+                .MaximumLength(20);
         }
     }
 }
-
