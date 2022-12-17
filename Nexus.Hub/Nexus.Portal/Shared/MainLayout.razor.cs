@@ -32,6 +32,7 @@ public partial class MainLayout
             var userPreference = await Storage.GetItemAsync<UserPreference>(UserPreference.Key);
             _userPreference = userPreference ?? new UserPreference();
             _isReady = true;
+            _drawerOpen = true;
             StateHasChanged();
         }
 
