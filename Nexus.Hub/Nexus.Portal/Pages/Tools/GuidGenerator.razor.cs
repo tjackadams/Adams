@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
+using Nexus.Portal.Infrastructure.Configuration;
 using Nexus.Portal.Services;
 
 namespace Nexus.Portal.Pages.Tools;
@@ -8,7 +10,7 @@ namespace Nexus.Portal.Pages.Tools;
 public partial class GuidGenerator
 {
     [Inject]
-    public ClientSettingsManager Settings { get; set; } = null!;
+    public ILocalStorageService Storage { get; set; } = null!;
 
     [Inject]
     public GuidFormatter Formatter { get; set; } = null!;
@@ -19,55 +21,29 @@ public partial class GuidGenerator
     [Inject]
     public ISnackbar SnackBar { get; set; } = null!;
 
-    public bool Uppercase { get; set; }
-
-    public bool Brackets { get; set; }
-
-    public bool Hyphens { get; set; }
+    private GuidGeneratorSettings _settings = new GuidGeneratorSettings();
 
     private Guid _value;
 
     public string? Value { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var settings = await Settings.GetAsync();
-        if (settings.GuidSettings is not null)
+        if (firstRender)
         {
-            Uppercase = settings.GuidSettings.Uppercase;
-            Brackets = settings.GuidSettings.Brackets;
-            Hyphens = settings.GuidSettings.Hyphens;
+            var settings = await Storage.GetItemAsync<GuidGeneratorSettings>(GuidGeneratorSettings.Key);
+            if (settings is not null)
+            {
+                _settings = settings;
+            }
+
+            await GenerateAsync();
         }
-
-        await GenerateAsync();
-
-        await base.OnInitializedAsync();
     }
 
     private async Task GenerateAsync()
     {
         _value = Guid.NewGuid();
-        await FormatAsync();
-    }
-
-    private async Task OnUppercaseChange(bool uppercase)
-    {
-        Uppercase = uppercase;
-
-        await FormatAsync();
-    }
-
-    private async Task OnBracketsChange(bool brackets)
-    {
-        Brackets = brackets;
-
-        await FormatAsync();
-    }
-
-    private async Task OnHyphenChange(bool hyphens)
-    {
-        Hyphens = hyphens;
-
         await FormatAsync();
     }
 
@@ -79,6 +55,7 @@ public partial class GuidGenerator
 
     private async Task FormatAsync()
     {
-        Value = await Formatter.FormatAsync(_value, Uppercase, Brackets, Hyphens);
+        Value = await Formatter.FormatAsync(_value, _settings);
+        StateHasChanged();
     }
 }

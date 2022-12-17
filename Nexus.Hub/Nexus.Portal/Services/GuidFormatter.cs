@@ -1,24 +1,28 @@
-﻿namespace Nexus.Portal.Services;
+﻿using Blazored.LocalStorage;
+using Nexus.Portal.Infrastructure.Configuration;
+
+namespace Nexus.Portal.Services;
 
 public class GuidFormatter
 {
-    private readonly ClientSettingsManager _settings;
-    public GuidFormatter(ClientSettingsManager settings)
-    {
-        _settings = settings;
-    }
-    public async Task<string> FormatAsync(Guid guid, bool uppercase, bool brackets, bool hyphens)
-    {
-        var value = guid.ToString(brackets ? "B" : "D");
-        value = uppercase ? value.ToUpperInvariant() : value.ToLowerInvariant();
+    private readonly ILocalStorageService _storage;
 
-        if (hyphens)
+    public GuidFormatter(ILocalStorageService storage)
+    {
+        _storage = storage;
+    }
+
+    public async Task<string> FormatAsync(Guid guid, GuidGeneratorSettings settings)
+    {
+        var value = guid.ToString(settings.Brackets ? "B" : "D");
+        value = settings.Uppercase ? value.ToUpperInvariant() : value.ToLowerInvariant();
+
+        if (!settings.Hyphens)
         {
             value = value.Replace("-", string.Empty);
         }
 
-        var settings = await _settings.GetAsync();
-        await _settings.SetAsync(settings with { GuidSettings = new GuidGeneratorOptions(uppercase, brackets, hyphens) });
+        await _storage.SetItemAsync(GuidGeneratorSettings.Key, settings);
 
         return value;
     }
