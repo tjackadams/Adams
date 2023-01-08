@@ -3,6 +3,7 @@ FROM ubuntu:20.04
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y -qq --no-install-recommends tzdata && \
+    apt-utils && \
     ln -fs /usr/share/zoneinfo/Europe/London /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata \
     apt-get install -yq curl apt-transport-https && \
@@ -11,7 +12,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get update && \
     apt-get install -y mssql-tools \
     unixodbc-dev \
-    apt-utils \
     ca-certificates \
     git \
     iputils-ping \
