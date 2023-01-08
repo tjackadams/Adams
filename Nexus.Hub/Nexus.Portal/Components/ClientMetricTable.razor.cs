@@ -13,10 +13,10 @@ public partial class ClientMetricTable
 
     private async void OpenDialog()
     {
-        var parameters = new DialogParameters { ["clientId"]=ClientStateProvider?.Client?.Id };
-        var dialog = DialogService.Show<AddClientMetricDialog>("Add Measurement", parameters);
+        var parameters = new DialogParameters { ["clientId"] = ClientStateProvider?.Client?.Id };
+        var dialog = await DialogService.ShowAsync<AddClientMetricDialog>("Add Measurement", parameters);
         var result = await dialog.Result;
-        if (!result.Cancelled)
+        if (!result.Canceled)
         {
             if (ClientStateProvider is not null)
             {

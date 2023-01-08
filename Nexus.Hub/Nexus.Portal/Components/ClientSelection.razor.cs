@@ -47,9 +47,9 @@ public partial class ClientSelection
 
     private async void OpenDialog()
     {
-        var dialog = DialogService.Show<AddClientDialog>("Add Client");
+        var dialog = await DialogService.ShowAsync<AddClientDialog>("Add Client");
         var result = await dialog.Result;
-        if (!result.Cancelled)
+        if (!result.Canceled)
         {
             try
             {
