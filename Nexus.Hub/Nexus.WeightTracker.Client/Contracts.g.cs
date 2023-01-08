@@ -146,28 +146,43 @@ namespace Nexus.WeightTracker.Contracts
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Created
+    public partial class CreateClientMetric_Response
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public Created(string? @location, int @statusCode)
+        public CreateClientMetric_Response(int @clientId, int @clientMetricId, System.DateOnly @recordedDate, double @recordedValue)
 
         {
 
-            this.StatusCode = @statusCode;
+            this.ClientId = @clientId;
 
-            this.Location = @location;
+            this.ClientMetricId = @clientMetricId;
+
+            this.RecordedValue = @recordedValue;
+
+            this.RecordedDate = @recordedDate;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("statusCode")]
+        [System.Text.Json.Serialization.JsonPropertyName("clientId")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int StatusCode { get; }
+        public int ClientId { get; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("location")]
+        [System.Text.Json.Serialization.JsonPropertyName("clientMetricId")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string? Location { get; }
+        public int ClientMetricId { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("recordedValue")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public double RecordedValue { get; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("recordedDate")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
+        public System.DateOnly RecordedDate { get; }
 
     }
 

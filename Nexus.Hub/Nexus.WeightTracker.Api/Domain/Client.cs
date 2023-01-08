@@ -62,7 +62,7 @@ public class Client
 
         }
 
-        _metrics.Add(new ClientMetric(recordedValue, recordedDate));
+        _metrics.Add(new ClientMetric(ClientId, recordedValue, recordedDate));
 
         return result;
     }

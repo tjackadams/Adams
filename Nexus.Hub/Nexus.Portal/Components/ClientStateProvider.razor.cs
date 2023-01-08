@@ -24,9 +24,19 @@ public partial class ClientStateProvider
     {
         Client = client;
 
+        await GetClientMetricsAsync();
+    }
+
+    public async Task GetClientMetricsAsync()
+    {
+        if (Client is null)
+        {
+            return;
+        }
+
         try
         {
-            Metrics = await TrackerClient.GetClientMetricListAsync(client.Id);
+            Metrics = await TrackerClient.GetClientMetricListAsync(Client.Id);
 
             StateHasChanged();
         }
@@ -34,6 +44,5 @@ public partial class ClientStateProvider
         {
             ConsentHandler.HandleException(ex);
         }
-
     }
 }

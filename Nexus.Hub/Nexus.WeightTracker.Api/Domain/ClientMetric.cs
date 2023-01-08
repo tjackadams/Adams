@@ -22,14 +22,19 @@ public partial struct ClientMetricId
 public class ClientMetric
 {
     protected ClientMetric() { }
-    public ClientMetric(double recordedValue, DateOnly recordedDate)
+    public ClientMetric(ClientId clientId, double recordedValue, DateOnly recordedDate)
     {
+        ClientId = clientId;
         RecordedValue = recordedValue;
         RecordedDate = recordedDate;
     }
 
 
     public ClientMetricId ClientMetricId { get; private set; }
+
+    public ClientId ClientId { get; private set; }
+
+    public Client Client {get; private set;}
 
     public double RecordedValue { get; private set; }
 

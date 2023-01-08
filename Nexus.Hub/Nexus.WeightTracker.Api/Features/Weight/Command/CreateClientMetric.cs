@@ -15,6 +15,9 @@ public static class CreateClientMetric
 
     public record Data(double RecordedValue, DateOnly RecordedDate);
 
+    public record Response(ClientId ClientId, ClientMetricId ClientMetricId, double RecordedValue,
+        DateOnly RecordedDate);
+
     public class Handler : IRequestHandler<Command, IResult>
     {
         private readonly WeightDbContext _db;
@@ -42,7 +45,16 @@ public static class CreateClientMetric
 
             await _db.SaveChangesAsync(cancellationToken);
 
-            return TypedResults.StatusCode(StatusCodes.Status201Created);
+            var metric = client.Metrics
+                .Single(m => m.RecordedDate == request.Data.RecordedDate);
+
+            return TypedResults.Created($"/clients/{client.ClientId}/metrics/${metric.ClientMetricId}",
+                ToModel(metric));
+        }
+
+        private static Response ToModel(ClientMetric clientMetric)
+        {
+            return new Response(ClientId: clientMetric.ClientId, ClientMetricId: clientMetric.ClientMetricId, RecordedValue: clientMetric.RecordedValue, RecordedDate: clientMetric.RecordedDate);
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Hosting.Server;
 using MudBlazor;
 
 namespace Nexus.Portal.Components;
@@ -12,9 +11,17 @@ public partial class ClientMetricTable
     [CascadingParameter]
     public ClientStateProvider? ClientStateProvider { get; set; }
 
-    private void OpenDialog()
+    private async void OpenDialog()
     {
         var parameters = new DialogParameters { ["clientId"]=ClientStateProvider?.Client?.Id };
-        var reference = DialogService.Show<AddClientMetricDialog>("Add Measurement", parameters);
+        var dialog = DialogService.Show<AddClientMetricDialog>("Add Measurement", parameters);
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            if (ClientStateProvider is not null)
+            {
+                await ClientStateProvider.GetClientMetricsAsync();
+            }
+        }
     }
 }
