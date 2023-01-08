@@ -1,17 +1,17 @@
 FROM ubuntu:20.04
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y -qq apt-utils && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends apt-utils && \
+    apt-get update && \
+    apt-get upgrade -y && \   
     apt-get install -y -qq --no-install-recommends tzdata && \    
     apt-get update && \
     ln -fs /usr/share/zoneinfo/Europe/London /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get install -y -qq curl apt-transport-https && \
+    apt-get install -y -qq --no-install-recommends curl apt-transport-https && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | tee /etc/apt/sources.list.d/msprod.list && \
     apt-get update && \
-    apt-get install -y mssql-tools \
+    apt-get install -y -qq --no-install-recommends mssql-tools \
     unixodbc-dev \
     ca-certificates \
     git \
