@@ -22,7 +22,7 @@ public partial struct ClientMetricId
 public class ClientMetric
 {
     protected ClientMetric() { }
-    public ClientMetric(decimal recordedValue, DateOnly recordedDate)
+    public ClientMetric(double recordedValue, DateOnly recordedDate)
     {
         RecordedValue = recordedValue;
         RecordedDate = recordedDate;
@@ -31,7 +31,7 @@ public class ClientMetric
 
     public ClientMetricId ClientMetricId { get; private set; }
 
-    public decimal RecordedValue { get; private set; }
+    public double RecordedValue { get; private set; }
 
     public DateOnly RecordedDate { get; private set; }
 

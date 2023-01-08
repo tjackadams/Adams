@@ -9,7 +9,7 @@
                                   For="@(() => _model.Name)"
                                   Immediate="true" 
                                   Label="Client Name"
-                                  HelperText="@string.Format("Max 20 characters {0}/20", _model.Name?.Length ?? 0)"/>
+                                  HelperText="@($"Max 20 characters {_model.Name?.Length ?? 0}/20")"/>
                 </MudCardContent>
             </MudCard>
         </DialogContent>

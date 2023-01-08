@@ -12,8 +12,7 @@ public static class GetClientMetricList
 
     public record Response(IReadOnlyCollection<ClientMetric> Data);
 
-    public record ClientMetric(ClientMetricId ClientMetricId, decimal RecordedValueMetric,
-        decimal RecordedValueImperial, DateOnly RecordedDate);
+    public record ClientMetric(ClientMetricId ClientMetricId, double RecordedValueMetric, DateOnly RecordedDate);
     public class Handler : IRequestHandler<Query, IResult>
     {
         private readonly WeightDbContext _db;
@@ -41,7 +40,6 @@ public static class GetClientMetricList
             return new ClientMetric(
                 ClientMetricId: metric.ClientMetricId,
                 RecordedValueMetric: metric.RecordedValue,
-                RecordedValueImperial: metric.RecordedValue * 0.15747M,
                 RecordedDate: metric.RecordedDate
                 );
         }

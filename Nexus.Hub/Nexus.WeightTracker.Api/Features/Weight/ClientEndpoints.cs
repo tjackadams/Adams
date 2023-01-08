@@ -34,7 +34,7 @@ public static class ClientEndpoints
             .ProducesProblem(StatusCodes.Status403Forbidden);
 
         group.Post<CreateClientMetric.Command>("{clientId}/metrics")
-            .Produces<Created>()
+            .Produces<Created>(StatusCodes.Status201Created)
             .RequireAuthorization(AuthorizationPolicyNames.Writer)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status401Unauthorized)

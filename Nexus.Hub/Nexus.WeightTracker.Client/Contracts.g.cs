@@ -116,15 +116,13 @@ namespace Nexus.WeightTracker.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientMetricList_ClientMetric(int @clientMetricId, System.DateTimeOffset @recordedDate, decimal @recordedValueImperial, decimal @recordedValueMetric)
+        public GetClientMetricList_ClientMetric(int @clientMetricId, System.DateOnly @recordedDate, double @recordedValueMetric)
 
         {
 
             this.ClientMetricId = @clientMetricId;
 
             this.RecordedValueMetric = @recordedValueMetric;
-
-            this.RecordedValueImperial = @recordedValueImperial;
 
             this.RecordedDate = @recordedDate;
 
@@ -137,18 +135,13 @@ namespace Nexus.WeightTracker.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("recordedValueMetric")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public decimal RecordedValueMetric { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("recordedValueImperial")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public decimal RecordedValueImperial { get; }
+        public double RecordedValueMetric { get; }
 
         [System.Text.Json.Serialization.JsonPropertyName("recordedDate")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
-        public System.DateTimeOffset RecordedDate { get; }
+        public System.DateOnly RecordedDate { get; }
 
     }
 
@@ -183,7 +176,7 @@ namespace Nexus.WeightTracker.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public CreateClientMetric_Data(System.DateTimeOffset @recordedDate, decimal @recordedValue)
+        public CreateClientMetric_Data(System.DateOnly @recordedDate, double @recordedValue)
 
         {
 
@@ -195,20 +188,20 @@ namespace Nexus.WeightTracker.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("recordedValue")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public decimal RecordedValue { get; }
+        public double RecordedValue { get; }
 
         [System.Text.Json.Serialization.JsonPropertyName("recordedDate")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
-        public System.DateTimeOffset RecordedDate { get; }
+        public System.DateOnly RecordedDate { get; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    internal class DateFormatConverter : System.Text.Json.Serialization.JsonConverter<System.DateTimeOffset>
+    internal class DateFormatConverter : System.Text.Json.Serialization.JsonConverter<System.DateOnly>
     {
-        public override System.DateTimeOffset Read(ref System.Text.Json.Utf8JsonReader reader, System.Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
+        public override System.DateOnly Read(ref System.Text.Json.Utf8JsonReader reader, System.Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
         {
             var dateTime = reader.GetString();
             if (dateTime == null)
@@ -216,10 +209,10 @@ namespace Nexus.WeightTracker.Contracts
                 throw new System.Text.Json.JsonException("Unexpected JsonTokenType.Null");
             }
 
-            return System.DateTimeOffset.Parse(dateTime);
+            return System.DateOnly.Parse(dateTime);
         }
 
-        public override void Write(System.Text.Json.Utf8JsonWriter writer, System.DateTimeOffset value, System.Text.Json.JsonSerializerOptions options)
+        public override void Write(System.Text.Json.Utf8JsonWriter writer, System.DateOnly value, System.Text.Json.JsonSerializerOptions options)
         {
             writer.WriteStringValue(value.ToString("yyyy-MM-dd"));
         }

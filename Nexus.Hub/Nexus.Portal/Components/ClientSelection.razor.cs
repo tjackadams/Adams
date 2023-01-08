@@ -35,7 +35,6 @@ public partial class ClientSelection
         {
             ConsentHandler.HandleException(ex);
         }
-
     }
 
     private async Task OnClientChanged(GetClientList_ClientModel client)
@@ -46,8 +45,20 @@ public partial class ClientSelection
         }
     }
 
-    private void OpenDialog()
+    private async void OpenDialog()
     {
-        var reference = DialogService.Show<AddClientDialog>("Add Client");
+        var dialog = DialogService.Show<AddClientDialog>("Add Client");
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            try
+            {
+                _clients = await TrackerClient.GetClientListAsync();
+            }
+            catch (Exception ex)
+            {
+                ConsentHandler.HandleException(ex);
+            }
+        }
     }
 }

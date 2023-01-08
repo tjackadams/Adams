@@ -1,12 +1,25 @@
-﻿<EditForm Model="@_model">
-
-
+﻿<EditForm Model="_model" OnSubmit="@SubmitAsync">
     <MudDialog>
         <DialogContent>
             <MudCard>
-                <MudDatePicker Label="Measurement Date" @bind-Date="@_model.RecordedDate" Editable="true" Placeholder="Select Date"></MudDatePicker>
+                <FluentValidationValidator DisableAssemblyScanning="@true" @ref="@_clientValidator"/>
+                <ServerValidator @ref="@_serverValidator"/>
+                <MudDatePicker Label="Measurement Date"
+                               @bind-Date="_model.RecordedDate"
+                               Editable="true"
+                               Placeholder="Select Date">
+                </MudDatePicker>
+                <MudNumericField Variant="Variant.Text"
+                                 Label="Weight (Kg)"
+                                 @bind-Value="_model.RecordedValue"
+                                 Min="0"
+                                 HideSpinButtons="true">
+                </MudNumericField>
             </MudCard>
         </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="Cancel">Cancel</MudButton>
+            <MudButton Color="Color.Primary" ButtonType="ButtonType.Submit">Add</MudButton>
+        </DialogActions>
     </MudDialog>
-
 </EditForm>

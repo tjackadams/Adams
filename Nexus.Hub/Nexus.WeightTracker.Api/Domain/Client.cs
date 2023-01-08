@@ -48,7 +48,7 @@ public class Client
 
     public byte[] Version { get; private set; }
 
-    public FluentResults.Result AddMetric(decimal recordedValue, DateOnly recordedDate)
+    public FluentResults.Result AddMetric(double recordedValue, DateOnly recordedDate)
     {
         var result = FluentResults.Result.Ok();
 

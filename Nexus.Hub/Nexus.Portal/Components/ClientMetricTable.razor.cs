@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Hosting.Server;
 using MudBlazor;
 
 namespace Nexus.Portal.Components;
@@ -13,6 +14,7 @@ public partial class ClientMetricTable
 
     private void OpenDialog()
     {
-        var reference = DialogService.Show<AddClientMetricDialog>("Add Measurement");
+        var parameters = new DialogParameters { ["clientId"]=ClientStateProvider?.Client?.Id };
+        var reference = DialogService.Show<AddClientMetricDialog>("Add Measurement", parameters);
     }
 }

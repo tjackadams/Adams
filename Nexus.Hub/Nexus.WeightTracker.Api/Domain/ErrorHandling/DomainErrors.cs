@@ -4,7 +4,7 @@ namespace Nexus.WeightTracker.Api.Domain.ErrorHandling;
 
 public class InvalidRecordedValue : Error
 {
-    public InvalidRecordedValue(decimal recordedValue)
+    public InvalidRecordedValue(double recordedValue)
         : base($"The provided value {recordedValue} is invalid.")
     {
         Metadata.Add("PropertyName", "RecordedValue");

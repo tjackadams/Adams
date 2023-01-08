@@ -13,7 +13,7 @@ public static class CreateClientMetric
         [property: FromRoute] ClientId ClientId,
         [property: FromBody] Data Data) : IRequest<IResult>;
 
-    public record Data(decimal RecordedValue, DateOnly RecordedDate);
+    public record Data(double RecordedValue, DateOnly RecordedDate);
 
     public class Handler : IRequestHandler<Command, IResult>
     {
@@ -37,7 +37,7 @@ public static class CreateClientMetric
 
             if (result.IsFailed)
             {
-                return TypedResults.ValidationProblem(result.Errors.ToDictionary(e => e.Metadata["PropetyName"].ToString(), e => new[] { e.Message }));
+                return TypedResults.ValidationProblem(result.Errors.ToDictionary(e => e.Metadata["PropertyName"].ToString()!, e => new[] { e.Message }));
             }
 
             await _db.SaveChangesAsync(cancellationToken);
