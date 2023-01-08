@@ -2,11 +2,12 @@ FROM ubuntu:20.04
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y -qq --no-install-recommends tzdata && \
-    apt-utils && \
+    apt-get install -y -qq apt-utils && \
+    apt-get install -y -qq --no-install-recommends tzdata && \    
+    apt-get update && \
     ln -fs /usr/share/zoneinfo/Europe/London /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata \
-    apt-get install -yq curl apt-transport-https && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    apt-get install -y -qq curl apt-transport-https && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | tee /etc/apt/sources.list.d/msprod.list && \
     apt-get update && \
@@ -21,7 +22,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     openssh-client \
     unzip \
     wget \
-    gnupg
+    gnupg && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists
 
 RUN curl -fsSL https://get.docker.com -o get-docker.sh
 
