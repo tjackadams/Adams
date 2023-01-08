@@ -1,7 +1,8 @@
 {
   "yaml.schemas": {
     "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": [
-      "**/deploy/**/**.yml"
+      "**/deploy/**/**.yml",
+      "file:///c%3A/Users/tjack/source/repos/tjackadams/Adams/azure-pipelines.db-backup.yml"
     ]
   }
 }

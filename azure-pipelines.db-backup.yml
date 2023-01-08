@@ -1,0 +1,17 @@
+schedules:
+- cron: "0 2 * * *"
+  displayName: Daily morning build
+
+variables: 
+  - group: variables
+    
+steps:
+  - task: SqlDacpacDeploymentOnMachineGroup@0
+    inputs:
+     TaskType: 'sqlInline'
+     InlineSql: "EXECUTE dbo.DatabaseBackup @Databases='USER_DATABASES',@Directory='/backup/',@BackupType='FULL',@Verify='Y',@CleanupTime=168,@CheckSum='Y',@NumberOfFiles=14"
+     ServerName: $(sqlHostname)
+     DatabaseName: 'master'
+     AuthScheme: 'sqlServerAuthentication'
+     SqlUsername: $(sqlUsername)
+     SqlPassword: $(sqlPassword)
