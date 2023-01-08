@@ -1,6 +1,9 @@
 schedules:
 - cron: "0 2 * * *"
   displayName: Daily morning build
+  branches:
+    include:
+    - main
 
 variables: 
   - group: variables
