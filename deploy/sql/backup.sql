@@ -1,0 +1,1 @@
+EXECUTE dbo.DatabaseBackup @Databases='USER_DATABASES',@Directory='/backup/',@BackupType='FULL',@Verify='Y',@CleanupTime=168,@CheckSum='Y',@NumberOfFiles=14

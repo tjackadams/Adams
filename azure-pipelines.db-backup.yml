@@ -9,12 +9,10 @@ variables:
   - group: variables
     
 steps:
-  - task: SqlDacpacDeploymentOnMachineGroup@0
-    inputs:
-     TaskType: 'sqlInline'
-     InlineSql: "EXECUTE dbo.DatabaseBackup @Databases='USER_DATABASES',@Directory='/backup/',@BackupType='FULL',@Verify='Y',@CleanupTime=168,@CheckSum='Y',@NumberOfFiles=14"
-     ServerName: $(sqlHostname)
-     DatabaseName: 'master'
-     AuthScheme: 'sqlServerAuthentication'
-     SqlUsername: $(sqlUsername)
-     SqlPassword: $(sqlPassword)
+  - bash: |
+      mssql-cli --username "$($sqlUsername)" \
+        --password "$($sqlPassword)" \
+        --database "master" \
+        --server "$($sqlHostname)" \
+        --trust-server-certificate \
+        --input_file "../sql/backup.sql"
