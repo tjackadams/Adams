@@ -10,7 +10,7 @@ variables:
     
 steps:
   - bash: |
-      sqlcmd -U "${{ variables.sqlUsername }}" \
+      sqlcmd -U ${{ variables.sqlUsername }} \
         -P "$($sqlPassword)" \
         -d "master" \
         -S "$($sqlHostname)" \
