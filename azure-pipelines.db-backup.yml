@@ -15,4 +15,5 @@ steps:
         -d "master" \
         -S $(sqlHostname) \
         -C \
-        -q "EXECUTE dbo.DatabaseBackup @Databases='USER_DATABASES',@Directory='/backup/',@BackupType='FULL',@Verify='Y',@CleanupTime=168,@CheckSum='Y',@NumberOfFiles=14"
+        -l 30 \
+        -Q "EXECUTE dbo.DatabaseBackup @Databases='USER_DATABASES',@Directory='/backup/',@BackupType='FULL',@Verify='Y',@CleanupTime=168,@CheckSum='Y',@NumberOfFiles=14"
