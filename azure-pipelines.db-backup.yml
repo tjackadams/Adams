@@ -10,9 +10,9 @@ variables:
     
 steps:
   - bash: |
-      sqlcmd -U ${{ variables.sqlUsername }} \
-        -P "$($sqlPassword)" \
+      sqlcmd -U $(sqlUsername) \
+        -P $(sqlPassword) \
         -d "master" \
-        -S "$($sqlHostname)" \
+        -S $(sqlHostname) \
         -C \
         -q "EXECUTE dbo.DatabaseBackup @Databases='USER_DATABASES',@Directory='/backup/',@BackupType='FULL',@Verify='Y',@CleanupTime=168,@CheckSum='Y',@NumberOfFiles=14"
