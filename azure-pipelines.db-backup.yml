@@ -10,9 +10,9 @@ variables:
     
 steps:
   - bash: |
-      mssql-cli --username "$($sqlUsername)" \
-        --password "$($sqlPassword)" \
-        --database "master" \
-        --server "$($sqlHostname)" \
-        --trust-server-certificate \
-        --input_file "../sql/backup.sql"
+      sqlcmd -U "$($sqlUsername)" \
+        -P "$($sqlPassword)" \
+        -d "master" \
+        -S "$($sqlHostname)" \
+        -C \
+        -i "../sql/backup.sql"
