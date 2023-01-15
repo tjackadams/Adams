@@ -5,11 +5,14 @@ schedules:
     include:
     - main
   always: "true"
-variables: 
-  - group: variables
-    
+
+trigger: none
+
 pool: 
   name: "Default"
+
+variables: 
+  - group: variables
     
 steps:
   - checkout: none
