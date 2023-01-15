@@ -3,4 +3,3 @@ variables:
   containerRegistry: 'DockerHub'
   buildContext: 'default'
   deployContext: 'nas'
-  deployPool: 'Default'

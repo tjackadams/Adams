@@ -8,8 +8,6 @@ parameters:
 jobs:
 - deployment: '${{ parameters.projectName }}_${{ parameters.environmentName }}_Database'
   environment: ${{ parameters.environmentName }}
-  pool: 
-    name: ${{ variables.deployPool }}
   variables:
     - name: bundleLocation
       value: $(Pipeline.Workspace)/${{ parameters.projectName }}
