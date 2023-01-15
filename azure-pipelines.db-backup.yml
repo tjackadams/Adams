@@ -12,6 +12,7 @@ pool:
   name: "Default"
     
 steps:
+  - checkout: none
   - task: PowerShell@2
     inputs:
       targetType: inline
@@ -22,14 +23,4 @@ steps:
       targetType: inline
       script: |
         Invoke-SqlCmd -ServerInstance $(sqlHostname) -Database master -Username $(sqlUsername) -Password $(sqlPassword) -Query "EXECUTE dbo.DatabaseBackup @Databases='USER_DATABASES',@Directory='/backup/',@BackupType='FULL',@Verify='Y',@CleanupTime=168,@CheckSum='Y',@NumberOfFiles=14"
-    
-  - bash: |
-      sqlcmd -U $(sqlUsername) \
-        -P $(sqlPassword) \
-        -d "master" \
-        -S $(sqlHostname) \
-        -C \
-        -l 30 \
-        -Q "EXECUTE dbo.DatabaseBackup @Databases='USER_DATABASES',@Directory='/backup/',@BackupType='FULL',@Verify='Y',@CleanupTime=168,@CheckSum='Y',@NumberOfFiles=14"
-    enabled: "false"
     
