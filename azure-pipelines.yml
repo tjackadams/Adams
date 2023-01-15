@@ -4,9 +4,6 @@ trigger:
     - '*.yml'
     - '**/*.yml'
 
-pool: 
-  name: 'Default'
-
 variables:
   - template: ./deploy/variables/variables.yml
   - group: variables

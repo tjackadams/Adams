@@ -8,7 +8,8 @@ parameters:
 jobs:
   - deployment: '${{ parameters.projectName }}_${{ parameters.environmentName }}'
     environment: ${{ parameters.environmentName }}
-
+    pool: 
+      name: ${{ variables.deployPool }}
     strategy: 
       runOnce:
         deploy:
