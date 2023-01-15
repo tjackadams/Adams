@@ -1,6 +1,7 @@
 trigger:
   paths:
     exclude:
+    - '*.yml'
     - '**/*.yml'
 
 pool: 
