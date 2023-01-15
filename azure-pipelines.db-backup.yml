@@ -17,11 +17,13 @@ variables:
 steps:
   - checkout: none
   - task: PowerShell@2
+    displayName: 'Install SqlServer Powershell Module'
     inputs:
       targetType: inline
       script: |
         Install-Module -Name SqlServer -Force
   - task: PowerShell@2
+    displayName: 'Database Backup'
     inputs:
       targetType: inline
       script: |
