@@ -8,6 +8,9 @@ schedules:
 variables: 
   - group: variables
     
+pool: 
+  name: "Default"
+    
 steps:
   - task: PowerShell@2
     inputs:
