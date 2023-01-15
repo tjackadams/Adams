@@ -9,6 +9,11 @@ variables:
   - group: variables
     
 steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: inline
+      script: |
+        Invoke-SqlCmd -ServerInstance $(sqlHostname) -Database master -Username $(sqlUsername) -Password $(sqlPassword) -Query "select 1 1"
   - bash: |
       sqlcmd -U $(sqlUsername) \
         -P $(sqlPassword) \
@@ -17,3 +22,4 @@ steps:
         -C \
         -l 30 \
         -Q "EXECUTE dbo.DatabaseBackup @Databases='USER_DATABASES',@Directory='/backup/',@BackupType='FULL',@Verify='Y',@CleanupTime=168,@CheckSum='Y',@NumberOfFiles=14"
+    enabled: false
