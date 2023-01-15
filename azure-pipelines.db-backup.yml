@@ -11,6 +11,10 @@ variables:
 steps:
   - task: PowerShell@2
     inputs:
+      script: |
+        Install-Module -Name SqlServer
+  - task: PowerShell@2
+    inputs:
       targetType: inline
       script: |
         Invoke-SqlCmd -ServerInstance $(sqlHostname) -Database master -Username $(sqlUsername) -Password $(sqlPassword) -Query "select 1 1"
