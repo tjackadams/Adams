@@ -11,6 +11,23 @@ variables:
   - template: ./deploy/variables/variables.yml
   - group: variables
 
+resources:  
+  containers:    
+    - container: db
+      image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
+      ports:        
+        - 8081:8081
+        - 10250-10255:10250-10255
+      env:        
+        AZURE_COSMOS_EMULATOR_PARTITION_COUNT: 20         
+        AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE: false    
+    - container: storage
+      image: mcr.microsoft.com/azure-storage/azurite
+      ports:       
+       - 10000:10000
+        - 10001:10001
+        - 10002:10002
+
 name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:r)
 stages:
   - template: ./deploy/stages/app_build_stage.yml

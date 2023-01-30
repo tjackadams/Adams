@@ -4,6 +4,9 @@ parameters:
 
 jobs:
   - job: Build_${{ replace(parameters.projectName, '.','_') }}
+    services:
+      db: db
+      storage: storage
     steps:
      - template: ../tasks/docker_context_cli_task.yml
        parameters:
