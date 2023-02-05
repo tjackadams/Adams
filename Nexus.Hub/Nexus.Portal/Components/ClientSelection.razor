@@ -1,12 +1,21 @@
 ﻿@using Nexus.WeightTracker.Contracts;
 
-<MudGrid Spacing="4" Justify="Justify.FlexEnd">
+<MudGrid Spacing="8">
 
-    <MudItem xs="7">
+    <MudItem Class="flex-grow-1">
 
     </MudItem>
+    
+    @if (_clientsLoading)
+    {
 
-    <MudItem xs="3">
+    }
+    else
+    {
+
+   
+
+    <MudItem Class="flex-shrink-0">
         @if (_clients is not null)
         {
 
@@ -23,12 +32,12 @@
         }
     </MudItem>
 
-    <MudItem xs="2">
+    <MudItem Class="flex-shrink-0">
         <MudButton @onclick="OpenDialog"
                    Variant="Variant.Filled"
                    Color="@Color.Primary"
                    StartIcon="@Icons.Material.Filled.Add"
                    Class="mt-5 mr-5">Add new</MudButton>
     </MudItem>
-
+    }
 </MudGrid>

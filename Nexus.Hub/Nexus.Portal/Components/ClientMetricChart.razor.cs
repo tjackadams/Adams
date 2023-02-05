@@ -20,7 +20,7 @@ public partial class ClientMetricChart
             return Task.CompletedTask;
         }
 
-        if (ClientStateProvider is not null)
+        if (ClientStateProvider?.Client != null)
         {
             if (ClientStateProvider.Metrics is not null)
             {

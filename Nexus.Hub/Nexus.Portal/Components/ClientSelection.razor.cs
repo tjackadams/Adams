@@ -25,11 +25,14 @@ public partial class ClientSelection
 
     private GetClientList_Response? _clients;
 
+    private bool _clientsLoading = true;
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
             _clients = await TrackerClient.GetClientListAsync();
+            _clientsLoading = false;
         }
         catch (Exception ex)
         {
