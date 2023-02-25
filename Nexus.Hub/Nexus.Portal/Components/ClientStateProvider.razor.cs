@@ -16,9 +16,30 @@ public partial class ClientStateProvider
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    public GetClientList_Response? Clients { get; private set; }
+
     public GetClientList_ClientModel? Client { get; private set; }
 
     public GetClientMetricList_Response? Metrics { get; private set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetClientsAsync();
+    }
+
+    public async Task GetClientsAsync()
+    {
+        try
+        {
+            Clients = await TrackerClient.GetClientListAsync();
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            ConsentHandler.HandleException(ex);
+        }
+    }
 
     public async Task SetClientAsync(GetClientList_ClientModel client)
     {

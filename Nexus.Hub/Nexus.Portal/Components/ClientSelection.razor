@@ -5,25 +5,16 @@
     <MudItem Class="flex-grow-1">
 
     </MudItem>
-    
-    @if (_clientsLoading)
-    {
-
-    }
-    else
-    {
-
-   
 
     <MudItem Class="flex-shrink-0">
-        @if (_clients is not null)
+        @if (ClientStateProvider?.Clients is not null)
         {
 
             <MudSelect T="GetClientList_ClientModel" ValueChanged="@OnClientChanged" HelperText="Select a client"
                    Label="Client"
                    Variant="Variant.Text">
 
-                @foreach (var client in _clients.Data)
+                @foreach (var client in ClientStateProvider.Clients.Data)
                 {
                     <MudSelectItem Value="client">@client.Name</MudSelectItem>
                 }
@@ -39,5 +30,5 @@
                    StartIcon="@Icons.Material.Filled.Add"
                    Class="mt-5 mr-5">Add new</MudButton>
     </MudItem>
-    }
+
 </MudGrid>

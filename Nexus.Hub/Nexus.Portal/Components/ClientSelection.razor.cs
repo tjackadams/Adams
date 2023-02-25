@@ -23,23 +23,6 @@ public partial class ClientSelection
     [CascadingParameter]
     public ClientStateProvider? ClientStateProvider { get; set; }
 
-    private GetClientList_Response? _clients;
-
-    private bool _clientsLoading = true;
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            _clients = await TrackerClient.GetClientListAsync();
-            _clientsLoading = false;
-        }
-        catch (Exception ex)
-        {
-            ConsentHandler.HandleException(ex);
-        }
-    }
-
     private async Task OnClientChanged(GetClientList_ClientModel client)
     {
         if (ClientStateProvider is not null)
@@ -56,11 +39,11 @@ public partial class ClientSelection
         {
             try
             {
-                _clients = await TrackerClient.GetClientListAsync();
+                ClientStateProvider?.GetClientsAsync();
             }
             catch (Exception ex)
             {
-                ConsentHandler.HandleException(ex);
+                ConsentHandler?.HandleException(ex);
             }
         }
     }

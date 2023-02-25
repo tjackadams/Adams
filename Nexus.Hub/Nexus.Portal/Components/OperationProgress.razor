@@ -1,0 +1,10 @@
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@if (GlobalProgressState.Value.RequestsInProgress > 0)
+{
+    <MudGrid>
+        <MudItem Class="flex-grow-1">
+            <MudProgressLinear Class="my-7" Color="Color.Secondary" Indeterminate="true" />
+        </MudItem>
+    </MudGrid>
+}
