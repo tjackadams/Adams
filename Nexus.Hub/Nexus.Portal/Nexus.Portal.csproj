@@ -11,10 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazor-State" Version="8.0.0" />
     <PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
-    <PackageReference Include="Fluxor.Blazor.Web" Version="5.7.0" />
     <PackageReference Include="LettuceEncrypt" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.1" />

@@ -1,21 +1,23 @@
-﻿using Fluxor;
-using Nexus.Portal.Store.GlobalProgressUseCase;
+﻿using MediatR;
+using Nexus.Portal.Features.GlobalProgress;
 
 namespace Nexus.Portal.Infrastructure.Http;
 
 public class ShowOperationProgressMessageHandler : DelegatingHandler
 {
-    private readonly IDispatcher _dispatcher;
+    private readonly IMediator _mediator;
 
-    public ShowOperationProgressMessageHandler(IDispatcher dispatcher)
+    public ShowOperationProgressMessageHandler(IMediator mediator)
     {
-        _dispatcher = dispatcher;
+        _mediator = mediator;
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        _dispatcher.Dispatch(new IncrementGlobalProgressAction());
+        await _mediator.Send(new GlobalProgressState.IncrementGlobalProgressAction(), cancellationToken);
+
+        await Task.Delay(1000);
 
         HttpResponseMessage response;
 
@@ -25,7 +27,7 @@ public class ShowOperationProgressMessageHandler : DelegatingHandler
         }
         finally
         {
-            _dispatcher.Dispatch(new DecrementGlobalProgressAction());
+            await _mediator.Send(new GlobalProgressState.DecrementGlobalProgressAction(), cancellationToken);
         }
 
         return response;

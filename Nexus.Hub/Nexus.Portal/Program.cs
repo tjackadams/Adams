@@ -1,6 +1,6 @@
 ﻿using Blazored.LocalStorage;
+using BlazorState;
 using FluentValidation;
-using Fluxor;
 using LettuceEncrypt;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -46,7 +46,11 @@ builder.Services.AddServerSideBlazor()
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
-builder.Services.AddFluxor(options => options.ScanAssemblies(typeof(Program).Assembly));
+builder.Services.AddBlazorState(options =>
+{
+    options.UseReduxDevTools();
+    options.Assemblies = new[] { typeof(Program).Assembly };
+});
 
 builder.Services.AddServices();
 

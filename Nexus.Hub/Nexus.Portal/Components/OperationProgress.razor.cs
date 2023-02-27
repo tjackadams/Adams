@@ -1,12 +1,8 @@
-﻿using Fluxor;
-using Microsoft.AspNetCore.Components;
-using Nexus.Portal.Services;
-using Nexus.Portal.Store.GlobalProgressUseCase;
+﻿using Nexus.Portal.Features.GlobalProgress;
 
 namespace Nexus.Portal.Components;
 
 public partial class OperationProgress
 {
-    [Inject]
-    public IState<GlobalProgressState> GlobalProgressState { get; set; } = null!;
+    private GlobalProgressState State => GetState<GlobalProgressState>();
 }
