@@ -57,7 +57,7 @@ public partial class ClientStateProvider
 
         try
         {
-            Metrics = await TrackerClient.GetClientMetricListAsync(Client.Id);
+            Metrics = await TrackerClient.GetClientMetricListAsync(Client.ClientId);
 
             StateHasChanged();
         }

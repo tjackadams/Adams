@@ -9,8 +9,11 @@ public partial class ClientState : State<ClientState>
 
     public ClientViewModel? CurrentClient { get; private set; }
 
+    public List<ClientMetricViewModel> CurrentClientMetrics { get; private set; } = null!;
+
     public override void Initialize()
     {
         Clients = new List<ClientViewModel>();
+        CurrentClientMetrics = new List<ClientMetricViewModel>();
     }
 }

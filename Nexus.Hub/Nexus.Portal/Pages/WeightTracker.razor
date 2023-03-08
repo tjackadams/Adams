@@ -5,5 +5,10 @@
 <ClientStateProvider>
     <ClientSelection Clients="ClientState.Clients"></ClientSelection>
     <ClientMetricChart></ClientMetricChart>
-    <ClientMetricTable></ClientMetricTable>
+    
+    @if (ClientState.CurrentClient is not null)
+    {
+        <ClientMetricTable Client="ClientState.CurrentClient" Metrics="ClientState.CurrentClientMetrics"></ClientMetricTable>
+    }
+
 </ClientStateProvider>

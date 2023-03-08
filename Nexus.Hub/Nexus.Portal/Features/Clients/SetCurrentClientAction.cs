@@ -1,4 +1,5 @@
 ﻿using BlazorState;
+using Nexus.WeightTracker;
 using Nexus.WeightTracker.Contracts;
 
 namespace Nexus.Portal.Features.Clients;
@@ -9,18 +10,22 @@ public partial class ClientState
 
     public class SetCurrentClientHandler : ActionHandler<SetCurrentClientAction>
     {
-        public SetCurrentClientHandler(IStore aStore)
+        private readonly WeightTrackerClient _client;
+
+        public SetCurrentClientHandler(IStore aStore, WeightTrackerClient client)
             : base(aStore)
         {
+            _client = client;
         }
 
         private ClientState ClientState => Store.GetState<ClientState>();
 
-        public override Task Handle(SetCurrentClientAction aAction, CancellationToken aCancellationToken)
+        public override async Task Handle(SetCurrentClientAction aAction, CancellationToken aCancellationToken)
         {
-            ClientState.CurrentClient = aAction.Client;
+            var metrics = await _client.GetClientMetricListAsync(aAction.Client.ClientId, aCancellationToken);
 
-            return Task.CompletedTask;
+            ClientState.CurrentClient = aAction.Client;
+            ClientState.CurrentClientMetrics = metrics.Data.ToList();
         }
     }
 }

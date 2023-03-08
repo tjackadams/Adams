@@ -45,19 +45,19 @@ namespace Nexus.WeightTracker.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public ClientViewModel(int @id, string @name)
+        public ClientViewModel(int @clientId, string @name)
 
         {
 
-            this.Id = @id;
+            this.ClientId = @clientId;
 
             this.Name = @name;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        [System.Text.Json.Serialization.JsonPropertyName("clientId")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int Id { get; }
+        public int ClientId { get; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
 
@@ -90,7 +90,7 @@ namespace Nexus.WeightTracker.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientMetricList_Response(System.Collections.Generic.ICollection<GetClientMetricList_ClientMetric> @data)
+        public GetClientMetricList_Response(System.Collections.Generic.ICollection<ClientMetricViewModel> @data)
 
         {
 
@@ -100,16 +100,16 @@ namespace Nexus.WeightTracker.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("data")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<GetClientMetricList_ClientMetric> Data { get; }
+        public System.Collections.Generic.ICollection<ClientMetricViewModel> Data { get; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetClientMetricList_ClientMetric
+    public partial class ClientMetricViewModel
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientMetricList_ClientMetric(int @clientMetricId, System.DateOnly @recordedDate, double @recordedValueMetric)
+        public ClientMetricViewModel(int @clientMetricId, System.DateOnly @recordedDate, double @recordedValueMetric)
 
         {
 
