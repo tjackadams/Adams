@@ -10,11 +10,9 @@ namespace Nexus.Portal.Components;
 
 public partial class ClientSelection
 {
-    [Inject]
-    public WeightTrackerClient TrackerClient { get; set; } = null!;
+    private List<ClientViewModel> _clients = new();
 
-    [Inject]
-    public MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler { get; set; } = null!;
+    private bool _shouldRender;
 
     [Inject]
     public IDialogService DialogService { get; set; } = null!;
@@ -25,13 +23,8 @@ public partial class ClientSelection
     [Parameter]
     public EventCallback<ClientViewModel> ClientChanged { get; set; }
 
-    [CascadingParameter]
-    public ClientStateProvider? ClientStateProvider { get; set; }
-
     [Parameter]
     public List<ClientViewModel> Clients { get; set; } = null!;
-
-    private List<ClientViewModel> _clients = new ();
 
 
     private async Task OnClientChanged(ClientViewModel client)
@@ -42,21 +35,8 @@ public partial class ClientSelection
     private async void OpenDialog()
     {
         var dialog = await DialogService.ShowAsync<AddClientDialog>("Add Client");
-        var result = await dialog.Result;
-        if (!result.Canceled)
-        {
-            try
-            {
-                ClientStateProvider?.GetClientsAsync();
-            }
-            catch (Exception ex)
-            {
-                ConsentHandler?.HandleException(ex);
-            }
-        }
+        _ = await dialog.Result;
     }
-
-    private bool _shouldRender;
 
     protected override void OnParametersSet()
     {
@@ -64,5 +44,8 @@ public partial class ClientSelection
         _clients = Clients;
     }
 
-    protected override bool ShouldRender() => _shouldRender;
+    protected override bool ShouldRender()
+    {
+        return _shouldRender;
+    }
 }

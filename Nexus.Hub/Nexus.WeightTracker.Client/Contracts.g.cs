@@ -67,6 +67,25 @@ namespace Nexus.WeightTracker.Contracts
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateClientCommand
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public CreateClientCommand(string @name)
+
+        {
+
+            this.Name = @name;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+
+        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
+        public string Name { get; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetClientMetricList_Response
     {
         [System.Text.Json.Serialization.JsonConstructor]
