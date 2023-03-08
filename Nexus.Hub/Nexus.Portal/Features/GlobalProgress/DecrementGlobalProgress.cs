@@ -5,9 +5,7 @@ namespace Nexus.Portal.Features.GlobalProgress;
 
 public partial class GlobalProgressState
 {
-    public class DecrementGlobalProgressAction : IAction
-    {
-    }
+    public record struct DecrementGlobalProgressAction : IAction;
 
     public class DecrementGlobalProgressHandler : ActionHandler<DecrementGlobalProgressAction>
     {

@@ -1,13 +1,10 @@
 ﻿using BlazorState;
-using MediatR;
 
 namespace Nexus.Portal.Features.GlobalProgress;
 
 public partial class GlobalProgressState
 {
-    public class IncrementGlobalProgressAction : IAction
-    {
-    }
+    public record struct IncrementGlobalProgressAction : IAction;
 
     public class IncrementGlobalProgressHandler : ActionHandler<IncrementGlobalProgressAction>
     {
@@ -21,7 +18,7 @@ public partial class GlobalProgressState
         public override Task Handle(IncrementGlobalProgressAction aAction, CancellationToken aCancellationToken)
         {
             State.RequestsInProgress += 1;
-            return Unit.Task;
+            return Task.CompletedTask;
         }
     }
 }
