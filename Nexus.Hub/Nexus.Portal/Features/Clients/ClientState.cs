@@ -5,7 +5,9 @@ namespace Nexus.Portal.Features.Clients;
 
 public partial class ClientState : State<ClientState>
 {
-    public List<GetClientList_ClientModel>? Clients { get; private set; }
+    public List<GetClientList_ClientModel> Clients { get; private set; } = null!;
+
+    public GetClientList_ClientModel? CurrentClient { get; private set; }
 
     public override void Initialize()
     {

@@ -1,7 +1,9 @@
 ﻿@page "/tracker/weight"
 
+@inherits BlazorStateComponent
+
 <ClientStateProvider>
-    <ClientSelection></ClientSelection>
+    <ClientSelection Clients="ClientState.Clients"></ClientSelection>
     <ClientMetricChart></ClientMetricChart>
     <ClientMetricTable></ClientMetricTable>
 </ClientStateProvider>

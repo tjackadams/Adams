@@ -19,25 +19,24 @@ public partial class ClientSelection
     [Inject]
     public IDialogService DialogService { get; set; } = null!;
 
+    [Inject]
+    public IMediator Mediator { get; set; } = null!;
+
     [Parameter]
     public EventCallback<GetClientList_ClientModel> ClientChanged { get; set; }
 
     [CascadingParameter]
     public ClientStateProvider? ClientStateProvider { get; set; }
 
-    private ClientState ClientState => GetState<ClientState>();
+    [Parameter]
+    public List<GetClientList_ClientModel> Clients { get; set; } = null!;
 
-    protected override async Task OnInitializedAsync()
-    {
-        await Mediator.Send(new ClientState.GetAllClientsAction());
-    }
+    private List<GetClientList_ClientModel> _clients = new ();
+
 
     private async Task OnClientChanged(GetClientList_ClientModel client)
     {
-        if (ClientStateProvider is not null)
-        {
-            await ClientStateProvider.SetClientAsync(client);
-        }
+        await Mediator.Send(new ClientState.SetCurrentClientAction(client));
     }
 
     private async void OpenDialog()
@@ -56,4 +55,14 @@ public partial class ClientSelection
             }
         }
     }
+
+    private bool _shouldRender;
+
+    protected override void OnParametersSet()
+    {
+        _shouldRender = Clients != _clients;
+        _clients = Clients;
+    }
+
+    protected override bool ShouldRender() => _shouldRender;
 }
