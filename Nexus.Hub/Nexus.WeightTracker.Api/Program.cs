@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using Nexus.AspNetCore.Behaviours;
 using Nexus.WeightTracker.Api.Features.Weight;
 using Nexus.WeightTracker.Api.Infrastructure;
@@ -29,6 +27,7 @@ builder.Services.AddDbContext<WeightDbContext>(options =>
 builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehaviour<,>));
 
+builder.Services.AddAutoMapper(typeof(Program));
 
 AssemblyScanner.FindValidatorsInAssembly(typeof(Program).Assembly)
     .ForEach(item => builder.Services.AddScoped(typeof(IValidator), item.ValidatorType));

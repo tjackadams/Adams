@@ -18,7 +18,7 @@ public partial class ClientStateProvider
 
     public GetClientList_Response? Clients { get; private set; }
 
-    public GetClientList_ClientModel? Client { get; private set; }
+    public ClientViewModel? Client { get; private set; }
 
     public GetClientMetricList_Response? Metrics { get; private set; }
 
@@ -41,7 +41,7 @@ public partial class ClientStateProvider
         }
     }
 
-    public async Task SetClientAsync(GetClientList_ClientModel client)
+    public async Task SetClientAsync(ClientViewModel client)
     {
         Client = client;
 

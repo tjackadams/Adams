@@ -23,18 +23,18 @@ public partial class ClientSelection
     public IMediator Mediator { get; set; } = null!;
 
     [Parameter]
-    public EventCallback<GetClientList_ClientModel> ClientChanged { get; set; }
+    public EventCallback<ClientViewModel> ClientChanged { get; set; }
 
     [CascadingParameter]
     public ClientStateProvider? ClientStateProvider { get; set; }
 
     [Parameter]
-    public List<GetClientList_ClientModel> Clients { get; set; } = null!;
+    public List<ClientViewModel> Clients { get; set; } = null!;
 
-    private List<GetClientList_ClientModel> _clients = new ();
+    private List<ClientViewModel> _clients = new ();
 
 
-    private async Task OnClientChanged(GetClientList_ClientModel client)
+    private async Task OnClientChanged(ClientViewModel client)
     {
         await Mediator.Send(new ClientState.SetCurrentClientAction(client));
     }

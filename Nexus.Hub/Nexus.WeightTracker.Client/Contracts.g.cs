@@ -26,7 +26,7 @@ namespace Nexus.WeightTracker.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientList_Response(System.Collections.Generic.ICollection<GetClientList_ClientModel> @data)
+        public GetClientList_Response(System.Collections.Generic.ICollection<ClientViewModel> @data)
 
         {
 
@@ -36,42 +36,16 @@ namespace Nexus.WeightTracker.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("data")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<GetClientList_ClientModel> Data { get; }
+        public System.Collections.Generic.ICollection<ClientViewModel> Data { get; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetClientList_ClientModel
+    public partial class ClientViewModel
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientList_ClientModel(int @id, string @name)
-
-        {
-
-            this.Id = @id;
-
-            this.Name = @name;
-
-        }
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int Id { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("name")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Name { get; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CreateClient_Response
-    {
-        [System.Text.Json.Serialization.JsonConstructor]
-
-        public CreateClient_Response(int @id, string @name)
+        public ClientViewModel(int @id, string @name)
 
         {
 

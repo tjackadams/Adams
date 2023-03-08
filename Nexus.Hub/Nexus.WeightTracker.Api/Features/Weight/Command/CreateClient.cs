@@ -1,6 +1,8 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Nexus.WeightTracker.Api.Domain;
+using Nexus.WeightTracker.Api.Features.Weight.Models;
 using Nexus.WeightTracker.Api.Infrastructure;
 using Nexus.WeightTracker.Api.Infrastructure.Authorization;
 
@@ -10,16 +12,17 @@ public class CreateClient
 {
     public record Command(string Name) : IRequest<IResult>;
 
-    public record Response(ClientId Id, string Name);
-
     public class Handler : IRequestHandler<Command, IResult>
     {
         private readonly WeightDbContext _db;
         private readonly IdentityClaimProvider _identity;
-        public Handler(WeightDbContext db, IdentityClaimProvider identity)
+        private readonly IMapper _mapper;
+
+        public Handler(WeightDbContext db, IdentityClaimProvider identity, IMapper mapper)
         {
             _db = db;
             _identity = identity;
+            _mapper = mapper;
         }
         public async Task<IResult> Handle(Command request, CancellationToken cancellationToken)
         {
@@ -29,12 +32,7 @@ public class CreateClient
 
             await _db.SaveChangesAsync(cancellationToken);
 
-            return TypedResults.Created($"/clients/{entry.Entity.ClientId}", ToModel(entry.Entity));
-        }
-
-        private static Response ToModel(Client client)
-        {
-            return new Response(client.ClientId, client.Name);
+            return TypedResults.Created($"/clients/{entry.Entity.ClientId}", _mapper.Map<ClientViewModel>(entry.Entity));
         }
     }
 

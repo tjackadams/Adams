@@ -5,12 +5,12 @@ namespace Nexus.Portal.Features.Clients;
 
 public partial class ClientState : State<ClientState>
 {
-    public List<GetClientList_ClientModel> Clients { get; private set; } = null!;
+    public List<ClientViewModel> Clients { get; private set; } = null!;
 
-    public GetClientList_ClientModel? CurrentClient { get; private set; }
+    public ClientViewModel? CurrentClient { get; private set; }
 
     public override void Initialize()
     {
-        Clients = new List<GetClientList_ClientModel>();
+        Clients = new List<ClientViewModel>();
     }
 }

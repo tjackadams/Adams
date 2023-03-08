@@ -10,7 +10,7 @@
         @if (Clients.Any())
         {
 
-            <MudSelect T="GetClientList_ClientModel" ValueChanged="@OnClientChanged" HelperText="Select a client"
+            <MudSelect T="ClientViewModel" ValueChanged="@OnClientChanged" HelperText="Select a client"
                    Label="Client"
                    Variant="Variant.Text"
                    Style="min-width:260px;">
