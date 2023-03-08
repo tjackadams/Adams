@@ -14,31 +14,33 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<GuidFormatter>();
 
+        services.AddTransient<MicrosoftIdentityConsentHandler>();
         services.AddTransient<LoggerProviderMessageHandler<TodoClient>>();
         services.AddTransient<LoggerProviderMessageHandler<WeightTrackerClient>>();
         services.AddTransient<ShowOperationProgressMessageHandler>();
 
         services.AddHttpClient<TodoClient>((sp, client) =>
-        {
-            var settings = sp.GetRequiredService<IOptions<Settings>>();
-            client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "todo/");
-        })
+            {
+                var settings = sp.GetRequiredService<IOptions<Settings>>();
+                client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "todo/");
+            })
             .AddHttpMessageHandler<ShowOperationProgressMessageHandler>()
             .AddHttpMessageHandler<LoggerProviderMessageHandler<TodoClient>>()
             .AddDefaultRetryPolicy();
 
         services.AddHttpClient<WeightTrackerClient>((sp, client) =>
-        {
-            var settings = sp.GetRequiredService<IOptions<Settings>>();
-            client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "weighttracker/");
-        })
+            {
+                var settings = sp.GetRequiredService<IOptions<Settings>>();
+                client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "weighttracker/");
+            })
+            .AddHttpMessageHandler<ShowOperationProgressMessageHandler>()
+            .AddHttpMessageHandler<MicrosoftIdentityConsentHandler>()
             .AddHttpMessageHandler<LoggerProviderMessageHandler<WeightTrackerClient>>()
             .AddDefaultRetryPolicy()
             .AddMicrosoftIdentityUserAuthenticationHandler(nameof(WeightTrackerClient), options =>
             {
                 options.Scopes = "api://cef30c8d-dc02-4e0f-aa61-52155ec9a9a6/nexus.weighttracker";
-            })
-            .AddHttpMessageHandler<ShowOperationProgressMessageHandler>();
+            });
 
         return services;
     }

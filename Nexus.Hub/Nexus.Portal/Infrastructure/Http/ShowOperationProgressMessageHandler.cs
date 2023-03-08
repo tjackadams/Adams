@@ -17,8 +17,6 @@ public class ShowOperationProgressMessageHandler : DelegatingHandler
     {
         await _mediator.Send(new GlobalProgressState.IncrementGlobalProgressAction(), cancellationToken);
 
-        await Task.Delay(1000);
-
         HttpResponseMessage response;
 
         try
