@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using MediatR;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Identity.Web;
 using MudBlazor;
+using Nexus.Portal.Features.Clients;
 using Nexus.WeightTracker;
 using Nexus.WeightTracker.Contracts;
 
@@ -22,6 +24,13 @@ public partial class ClientSelection
 
     [CascadingParameter]
     public ClientStateProvider? ClientStateProvider { get; set; }
+
+    private ClientState ClientState => GetState<ClientState>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Mediator.Send(new ClientState.GetAllClientsAction());
+    }
 
     private async Task OnClientChanged(GetClientList_ClientModel client)
     {

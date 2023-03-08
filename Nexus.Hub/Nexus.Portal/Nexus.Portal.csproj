@@ -31,8 +31,4 @@
     <ProjectReference Include="..\Nexus.WeightTracker.Client\Nexus.WeightTracker.Client.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\js\site.js" />
-  </ItemGroup>
-
 </Project>

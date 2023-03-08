@@ -1,4 +1,4 @@
-﻿using Blazored.LocalStorage;
+using Blazored.LocalStorage;
 using BlazorState;
 using FluentValidation;
 using LettuceEncrypt;
@@ -10,6 +10,7 @@ using Microsoft.Identity.Web.UI;
 using MudBlazor.Services;
 using Nexus.Portal;
 using Nexus.Portal.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
