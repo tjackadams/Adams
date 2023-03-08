@@ -3,7 +3,7 @@ using Nexus.WeightTracker.Api.Domain;
 
 namespace Nexus.WeightTracker.Api.Features.Weight.Models;
 
-public record ClientViewModel(ClientId ClientId, string Name);
+public record struct ClientViewModel(ClientId ClientId, string Name);
 
 public class ClientViewModelProfile : Profile
 {

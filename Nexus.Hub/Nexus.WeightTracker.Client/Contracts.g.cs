@@ -139,52 +139,11 @@ namespace Nexus.WeightTracker.Contracts
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CreateClientMetric_Response
+    public partial class CreateClientMetricCommand
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public CreateClientMetric_Response(int @clientId, int @clientMetricId, System.DateOnly @recordedDate, double @recordedValue)
-
-        {
-
-            this.ClientId = @clientId;
-
-            this.ClientMetricId = @clientMetricId;
-
-            this.RecordedValue = @recordedValue;
-
-            this.RecordedDate = @recordedDate;
-
-        }
-        [System.Text.Json.Serialization.JsonPropertyName("clientId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int ClientId { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("clientMetricId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int ClientMetricId { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("recordedValue")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double RecordedValue { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("recordedDate")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
-        public System.DateOnly RecordedDate { get; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CreateClientMetric_Data
-    {
-        [System.Text.Json.Serialization.JsonConstructor]
-
-        public CreateClientMetric_Data(System.DateOnly @recordedDate, double @recordedValue)
+        public CreateClientMetricCommand(System.DateOnly @recordedDate, double @recordedValue)
 
         {
 

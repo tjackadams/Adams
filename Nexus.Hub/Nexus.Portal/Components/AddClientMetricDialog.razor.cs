@@ -1,7 +1,9 @@
 ﻿using Blazored.FluentValidation;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Nexus.Portal.Features.Clients;
 using Nexus.WeightTracker;
 using Nexus.WeightTracker.Contracts;
 
@@ -15,6 +17,9 @@ public partial class AddClientMetricDialog
 
     [Inject]
     public WeightTrackerClient TrackerClient { get; set; } = null!;
+
+    [Inject]
+    public IMediator Mediator { get; set; } = null!;
 
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = null!;
@@ -33,9 +38,10 @@ public partial class AddClientMetricDialog
         {
             try
             {
-                await TrackerClient.CreateClientMetricAsync(ClientId,
-                    new CreateClientMetric_Data(DateOnly.FromDateTime(_model.RecordedDate!.Value),
-                        _model.RecordedValue!.Value));
+                await Mediator.Send(new ClientState.CreateClientMetricAction(
+                    ClientId,
+                    DateOnly.FromDateTime(_model.RecordedDate!.Value),
+                    _model.RecordedValue!.Value));
                 MudDialog.Close(DialogResult.Ok(true));
             }
             catch (SwaggerException<HttpValidationProblemDetails> ex)
