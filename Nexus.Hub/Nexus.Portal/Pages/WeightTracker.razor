@@ -4,10 +4,10 @@
 
 <ClientStateProvider>
     <ClientSelection Clients="ClientState.Clients"></ClientSelection>
-    <ClientMetricChart></ClientMetricChart>
-    
+
     @if (ClientState.CurrentClient is not null)
     {
+        <ClientMetricChart Client="ClientState.CurrentClient" Metrics="ClientState.CurrentClientMetrics"></ClientMetricChart>
         <ClientMetricTable Client="ClientState.CurrentClient" Metrics="ClientState.CurrentClientMetrics"></ClientMetricTable>
     }
 

@@ -28,9 +28,9 @@ public partial class ClientMetricTable
 
     protected override void OnParametersSet()
     {
-        _shouldRender = Client?.ClientId != _previousClientId;
+        _shouldRender = Client.ClientId != _previousClientId;
 
-        _previousClientId = Client?.ClientId ?? 0;
+        _previousClientId = Client.ClientId;
     }
 
     protected override bool ShouldRender()
