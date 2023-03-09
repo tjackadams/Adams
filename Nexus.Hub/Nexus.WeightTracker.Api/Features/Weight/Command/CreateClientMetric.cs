@@ -61,8 +61,9 @@ public static class CreateClientMetric
     {
         public Validator()
         {
-            Transform(c => c.ClientId, c => c.Value)
-                .GreaterThan(0);
+            RuleFor(c => c.ClientId.Value)
+                .GreaterThan(0)
+                .OverridePropertyName(nameof(Command.ClientId));
 
             RuleFor(c => c.Data)
                 .NotEmpty()

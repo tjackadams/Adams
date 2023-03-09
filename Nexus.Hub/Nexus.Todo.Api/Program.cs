@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nexus.AspNetCore.Behaviours;
 using Nexus.Todo.Api.Infrastructure;
 using Nexus.Todo.Api.Infrastructure.Endpoints;
 using Nexus.Todo.Api.Infrastructure.NSwag;
@@ -21,7 +21,12 @@ builder.Services.AddDbContext<TodoDbContext>(options =>
         .UseSqlServer(builder.Configuration.GetConnectionString("Nexus"));
 });
 
-builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddMediatR(options =>
+{
+    options.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    options.AddOpenBehavior(typeof(ValidatorBehaviour<,>));
+});
+
 AssemblyScanner.FindValidatorsInAssembly(typeof(Program).Assembly)
     .ForEach(item => builder.Services.AddScoped(typeof(IValidator), item.ValidatorType));
 

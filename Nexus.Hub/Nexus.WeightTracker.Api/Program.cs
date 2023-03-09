@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nexus.AspNetCore.Behaviours;
 using Nexus.WeightTracker.Api.Features.Weight;
@@ -24,8 +23,11 @@ builder.Services.AddDbContext<WeightDbContext>(options =>
         .UseSqlServer(builder.Configuration.GetConnectionString("Nexus"), x => x.MigrationsHistoryTable("__EFMigrationsHistory", "Weight"));
 });
 
-builder.Services.AddMediatR(typeof(Program));
-builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehaviour<,>));
+builder.Services.AddMediatR(options =>
+{
+    options.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    options.AddOpenBehavior(typeof(ValidatorBehaviour<,>));
+});
 
 builder.Services.AddAutoMapper(typeof(Program));
 

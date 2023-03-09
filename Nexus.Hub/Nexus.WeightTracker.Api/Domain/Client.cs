@@ -22,18 +22,18 @@ public partial struct ClientId
 
 public class Client
 {
-    private readonly List<ClientMetric> _metrics = new List<ClientMetric>();
+    private readonly List<ClientMetric> _metrics = new();
 
     public const int MaximumNameLength = 20;
-    protected Client()
-    {
-
-    }
+    protected Client() { }
 
     public Client(string name, string createdBy)
     {
-        Name = name;
+        ClientId = ClientId.Empty;
         CreatedBy = createdBy;
+        CreatedTime = DateTimeOffset.UtcNow;
+        Name = name;
+        Version = Array.Empty<byte>();
     }
 
     public ClientId ClientId { get; private set; }
@@ -42,11 +42,11 @@ public class Client
 
     public DateTimeOffset CreatedTime { get; private set; }
 
-    public string CreatedBy { get; private set; }
+    public string CreatedBy { get; private set; } = null!;
 
     public IReadOnlyCollection<ClientMetric> Metrics => _metrics.AsReadOnly();
 
-    public byte[] Version { get; private set; }
+    public byte[] Version { get; private set; } = null!;
 
     public FluentResults.Result AddMetric(double recordedValue, DateOnly recordedDate)
     {
