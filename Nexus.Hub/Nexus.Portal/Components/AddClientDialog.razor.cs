@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Nexus.Portal.Features.Clients;
+using Nexus.Portal.Features.GlobalProgress;
 using Nexus.WeightTracker.Contracts;
 
 namespace Nexus.Portal.Components;
@@ -29,12 +30,17 @@ public partial class AddClientDialog
         {
             try
             {
+                await Mediator.Send(new ProgressState.ShowProgressAction());
                 await Mediator.Send(new ClientState.CreateClientAction(_model.Name!));
                 MudDialog.Close(DialogResult.Ok(true));
             }
             catch (SwaggerException<HttpValidationProblemDetails> ex)
             {
                 await _serverValidator!.ValidateAsync(ex.Result, _model);
+            }
+            finally
+            {
+                await Mediator.Send(new ProgressState.HideProgressAction());
             }
         }
     }

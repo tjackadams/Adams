@@ -17,14 +17,12 @@ public static class ServiceCollectionExtensions
         services.AddTransient<MicrosoftIdentityConsentHandler>();
         services.AddTransient<LoggerProviderMessageHandler<TodoClient>>();
         services.AddTransient<LoggerProviderMessageHandler<WeightTrackerClient>>();
-        services.AddTransient<ShowOperationProgressMessageHandler>();
 
         services.AddHttpClient<TodoClient>((sp, client) =>
             {
                 var settings = sp.GetRequiredService<IOptions<Settings>>();
                 client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "todo/");
             })
-            .AddHttpMessageHandler<ShowOperationProgressMessageHandler>()
             .AddHttpMessageHandler<LoggerProviderMessageHandler<TodoClient>>()
             .AddDefaultRetryPolicy();
 
@@ -33,7 +31,6 @@ public static class ServiceCollectionExtensions
                 var settings = sp.GetRequiredService<IOptions<Settings>>();
                 client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "weighttracker/");
             })
-            .AddHttpMessageHandler<ShowOperationProgressMessageHandler>()
             .AddHttpMessageHandler<MicrosoftIdentityConsentHandler>()
             .AddHttpMessageHandler<LoggerProviderMessageHandler<WeightTrackerClient>>()
             .AddDefaultRetryPolicy()

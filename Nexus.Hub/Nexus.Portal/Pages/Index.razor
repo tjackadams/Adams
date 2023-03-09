@@ -17,12 +17,12 @@ Welcome to your new app.
 
     async Task Up()
     {
-        await Mediator.Send(new GlobalProgressState.IncrementGlobalProgressAction());
+        await Mediator.Send(new ProgressState.ShowProgressAction());
     }
 
     async Task Down()
     {
-        await Mediator.Send(new GlobalProgressState.DecrementGlobalProgressAction());
+        await Mediator.Send(new ProgressState.HideProgressAction());
     }
 
 }

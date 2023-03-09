@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Nexus.Portal.Features.Clients;
+using Nexus.Portal.Features.GlobalProgress;
 using Nexus.WeightTracker;
 using Nexus.WeightTracker.Contracts;
 
@@ -38,6 +39,7 @@ public partial class AddClientMetricDialog
         {
             try
             {
+                await Mediator.Send(new ProgressState.ShowProgressAction());
                 await Mediator.Send(new ClientState.CreateClientMetricAction(
                     ClientId,
                     DateOnly.FromDateTime(_model.RecordedDate!.Value),
@@ -47,6 +49,10 @@ public partial class AddClientMetricDialog
             catch (SwaggerException<HttpValidationProblemDetails> ex)
             {
                 await _serverValidator!.ValidateAsync(ex.Result, _model);
+            }        
+            finally
+            {
+                await Mediator.Send(new ProgressState.HideProgressAction());
             }
         }
     }
