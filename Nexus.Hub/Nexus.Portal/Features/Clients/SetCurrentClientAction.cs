@@ -6,7 +6,7 @@ namespace Nexus.Portal.Features.Clients;
 
 public partial class ClientState
 {
-    public record SetCurrentClientAction(ClientViewModel Client) : IAction;
+    public record struct SetCurrentClientAction(ClientViewModel Client) : IAction;
 
     public class SetCurrentClientHandler : ActionHandler<SetCurrentClientAction>
     {

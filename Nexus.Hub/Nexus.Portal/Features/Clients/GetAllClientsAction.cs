@@ -5,9 +5,7 @@ namespace Nexus.Portal.Features.Clients;
 
 public partial class ClientState
 {
-    public class GetAllClientsAction : IAction
-    {
-    }
+    public record struct GetAllClientsAction : IAction;
 
     public class GetAllClientsHandler : ActionHandler<GetAllClientsAction>
     {

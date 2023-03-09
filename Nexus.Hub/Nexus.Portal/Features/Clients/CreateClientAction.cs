@@ -6,7 +6,7 @@ namespace Nexus.Portal.Features.Clients;
 
 public partial class ClientState
 {
-    public record CreateClientAction(string Name) : IAction;
+    public record struct CreateClientAction(string Name) : IAction;
 
     public class CreateClientHandler : ActionHandler<CreateClientAction>
     {
