@@ -1,4 +1,5 @@
 ﻿@using Nexus.WeightTracker.Contracts
+@using Nexus.Portal.Features.Clients
 
 @inherits BlazorStateComponent
 
@@ -13,8 +14,8 @@
     </MudGrid>
     <MudDataGrid Items="CurrentClientMetrics">
         <Columns>
-            <Column T="ClientMetricViewModel" Field="RecordedDate" FieldType="typeof(DateOnly)" Title="Recorded Date"></Column>
-            <Column T="ClientMetricViewModel" Field="RecordedValueMetric" FieldType="typeof(double)" Title="Recorded Value (KG)"></Column>
+            <Column T="ClientMetric" Field="RecordedDate" FieldType="typeof(DateOnly)" Title="Recorded Date"></Column>
+            <Column T="ClientMetric" Field="RecordedValueMetric" FieldType="typeof(double)" Title="Recorded Value (KG)"></Column>
         </Columns>
     </MudDataGrid>
 }

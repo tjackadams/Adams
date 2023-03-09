@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Nexus.Portal.Features.Clients;
-using Nexus.WeightTracker.Contracts;
 
 namespace Nexus.Portal.Components;
 
@@ -14,7 +13,7 @@ public partial class ClientMetricTable
 
     private Client? CurrentClient => ClientState.CurrentClient;
 
-    private List<ClientMetricViewModel> CurrentClientMetrics => ClientState.CurrentClientMetrics;
+    private List<ClientMetric> CurrentClientMetrics => ClientState.CurrentClientMetrics;
 
     private async void OpenDialog()
     {

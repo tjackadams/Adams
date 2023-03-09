@@ -1,5 +1,4 @@
 ﻿using BlazorState;
-using Nexus.WeightTracker.Contracts;
 
 namespace Nexus.Portal.Features.Clients;
 
@@ -10,17 +9,19 @@ namespace Nexus.Portal.Features.Clients;
 /// </summary>
 public record Client(int ClientId, string Name);
 
+public record ClientMetric(int ClientMetricId, DateOnly RecordedDate, double RecordedValueMetric);
+
 public partial class ClientState : State<ClientState>
 {
     public List<Client> Clients { get; private set; } = null!;
 
     public Client? CurrentClient { get; private set; }
 
-    public List<ClientMetricViewModel> CurrentClientMetrics { get; private set; } = null!;
+    public List<ClientMetric> CurrentClientMetrics { get; private set; } = null!;
 
     public override void Initialize()
     {
         Clients = new List<Client>();
-        CurrentClientMetrics = new List<ClientMetricViewModel>();
+        CurrentClientMetrics = new List<ClientMetric>();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using BlazorState;
 using MediatR;
 using Nexus.WeightTracker;
-using Nexus.WeightTracker.Contracts;
 
 namespace Nexus.Portal.Features.Clients;
 
@@ -26,7 +25,8 @@ public partial class ClientState
             var metrics = await _client.GetClientMetricListAsync(aAction.Client.ClientId, aCancellationToken);
 
             ClientState.CurrentClient = aAction.Client;
-            ClientState.CurrentClientMetrics = metrics.Data.ToList();
+            ClientState.CurrentClientMetrics = metrics.Data
+                .Select(m => new ClientMetric(m.ClientMetricId, m.RecordedDate, m.RecordedValueMetric)).ToList();
 
             return Unit.Value;
         }

@@ -27,7 +27,7 @@ public partial class ClientState
                 new CreateClientMetricCommand(aAction.RecordedDate, aAction.RecordedValue),
                 aCancellationToken);
 
-            ClientState.CurrentClientMetrics.Add(metric);
+            ClientState.CurrentClientMetrics.Add(new ClientMetric(metric.ClientMetricId, metric.RecordedDate, metric.RecordedValueMetric));
 
             return Unit.Value;
         }

@@ -1,46 +1,34 @@
-﻿using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using Nexus.WeightTracker.Contracts;
+﻿using MudBlazor;
+using Nexus.Portal.Features.Clients;
 
 namespace Nexus.Portal.Components;
 
 public partial class ClientMetricChart
 {
-    private int? _previousClientId;
     private List<ChartSeries>? _series;
-
-    private bool _shouldRender;
     private string[]? _xAxisLabels;
-
     private int Index = -1;
 
-    [Parameter]
-    public ClientViewModel Client { get; set; } = null!;
+    private ClientState ClientState => GetState<ClientState>();
+    private Client? CurrentClient => ClientState.CurrentClient;
 
-    [Parameter]
-    public List<ClientMetricViewModel> Metrics { get; set; } = null!;
+    private List<ClientMetric> CurrentClientMetrics => ClientState.CurrentClientMetrics;
 
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        _shouldRender = Client.ClientId != _previousClientId;
-
-        _previousClientId = Client.ClientId;
-
-        var data = Metrics
-            .OrderByDescending(m => m.RecordedDate)
-            .Take(12)
-            .ToArray();
-
-        _xAxisLabels = data.Select(m => m.RecordedDate.ToShortDateString()).ToArray();
-
-        _series = new List<ChartSeries>
+        if (CurrentClient is not null)
         {
-            new() { Name = Client.Name, Data = data.Select(m => m.RecordedValueMetric).ToArray() }
-        };
-    }
+            var data = CurrentClientMetrics
+                .OrderBy(m => m.RecordedDate)
+                .Take(12)
+                .ToArray();
 
-    protected override bool ShouldRender()
-    {
-        return _shouldRender;
+            _xAxisLabels = data.Select(m => m.RecordedDate.ToShortDateString()).ToArray();
+
+            _series = new List<ChartSeries>
+        {
+            new() { Name = CurrentClient.Name, Data = data.Select(m => m.RecordedValueMetric).ToArray() }
+        };
+        }
     }
 }
