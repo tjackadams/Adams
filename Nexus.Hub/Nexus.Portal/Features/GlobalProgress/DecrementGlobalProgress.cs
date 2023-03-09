@@ -16,7 +16,7 @@ public partial class GlobalProgressState
 
         private GlobalProgressState State => Store.GetState<GlobalProgressState>();
 
-        public override Task Handle(DecrementGlobalProgressAction aAction, CancellationToken aCancellationToken)
+        public override Task<Unit> Handle(DecrementGlobalProgressAction aAction, CancellationToken aCancellationToken)
         {
             State.RequestsInProgress -= 1;
             return Unit.Task;

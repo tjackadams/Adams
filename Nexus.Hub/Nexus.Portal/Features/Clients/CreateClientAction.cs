@@ -1,4 +1,5 @@
 ﻿using BlazorState;
+using MediatR;
 using Nexus.WeightTracker;
 using Nexus.WeightTracker.Contracts;
 
@@ -20,11 +21,13 @@ public partial class ClientState
 
         private ClientState ClientState => Store.GetState<ClientState>();
 
-        public override async Task Handle(CreateClientAction aAction, CancellationToken aCancellationToken)
+        public override async Task<Unit> Handle(CreateClientAction aAction, CancellationToken aCancellationToken)
         {
             var client = await _client.CreateClientAsync(new CreateClientCommand(aAction.Name), aCancellationToken);
 
-            ClientState.Clients.Add(client);
+            ClientState.Clients.Add(new Client(client.ClientId, client.Name));
+
+            return Unit.Value;
         }
     }
 }

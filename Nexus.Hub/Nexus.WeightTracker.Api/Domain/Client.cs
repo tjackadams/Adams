@@ -36,17 +36,17 @@ public class Client
         Version = Array.Empty<byte>();
     }
 
-    public ClientId ClientId { get; private set; }
+    public ClientId ClientId { get; init; }
 
-    public string Name { get; private set; } = null!;
+    public string Name { get; init; }
 
-    public DateTimeOffset CreatedTime { get; private set; }
+    public DateTimeOffset CreatedTime { get; init; }
 
-    public string CreatedBy { get; private set; } = null!;
+    public string CreatedBy { get; init; }
 
     public IReadOnlyCollection<ClientMetric> Metrics => _metrics.AsReadOnly();
 
-    public byte[] Version { get; private set; } = null!;
+    public byte[] Version { get; init; }
 
     public FluentResults.Result AddMetric(double recordedValue, DateOnly recordedDate)
     {

@@ -32,15 +32,15 @@ public class ClientMetric
     }
 
 
-    public ClientMetricId ClientMetricId { get; }
+    public ClientMetricId ClientMetricId { get; init; }
 
-    public ClientId ClientId { get; }
+    public ClientId ClientId { get; init; }
 
-    public Client Client { get; } = null!;
+    public Client Client { get; init; } = null!;
 
-    public double RecordedValue { get; }
+    public double RecordedValue { get; init; }
 
-    public DateOnly RecordedDate { get; }
+    public DateOnly RecordedDate { get; init; }
 
-    public DateTimeOffset CreatedTime { get; }
+    public DateTimeOffset CreatedTime { get; init; }
 }

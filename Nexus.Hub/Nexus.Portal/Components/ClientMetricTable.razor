@@ -1,15 +1,20 @@
 ﻿@using Nexus.WeightTracker.Contracts
 
-<MudGrid>
-    <MudItem>
-        <MudButton @onclick="OpenDialog" StartIcon="@Icons.Material.Filled.Add">
-            New Measurement
-        </MudButton>
-    </MudItem>
-</MudGrid>
-<MudDataGrid Items="Metrics">
-    <Columns>
-        <Column T="ClientMetricViewModel" Field="RecordedDate" FieldType="typeof(DateOnly)" Title="Recorded Date"></Column>
-        <Column T="ClientMetricViewModel" Field="RecordedValueMetric" FieldType="typeof(double)" Title="Recorded Value (KG)"></Column>
-    </Columns>
-</MudDataGrid>
+@inherits BlazorStateComponent
+
+@if (CurrentClient is not null)
+{
+    <MudGrid>
+        <MudItem>
+            <MudButton @onclick="OpenDialog" StartIcon="@Icons.Material.Filled.Add">
+                New Measurement
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+    <MudDataGrid Items="CurrentClientMetrics">
+        <Columns>
+            <Column T="ClientMetricViewModel" Field="RecordedDate" FieldType="typeof(DateOnly)" Title="Recorded Date"></Column>
+            <Column T="ClientMetricViewModel" Field="RecordedValueMetric" FieldType="typeof(double)" Title="Recorded Value (KG)"></Column>
+        </Columns>
+    </MudDataGrid>
+}

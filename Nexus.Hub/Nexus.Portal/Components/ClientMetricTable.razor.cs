@@ -1,40 +1,28 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Nexus.Portal.Features.Clients;
 using Nexus.WeightTracker.Contracts;
 
 namespace Nexus.Portal.Components;
 
 public partial class ClientMetricTable
 {
-    private int? _previousClientId;
-
-    private bool _shouldRender;
-
     [Inject]
     public IDialogService DialogService { get; set; } = null!;
 
-    [Parameter]
-    public ClientViewModel Client { get; set; } = null!;
+    private ClientState ClientState => GetState<ClientState>();
 
-    [Parameter]
-    public List<ClientMetricViewModel> Metrics { get; set; } = null!;
+    private Client? CurrentClient => ClientState.CurrentClient;
+
+    private List<ClientMetricViewModel> CurrentClientMetrics => ClientState.CurrentClientMetrics;
 
     private async void OpenDialog()
     {
-        var parameters = new DialogParameters { ["clientId"] = Client.ClientId };
-        var dialog = await DialogService.ShowAsync<AddClientMetricDialog>("Add Measurement", parameters);
-        _ = await dialog.Result;
-    }
-
-    protected override void OnParametersSet()
-    {
-        _shouldRender = Client.ClientId != _previousClientId;
-
-        _previousClientId = Client.ClientId;
-    }
-
-    protected override bool ShouldRender()
-    {
-        return _shouldRender;
+        if (CurrentClient is not null)
+        {
+            var parameters = new DialogParameters { ["clientId"] = CurrentClient.ClientId };
+            var dialog = await DialogService.ShowAsync<AddClientMetricDialog>("Add Measurement", parameters);
+            _ = await dialog.Result;
+        }
     }
 }

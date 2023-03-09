@@ -5,4 +5,6 @@ namespace Nexus.Portal.Components;
 public partial class OperationProgress
 {
     private GlobalProgressState State => GetState<GlobalProgressState>();
+
+    private bool ShowProgress => State.RequestsInProgress > 0;
 }

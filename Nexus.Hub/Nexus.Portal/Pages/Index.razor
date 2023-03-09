@@ -1,7 +1,28 @@
 ﻿@page "/"
+@using MediatR
+@using Nexus.Portal.Features.GlobalProgress
+
+@inject IMediator Mediator
 
 <PageTitle>Nexus</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<MudButton @onclick="Up">Up</MudButton>
+<MudButton @onclick="Down">Down</MudButton>
+
+@code {
+
+    async Task Up()
+    {
+        await Mediator.Send(new GlobalProgressState.IncrementGlobalProgressAction());
+    }
+
+    async Task Down()
+    {
+        await Mediator.Send(new GlobalProgressState.DecrementGlobalProgressAction());
+    }
+
+}

@@ -15,7 +15,7 @@ public class ShowOperationProgressMessageHandler : DelegatingHandler
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        await _mediator.Send(new GlobalProgressState.IncrementGlobalProgressAction(), cancellationToken);
+        await _mediator.Send(new GlobalProgressState.IncrementGlobalProgressAction(), cancellationToken).ConfigureAwait(false);
 
         HttpResponseMessage response;
 
@@ -25,7 +25,7 @@ public class ShowOperationProgressMessageHandler : DelegatingHandler
         }
         finally
         {
-            await _mediator.Send(new GlobalProgressState.DecrementGlobalProgressAction(), cancellationToken);
+            await _mediator.Send(new GlobalProgressState.DecrementGlobalProgressAction(), cancellationToken).ConfigureAwait(false);
         }
 
         return response;

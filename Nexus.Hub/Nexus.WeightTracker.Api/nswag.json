@@ -139,7 +139,7 @@
       "jsonSerializerSettingsTransformationMethod": null,
       "inlineNamedArrays": false,
       "inlineNamedDictionaries": false,
-      "inlineNamedTuples": true,
+      "inlineNamedTuples": false,
       "inlineNamedAny": false,
       "generateDtoTypes": true,
       "generateOptionalPropertiesAsNullable": false,

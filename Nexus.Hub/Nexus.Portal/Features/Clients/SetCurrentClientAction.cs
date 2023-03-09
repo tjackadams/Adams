@@ -1,4 +1,5 @@
 ﻿using BlazorState;
+using MediatR;
 using Nexus.WeightTracker;
 using Nexus.WeightTracker.Contracts;
 
@@ -6,7 +7,7 @@ namespace Nexus.Portal.Features.Clients;
 
 public partial class ClientState
 {
-    public record struct SetCurrentClientAction(ClientViewModel Client) : IAction;
+    public record struct SetCurrentClientAction(Client Client) : IAction;
 
     public class SetCurrentClientHandler : ActionHandler<SetCurrentClientAction>
     {
@@ -20,12 +21,14 @@ public partial class ClientState
 
         private ClientState ClientState => Store.GetState<ClientState>();
 
-        public override async Task Handle(SetCurrentClientAction aAction, CancellationToken aCancellationToken)
+        public override async Task<Unit> Handle(SetCurrentClientAction aAction, CancellationToken aCancellationToken)
         {
             var metrics = await _client.GetClientMetricListAsync(aAction.Client.ClientId, aCancellationToken);
 
             ClientState.CurrentClient = aAction.Client;
             ClientState.CurrentClientMetrics = metrics.Data.ToList();
+
+            return Unit.Value;
         }
     }
 }

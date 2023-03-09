@@ -1,4 +1,5 @@
 ﻿using BlazorState;
+using MediatR;
 
 namespace Nexus.Portal.Features.GlobalProgress;
 
@@ -8,17 +9,17 @@ public partial class GlobalProgressState
 
     public class IncrementGlobalProgressHandler : ActionHandler<IncrementGlobalProgressAction>
     {
-        public IncrementGlobalProgressHandler(IStore store)
-            : base(store)
+        public IncrementGlobalProgressHandler(IStore aStore)
+            : base(aStore)
         {
         }
 
         private GlobalProgressState State => Store.GetState<GlobalProgressState>();
 
-        public override Task Handle(IncrementGlobalProgressAction aAction, CancellationToken aCancellationToken)
+        public override Task<Unit> Handle(IncrementGlobalProgressAction aAction, CancellationToken aCancellationToken)
         {
             State.RequestsInProgress += 1;
-            return Task.CompletedTask;
+            return Unit.Task;
         }
     }
 }
