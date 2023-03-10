@@ -27,6 +27,8 @@ public partial class ClientState
             ClientState.CurrentClient = aAction.Client;
             ClientState.CurrentClientMetrics = metrics.Data
                 .Select(m => new ClientMetric(m.ClientMetricId, m.RecordedDate, m.RecordedValueMetric)).ToList();
+            ClientState.ChartData =
+                new ClientMetricChartData(ClientState.CurrentClient, ClientState.CurrentClientMetrics);
 
             return Unit.Value;
         }
