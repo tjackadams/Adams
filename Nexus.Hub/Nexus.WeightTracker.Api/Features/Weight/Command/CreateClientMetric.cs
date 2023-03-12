@@ -1,30 +1,33 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nexus.WeightTracker.Api.Domain;
+using Nexus.WeightTracker.Api.Features.Weight.Models;
 using Nexus.WeightTracker.Api.Infrastructure;
 
 namespace Nexus.WeightTracker.Api.Features.Weight.Command;
+
+public record struct CreateClientMetricCommand(double RecordedValue, DateOnly RecordedDate);
 
 public static class CreateClientMetric
 {
     public record Command(
         [property: FromRoute] ClientId ClientId,
-        [property: FromBody] Data Data) : IRequest<IResult>;
-
-    public record Data(double RecordedValue, DateOnly RecordedDate);
-
-    public record Response(ClientId ClientId, ClientMetricId ClientMetricId, double RecordedValue,
-        DateOnly RecordedDate);
+        [property: FromBody] CreateClientMetricCommand Data) : IRequest<IResult>;
 
     public class Handler : IRequestHandler<Command, IResult>
     {
         private readonly WeightDbContext _db;
-        public Handler(WeightDbContext db)
+        private readonly IMapper _mapper;
+
+        public Handler(WeightDbContext db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
+
         public async Task<IResult> Handle(Command request, CancellationToken cancellationToken)
         {
             var client = await _db.Clients.Where(c => c.ClientId == request.ClientId)
@@ -40,7 +43,8 @@ public static class CreateClientMetric
 
             if (result.IsFailed)
             {
-                return TypedResults.ValidationProblem(result.Errors.ToDictionary(e => e.Metadata["PropertyName"].ToString()!, e => new[] { e.Message }));
+                return TypedResults.ValidationProblem(
+                    result.Errors.ToDictionary(e => e.Metadata["PropertyName"].ToString()!, e => new[] { e.Message }));
             }
 
             await _db.SaveChangesAsync(cancellationToken);
@@ -49,12 +53,7 @@ public static class CreateClientMetric
                 .Single(m => m.RecordedDate == request.Data.RecordedDate);
 
             return TypedResults.Created($"/clients/{client.ClientId}/metrics/${metric.ClientMetricId}",
-                ToModel(metric));
-        }
-
-        private static Response ToModel(ClientMetric clientMetric)
-        {
-            return new Response(ClientId: clientMetric.ClientId, ClientMetricId: clientMetric.ClientMetricId, RecordedValue: clientMetric.RecordedValue, RecordedDate: clientMetric.RecordedDate);
+                _mapper.Map<ClientMetricViewModel>(metric));
         }
     }
 
@@ -62,8 +61,9 @@ public static class CreateClientMetric
     {
         public Validator()
         {
-            Transform(c => c.ClientId, c => c.Value)
-                .GreaterThan(0);
+            RuleFor(c => c.ClientId.Value)
+                .GreaterThan(0)
+                .OverridePropertyName(nameof(Command.ClientId));
 
             RuleFor(c => c.Data)
                 .NotEmpty()
@@ -72,13 +72,12 @@ public static class CreateClientMetric
                     data.RuleFor(d => d.RecordedValue)
                         .NotEmpty()
                         .GreaterThan(0)
-                        .OverridePropertyName(nameof(Data.RecordedValue));
+                        .OverridePropertyName(nameof(CreateClientMetricCommand.RecordedValue));
 
                     data.RuleFor(c => c.RecordedDate)
                         .NotEmpty()
-                        .OverridePropertyName(nameof(Data.RecordedDate));
+                        .OverridePropertyName(nameof(CreateClientMetricCommand.RecordedDate));
                 });
         }
     }
-
 }

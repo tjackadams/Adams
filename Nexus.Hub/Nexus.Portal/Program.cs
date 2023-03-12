@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using BlazorState;
 using FluentValidation;
 using LettuceEncrypt;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -44,6 +45,12 @@ builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+builder.Services.AddBlazorState(options =>
+{
+    options.UseReduxDevTools();
+    options.Assemblies = new[] { typeof(Program).Assembly };
+});
 
 builder.Services.AddServices();
 

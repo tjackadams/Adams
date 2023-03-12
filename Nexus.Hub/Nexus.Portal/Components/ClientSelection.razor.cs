@@ -1,63 +1,68 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Identity.Web;
 using MudBlazor;
-using Nexus.WeightTracker;
-using Nexus.WeightTracker.Contracts;
+using Nexus.Portal.Features.Clients;
+using Nexus.Portal.Features.GlobalProgress;
 
 namespace Nexus.Portal.Components;
 
 public partial class ClientSelection
 {
     [Inject]
-    public WeightTrackerClient TrackerClient { get; set; } = null!;
-
-    [Inject]
-    public MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler { get; set; } = null!;
-
-    [Inject]
     public IDialogService DialogService { get; set; } = null!;
 
+    [Inject]
+    public NavigationManager NavManager { get; set; } = null!;
+
     [Parameter]
-    public EventCallback<GetClientList_ClientModel> ClientChanged { get; set; }
+    public int? ClientId { get; set; }
 
-    [CascadingParameter]
-    public ClientStateProvider? ClientStateProvider { get; set; }
+    private ClientState ClientState => GetState<ClientState>();
 
-    private GetClientList_Response? _clients;
+    private List<Client> Clients => ClientState.Clients;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            _clients = await TrackerClient.GetClientListAsync();
+            await Mediator.Send(new ProgressState.ShowProgressAction());
+            await Mediator.Send(new ClientState.GetAllClientsAction());
         }
-        catch (Exception ex)
+        finally
         {
-            ConsentHandler.HandleException(ex);
+            await Mediator.Send(new ProgressState.HideProgressAction());
         }
     }
 
-    private async Task OnClientChanged(GetClientList_ClientModel client)
+    private void OnClientChanged(Client client)
     {
-        if (ClientStateProvider is not null)
-        {
-            await ClientStateProvider.SetClientAsync(client);
-        }
+        NavManager.NavigateTo($"/tracker/weight/{client.ClientId}");
     }
 
     private async void OpenDialog()
     {
         var dialog = await DialogService.ShowAsync<AddClientDialog>("Add Client");
-        var result = await dialog.Result;
-        if (!result.Canceled)
+        _ = await dialog.Result;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (ClientId is not null)
         {
-            try
+            if (Clients.Any())
             {
-                _clients = await TrackerClient.GetClientListAsync();
-            }
-            catch (Exception ex)
-            {
-                ConsentHandler.HandleException(ex);
+                var client = Clients.Where(c => c.ClientId == ClientId).FirstOrDefault();
+                if (client is not null)
+                {
+                    try
+                    {
+                        await Mediator.Send(new ProgressState.ShowProgressAction());
+                        await Mediator.Send(new ClientState.SetCurrentClientAction(client));
+                    }
+                    finally
+                    {
+                        await Mediator.Send(new ProgressState.HideProgressAction());
+                    }
+                }
             }
         }
     }

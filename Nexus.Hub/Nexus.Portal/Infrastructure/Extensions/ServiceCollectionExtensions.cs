@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
+using Nexus.Portal.Infrastructure.Http;
 using Nexus.Portal.Infrastructure.Polly;
 using Nexus.Portal.Services;
 using Nexus.Todo;
@@ -13,22 +14,24 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<GuidFormatter>();
 
+        services.AddTransient<MicrosoftIdentityConsentHandler>();
         services.AddTransient<LoggerProviderMessageHandler<TodoClient>>();
         services.AddTransient<LoggerProviderMessageHandler<WeightTrackerClient>>();
 
         services.AddHttpClient<TodoClient>((sp, client) =>
-        {
-            var settings = sp.GetRequiredService<IOptions<Settings>>();
-            client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "todo/");
-        })
+            {
+                var settings = sp.GetRequiredService<IOptions<Settings>>();
+                client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "todo/");
+            })
             .AddHttpMessageHandler<LoggerProviderMessageHandler<TodoClient>>()
             .AddDefaultRetryPolicy();
 
         services.AddHttpClient<WeightTrackerClient>((sp, client) =>
-        {
-            var settings = sp.GetRequiredService<IOptions<Settings>>();
-            client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "weighttracker/");
-        })
+            {
+                var settings = sp.GetRequiredService<IOptions<Settings>>();
+                client.BaseAddress = new Uri(settings.Value.ApiGatewayUri, "weighttracker/");
+            })
+            .AddHttpMessageHandler<MicrosoftIdentityConsentHandler>()
             .AddHttpMessageHandler<LoggerProviderMessageHandler<WeightTrackerClient>>()
             .AddDefaultRetryPolicy()
             .AddMicrosoftIdentityUserAuthenticationHandler(nameof(WeightTrackerClient), options =>

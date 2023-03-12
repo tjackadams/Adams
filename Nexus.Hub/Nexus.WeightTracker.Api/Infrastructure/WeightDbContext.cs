@@ -14,6 +14,8 @@ public class WeightDbContext : DbContext
 
     public DbSet<Client> Clients => Set<Client>();
 
+    public DbSet<ClientMetric> ClientMetrics => Set<ClientMetric>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("Weight");

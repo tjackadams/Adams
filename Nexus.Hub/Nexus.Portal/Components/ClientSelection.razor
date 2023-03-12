@@ -1,20 +1,24 @@
 ﻿@using Nexus.WeightTracker.Contracts;
+@using Nexus.Portal.Features.Clients
 
-<MudGrid Spacing="4" Justify="Justify.FlexEnd">
+@inherits BlazorStateComponent
 
-    <MudItem xs="7">
+<MudGrid Spacing="8">
+
+    <MudItem Class="flex-grow-1">
 
     </MudItem>
 
-    <MudItem xs="3">
-        @if (_clients is not null)
+    <MudItem Class="flex-shrink-0">
+        @if (ClientState.Clients.Any())
         {
 
-            <MudSelect T="GetClientList_ClientModel" ValueChanged="@OnClientChanged" HelperText="Select a client"
+            <MudSelect T="Client" ValueChanged="@OnClientChanged" HelperText="Select a client"
                    Label="Client"
-                   Variant="Variant.Text">
+                   Variant="Variant.Text"
+                   Style="min-width:260px;">
 
-                @foreach (var client in _clients.Data)
+                @foreach (var client in ClientState.Clients)
                 {
                     <MudSelectItem Value="client">@client.Name</MudSelectItem>
                 }
@@ -23,7 +27,7 @@
         }
     </MudItem>
 
-    <MudItem xs="2">
+    <MudItem Class="flex-shrink-0">
         <MudButton @onclick="OpenDialog"
                    Variant="Variant.Filled"
                    Color="@Color.Primary"

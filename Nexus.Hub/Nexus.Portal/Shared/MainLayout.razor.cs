@@ -12,8 +12,8 @@ public partial class MainLayout
 
     private bool _drawerOpen;
     private bool _isReady;
-    private UserPreference? _userPreference;
-    private readonly MudTheme _theme = new ();
+    private UserPreference _userPreference = new();
+    private readonly MudTheme _theme = new();
 
     private void DrawerToggle()
     {

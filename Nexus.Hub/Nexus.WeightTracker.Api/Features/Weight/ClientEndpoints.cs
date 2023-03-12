@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Nexus.WeightTracker.Api.Features.Weight.Command;
+﻿using Nexus.WeightTracker.Api.Features.Weight.Command;
+using Nexus.WeightTracker.Api.Features.Weight.Models;
 using Nexus.WeightTracker.Api.Features.Weight.Query;
 using Nexus.WeightTracker.Api.Infrastructure.Authorization;
 using Nexus.WeightTracker.Api.Infrastructure.Routing;
@@ -22,7 +22,7 @@ public static class ClientEndpoints
             .ProducesProblem(StatusCodes.Status403Forbidden);
 
         group.Post<CreateClient.Command>("")
-            .Produces<CreateClient.Response>(StatusCodes.Status201Created)
+            .Produces<ClientViewModel>(StatusCodes.Status201Created)
             .RequireAuthorization(AuthorizationPolicyNames.Writer)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status401Unauthorized)
@@ -34,7 +34,7 @@ public static class ClientEndpoints
             .ProducesProblem(StatusCodes.Status403Forbidden);
 
         group.Post<CreateClientMetric.Command>("{clientId}/metrics")
-            .Produces<CreateClientMetric.Response>(StatusCodes.Status201Created)
+            .Produces<ClientMetricViewModel>(StatusCodes.Status201Created)
             .RequireAuthorization(AuthorizationPolicyNames.Writer)
             .ProducesValidationProblem()
             .ProducesProblem(StatusCodes.Status401Unauthorized)

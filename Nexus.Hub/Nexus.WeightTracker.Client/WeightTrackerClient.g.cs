@@ -138,12 +138,13 @@ namespace Nexus.WeightTracker
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<CreateClient_Response> CreateClientAsync(string? name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ClientViewModel> CreateClientAsync(CreateClientCommand data, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            if (data == null)
+                throw new System.ArgumentNullException("data");
+
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("clients?");
-            urlBuilder_.Append(System.Uri.EscapeDataString("Name") + "=").Append(System.Uri.EscapeDataString(name != null ? ConvertToString(name, System.Globalization.CultureInfo.InvariantCulture) : "")).Append("&");
-            urlBuilder_.Length--;
+            urlBuilder_.Append("clients");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -151,7 +152,10 @@ namespace Nexus.WeightTracker
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    var json_ = System.Text.Json.JsonSerializer.Serialize(data, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
@@ -178,7 +182,7 @@ namespace Nexus.WeightTracker
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 201)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<CreateClient_Response>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ClientViewModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new SwaggerException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -327,7 +331,7 @@ namespace Nexus.WeightTracker
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<CreateClientMetric_Response> CreateClientMetricAsync(int clientId, CreateClientMetric_Data data, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ClientMetricViewModel> CreateClientMetricAsync(int clientId, CreateClientMetricCommand data, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (clientId == null)
                 throw new System.ArgumentNullException("clientId");
@@ -375,7 +379,7 @@ namespace Nexus.WeightTracker
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 201)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<CreateClientMetric_Response>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ClientMetricViewModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new SwaggerException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);

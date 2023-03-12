@@ -1,7 +1,13 @@
 ﻿@page "/tracker/weight"
+@page "/tracker/weight/{ClientId:int}"
 
-<ClientStateProvider>
-    <ClientSelection></ClientSelection>
-    <ClientMetricChart></ClientMetricChart>
-    <ClientMetricTable></ClientMetricTable>
-</ClientStateProvider>
+<ClientSelection ClientId="ClientId"></ClientSelection>
+<ClientMetricChart></ClientMetricChart>
+<ClientMetricTable></ClientMetricTable>
+
+@code {
+
+    [Parameter]
+    public int? ClientId { get; set; }
+
+}

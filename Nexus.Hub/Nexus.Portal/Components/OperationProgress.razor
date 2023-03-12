@@ -1,0 +1,10 @@
+﻿@inherits BlazorStateComponent
+
+<MudGrid>
+    <MudItem Class="flex-grow-1">
+        @if (ShowProgress)
+        {
+            <MudProgressLinear Color="Color.Tertiary" Indeterminate="true" />
+        }
+    </MudItem>
+</MudGrid>
