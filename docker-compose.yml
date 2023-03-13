@@ -34,7 +34,7 @@ services:
     environment:
       - ACCEPT_EULA=Y
     volumes:
-      - docker/seq/data:/data
+      - /docker/seq/data:/data
 
   nexus.todo.api:
     image: ${DOCKER_REGISTRY:-tjackadams}/nexus.todo.api:${PLATFORM:-linux}-${TAG:-latest}
