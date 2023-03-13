@@ -13,6 +13,17 @@ using Nexus.Portal.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+if (builder.Environment.IsDevelopment())
+{
+    builder.Logging.AddConsole();
+    builder.Logging.AddDebug();
+}
+else
+{
+    builder.Logging.AddSeq(builder.Configuration.GetRequiredSection("Seq"));
+}
+
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
         .EnableTokenAcquisitionToCallDownstreamApi()

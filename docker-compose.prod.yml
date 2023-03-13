@@ -33,6 +33,7 @@ services:
       - PfxPassword=${PfxPassword}
       - AzureAD__ClientSecret=${ClientSecret}
       - Settings__ApiGatewayUri=http://nexus.gateway
+      - Seq__ServerUrl=https://seq:5341
     ports:
       - "5200:443"
     volumes: 

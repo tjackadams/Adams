@@ -28,6 +28,13 @@ services:
       - MYSQL_PASS=zipkin
     depends_on:
       - zipkin.storage
+    
+  seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - /docker/seq/data:/data
 
   nexus.todo.api:
     image: ${DOCKER_REGISTRY:-tjackadams}/nexus.todo.api:${PLATFORM:-linux}-${TAG:-latest}
@@ -35,6 +42,8 @@ services:
       context: .
       dockerfile: Nexus.Hub/Nexus.Todo.Api/Dockerfile
     pull_policy: always
+    depends_on:
+      - seq
 
   nexus.weighttracker.api:
     image: ${DOCKER_REGISTRY:-tjackadams}/nexus.weighttracker.api:${PLATFORM:-linux}-${TAG:-latest}
@@ -43,6 +52,7 @@ services:
       dockerfile: Nexus.Hub/Nexus.WeightTracker.Api/Dockerfile
     pull_policy: always
     depends_on:
+      - seq
       - zipkin
 
   nexus.gateway:
@@ -52,6 +62,7 @@ services:
       dockerfile: Nexus.Hub/Nexus.Gateway/Dockerfile
     pull_policy: always
     depends_on:
+      - seq
       - nexus.todo.api
       - nexus.weighttracker.api
 
@@ -62,6 +73,7 @@ services:
       dockerfile: Nexus.Hub/Nexus.Portal/Dockerfile
     pull_policy: always
     depends_on:
+      - seq
       - nexus.gateway
 
 
