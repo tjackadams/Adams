@@ -1,8 +1,7 @@
 trigger:
   paths:
     exclude:
-    - '*.yml'
-    - '**/*.yml'
+    - 'azure-pipelines.db-backup.yml'
 
 pool: 
   name: 'Default'
