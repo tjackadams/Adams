@@ -1,6 +1,10 @@
 version: '3.4'
 
 services:
+  seq:
+    volumes:
+      - /volume1/docker/seq/data:/data
+
   nexus.todo.api:
     environment:
       - ASPNETCORE_URLS=http://+:80
