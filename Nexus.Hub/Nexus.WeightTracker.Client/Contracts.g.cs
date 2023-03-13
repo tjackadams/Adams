@@ -26,7 +26,7 @@ namespace Nexus.WeightTracker.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientList_Response(System.Collections.Generic.ICollection<GetClientList_ClientModel> @data)
+        public GetClientList_Response(System.Collections.Generic.ICollection<ClientViewModel> @data)
 
         {
 
@@ -36,28 +36,28 @@ namespace Nexus.WeightTracker.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("data")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<GetClientList_ClientModel> Data { get; }
+        public System.Collections.Generic.ICollection<ClientViewModel> Data { get; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetClientList_ClientModel
+    public partial class ClientViewModel
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientList_ClientModel(int @id, string @name)
+        public ClientViewModel(int @clientId, string @name)
 
         {
 
-            this.Id = @id;
+            this.ClientId = @clientId;
 
             this.Name = @name;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        [System.Text.Json.Serialization.JsonPropertyName("clientId")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int Id { get; }
+        public int ClientId { get; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
 
@@ -67,24 +67,17 @@ namespace Nexus.WeightTracker.Contracts
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CreateClient_Response
+    public partial class CreateClientCommand
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public CreateClient_Response(int @id, string @name)
+        public CreateClientCommand(string @name)
 
         {
-
-            this.Id = @id;
 
             this.Name = @name;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int Id { get; }
-
         [System.Text.Json.Serialization.JsonPropertyName("name")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
@@ -97,7 +90,7 @@ namespace Nexus.WeightTracker.Contracts
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientMetricList_Response(System.Collections.Generic.ICollection<GetClientMetricList_ClientMetric> @data)
+        public GetClientMetricList_Response(System.Collections.Generic.ICollection<ClientMetricViewModel> @data)
 
         {
 
@@ -107,16 +100,16 @@ namespace Nexus.WeightTracker.Contracts
         [System.Text.Json.Serialization.JsonPropertyName("data")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<GetClientMetricList_ClientMetric> Data { get; }
+        public System.Collections.Generic.ICollection<ClientMetricViewModel> Data { get; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetClientMetricList_ClientMetric
+    public partial class ClientMetricViewModel
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public GetClientMetricList_ClientMetric(int @clientMetricId, System.DateOnly @recordedDate, double @recordedValueMetric)
+        public ClientMetricViewModel(int @clientMetricId, System.DateOnly @recordedDate, double @recordedValueMetric)
 
         {
 
@@ -146,52 +139,11 @@ namespace Nexus.WeightTracker.Contracts
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CreateClientMetric_Response
+    public partial class CreateClientMetricCommand
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public CreateClientMetric_Response(int @clientId, int @clientMetricId, System.DateOnly @recordedDate, double @recordedValue)
-
-        {
-
-            this.ClientId = @clientId;
-
-            this.ClientMetricId = @clientMetricId;
-
-            this.RecordedValue = @recordedValue;
-
-            this.RecordedDate = @recordedDate;
-
-        }
-        [System.Text.Json.Serialization.JsonPropertyName("clientId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int ClientId { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("clientMetricId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int ClientMetricId { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("recordedValue")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double RecordedValue { get; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("recordedDate")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        [System.Text.Json.Serialization.JsonConverter(typeof(DateFormatConverter))]
-        public System.DateOnly RecordedDate { get; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class CreateClientMetric_Data
-    {
-        [System.Text.Json.Serialization.JsonConstructor]
-
-        public CreateClientMetric_Data(System.DateOnly @recordedDate, double @recordedValue)
+        public CreateClientMetricCommand(System.DateOnly @recordedDate, double @recordedValue)
 
         {
 

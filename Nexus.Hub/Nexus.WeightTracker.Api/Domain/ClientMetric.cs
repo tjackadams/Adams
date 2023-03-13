@@ -2,7 +2,6 @@
 
 namespace Nexus.WeightTracker.Api.Domain;
 
-
 [StronglyTypedId(StronglyTypedIdBackingType.Int, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.SystemTextJson | StronglyTypedIdConverter.EfCoreValueConverter)]
 public partial struct ClientMetricId
 {
@@ -22,23 +21,26 @@ public partial struct ClientMetricId
 public class ClientMetric
 {
     protected ClientMetric() { }
+
     public ClientMetric(ClientId clientId, double recordedValue, DateOnly recordedDate)
     {
+        ClientMetricId = ClientMetricId.Empty;
         ClientId = clientId;
+        CreatedTime = DateTimeOffset.UtcNow;
         RecordedValue = recordedValue;
         RecordedDate = recordedDate;
     }
 
 
-    public ClientMetricId ClientMetricId { get; private set; }
+    public ClientMetricId ClientMetricId { get; init; }
 
-    public ClientId ClientId { get; private set; }
+    public ClientId ClientId { get; init; }
 
-    public Client Client {get; private set;}
+    public Client Client { get; init; } = null!;
 
-    public double RecordedValue { get; private set; }
+    public double RecordedValue { get; init; }
 
-    public DateOnly RecordedDate { get; private set; }
+    public DateOnly RecordedDate { get; init; }
 
-    public DateTimeOffset CreatedTime { get; private set; }
+    public DateTimeOffset CreatedTime { get; init; }
 }

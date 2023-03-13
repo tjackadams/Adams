@@ -1,21 +1,21 @@
 ﻿@using Nexus.WeightTracker.Contracts
+@using Nexus.Portal.Features.Clients
 
-@if (ClientStateProvider is not null)
+@inherits BlazorStateComponent
+
+@if (CurrentClient is not null)
 {
-    if (ClientStateProvider.Metrics is not null)
-    {
-        <MudGrid>
-            <MudItem>
-                <MudButton @onclick="OpenDialog" StartIcon="@Icons.Material.Filled.Add">
-                    New Measurement 
-                </MudButton>
-            </MudItem>
-        </MudGrid>
-        <MudDataGrid Items="ClientStateProvider.Metrics.Data">
-            <Columns>
-                <Column T="GetClientMetricList_ClientMetric" Field="RecordedDate" FieldType="typeof(DateOnly)" Title="Recorded Date"></Column>
-                <Column T="GetClientMetricList_ClientMetric" Field="RecordedValueMetric" FieldType="typeof(double)" Title="Recorded Value (KG)"></Column>
-            </Columns>
-        </MudDataGrid>
-    }
+    <MudGrid>
+        <MudItem>
+            <MudButton @onclick="OpenDialog" StartIcon="@Icons.Material.Filled.Add">
+                New Measurement
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+    <MudDataGrid Items="CurrentClientMetrics">
+        <Columns>
+            <Column T="ClientMetric" Field="RecordedDate" FieldType="typeof(DateOnly)" Title="Recorded Date"></Column>
+            <Column T="ClientMetric" Field="RecordedValueMetric" FieldType="typeof(double)" Title="Recorded Value (KG)"></Column>
+        </Columns>
+    </MudDataGrid>
 }

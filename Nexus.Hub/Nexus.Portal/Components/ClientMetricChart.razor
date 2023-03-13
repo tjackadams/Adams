@@ -1,20 +1,18 @@
-﻿<MudGrid>
-    @if (ClientStateProvider is not null)
-    {
-        if (ClientStateProvider.Metrics is not null)
-        {
-            if (_series is not null && _xAxisLabels is not null)
-            {
-                <MudItem xs="12">
-                    <MudChart ChartType="ChartType.Line"
-                  ChartSeries="_series"
-                  @bind-SelectedIndex="Index"
-                  XAxisLabels="_xAxisLabels"
-                  Width="100%"
-                  Height="350px">
-                    </MudChart>
-                </MudItem>
-            }
-        }
-    }
-</MudGrid>
+﻿@inherits BlazorStateComponent
+
+@if (CurrentClient is not null && ChartData is not null)
+{
+    <MudGrid>
+
+        <MudItem xs="12">
+            <MudChart ChartType="ChartType.Line"
+                      ChartSeries="ChartData.Series.ToList()"
+                      @bind-SelectedIndex="Index"
+                      XAxisLabels="ChartData.XAxisLabels.ToArray()"
+                      Width="100%"
+                      Height="350px">
+            </MudChart>
+        </MudItem>
+
+    </MudGrid>
+}

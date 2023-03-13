@@ -1,4 +1,5 @@
-﻿using OpenTelemetry.Metrics;
+﻿using System.Diagnostics.Metrics;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -9,6 +10,7 @@ public static class OpenTelemetryExtensions
     public static WebApplicationBuilder AddOpenTelemetry(this WebApplicationBuilder builder)
     {
         var resourceBuilder = ResourceBuilder.CreateDefault().AddService(builder.Environment.ApplicationName);
+        var meter = new Meter(builder.Environment.ApplicationName);
 
         builder.Logging.AddOpenTelemetry(o =>
         {
@@ -16,11 +18,31 @@ public static class OpenTelemetryExtensions
             o.SetResourceBuilder(resourceBuilder);
         });
 
-        builder.Services.AddOpenTelemetryMetrics(metrics =>
+        builder.Services.AddOpenTelemetry().WithTracing(tracerProviderBuilder =>
         {
-            metrics.SetResourceBuilder(resourceBuilder)
+            tracerProviderBuilder
+                .AddConsoleExporter()
+                .AddZipkinExporter(options =>
+                {
+                    if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("Zipkin")))
+                    {
+                        options.Endpoint = new Uri(builder.Configuration.GetConnectionString("Zipkin")!);
+                    }
+                })
+                .AddSource(builder.Environment.ApplicationName)
+                .SetResourceBuilder(resourceBuilder)
+                .AddHttpClientInstrumentation()
                 .AddAspNetCoreInstrumentation()
-                .AddRuntimeInstrumentation()
+                .AddEntityFrameworkCoreInstrumentation();
+        });
+
+        builder.Services.AddOpenTelemetry().WithMetrics(metricProviderBuilder =>
+        {
+            metricProviderBuilder
+                .AddConsoleExporter()
+                .AddMeter(meter.Name)
+                .SetResourceBuilder(resourceBuilder)
+                .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddEventCountersInstrumentation(c =>
                 {
@@ -28,27 +50,11 @@ public static class OpenTelemetryExtensions
                     c.AddEventSources(
                         "Microsoft.AspNetCore.Hosting",
                         "Microsoft-AspNetCore-Server-Kestrel",
-                        "System.Net.Http", 
+                        "System.Net.Http",
                         "System.Net.Sockets",
                         "System.Net.NameResolution",
                         "System.Net.Security");
                 });
-        });
-
-        builder.Services.AddOpenTelemetryTracing(tracing =>
-        {
-            tracing.SetResourceBuilder(resourceBuilder)
-                .AddZipkinExporter(o =>
-                {
-                    if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("Zipkin")))
-                    {
-                        o.Endpoint = new Uri(builder.Configuration.GetConnectionString("Zipkin")!);
-                    }
-                })
-                .AddAspNetCoreInstrumentation()
-                .AddHttpClientInstrumentation()
-                .AddEntityFrameworkCoreInstrumentation();
-
         });
 
         return builder;
