@@ -48,7 +48,11 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddBlazorState(options =>
 {
-    options.UseReduxDevTools();
+    if (builder.Environment.IsDevelopment())
+    {
+        options.UseReduxDevTools();
+    }
+
     options.Assemblies = new[] { typeof(Program).Assembly };
 });
 

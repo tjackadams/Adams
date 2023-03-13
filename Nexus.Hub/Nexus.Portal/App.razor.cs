@@ -7,18 +7,30 @@ namespace Nexus.Portal;
 
 public partial class App : ComponentBase
 {
-    [Inject]
-    private JsonRequestHandler JsonRequestHandler { get; set; } = null!;
+    private JsonRequestHandler? _jsonRequestHandler;
+    private ReduxDevToolsInterop? _reduxDevToolsInterop;
+    private RouteManager? _routeManager;
 
     [Inject]
-    private ReduxDevToolsInterop ReduxDevToolsInterop { get; set; } = null!;
+    private IServiceProvider ServiceProvider { get; set; } = null!;
 
-    [Inject]
-    private RouteManager RouteManager { get; set; } = null!;
+    protected override void OnInitialized()
+    {
+        _jsonRequestHandler = ServiceProvider.GetService<JsonRequestHandler>();
+        _reduxDevToolsInterop = ServiceProvider.GetService<ReduxDevToolsInterop>();
+        _routeManager = ServiceProvider.GetService<RouteManager>();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await ReduxDevToolsInterop.InitAsync();
-        await JsonRequestHandler.InitAsync();
+        if (_reduxDevToolsInterop is not null)
+        {
+            await _reduxDevToolsInterop.InitAsync();
+        }
+
+        if (_jsonRequestHandler is not null)
+        {
+            await _jsonRequestHandler.InitAsync();
+        }
     }
 }
