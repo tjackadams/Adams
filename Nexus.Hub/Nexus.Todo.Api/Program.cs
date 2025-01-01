@@ -7,12 +7,13 @@ using Nexus.Todo.Api.Infrastructure.NSwag;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpLogging();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument(options =>
 {
     options.Title = "Nexus Todo API";
-
-    options.SchemaNameGenerator = new NexusSchemaNameGenerator();
+    options.SchemaSettings.SchemaNameGenerator = new NexusSchemaNameGenerator();
 });
 
 builder.Services.AddDbContext<TodoDbContext>(options =>
@@ -35,7 +36,7 @@ var app = builder.Build();
 app.UseHttpLogging();
 
 app.UseOpenApi();
-app.UseSwaggerUi3();
+app.UseSwaggerUi();
 
 app.MapTodo();
 
