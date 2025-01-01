@@ -9,6 +9,7 @@ using NSwag.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpLogging();
 builder.Services.AddProblemDetails();
 
 var swagger = builder.Configuration.GetRequiredSection("Swagger");
@@ -43,7 +44,7 @@ app.UseHttpLogging();
 app.UseErrorHandling();
 
 app.UseOpenApi();
-app.UseSwaggerUi3(settings =>
+app.UseSwaggerUi(settings =>
 {
     settings.OAuth2Client = new OAuth2ClientSettings
     {

@@ -1,4 +1,5 @@
-﻿using Nexus.WeightTracker.Api.Domain.ErrorHandling;
+﻿using System.Diagnostics.CodeAnalysis;
+using Nexus.WeightTracker.Api.Domain.ErrorHandling;
 using StronglyTypedIds;
 
 namespace Nexus.WeightTracker.Api.Domain;
@@ -27,26 +28,27 @@ public class Client
     public const int MaximumNameLength = 20;
     protected Client() { }
 
+    [SetsRequiredMembers]
     public Client(string name, string createdBy)
     {
         ClientId = ClientId.Empty;
         CreatedBy = createdBy;
         CreatedTime = DateTimeOffset.UtcNow;
         Name = name;
-        Version = Array.Empty<byte>();
+        Version = [];
     }
 
     public ClientId ClientId { get; init; }
 
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     public DateTimeOffset CreatedTime { get; init; }
 
-    public string CreatedBy { get; init; }
+    public required string CreatedBy { get; init; }
 
     public IReadOnlyCollection<ClientMetric> Metrics => _metrics.AsReadOnly();
 
-    public byte[] Version { get; init; }
+    public required byte[] Version { get; init; }
 
     public FluentResults.Result AddMetric(double recordedValue, DateOnly recordedDate)
     {

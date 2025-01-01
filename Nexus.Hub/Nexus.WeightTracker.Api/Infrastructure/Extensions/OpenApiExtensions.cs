@@ -20,14 +20,14 @@ public static class OpenApiExtensions
         {
             document.Title = "Nexus Weight Tracking API";
 
-            document.SchemaNameGenerator = new NexusSchemaNameGenerator();
+            document.SchemaSettings.SchemaNameGenerator = new NexusSchemaNameGenerator();
 
-            document.TypeMappers.Add(new PrimitiveTypeMapper(typeof(ClientId), schema =>
+            document.SchemaSettings.TypeMappers.Add(new PrimitiveTypeMapper(typeof(ClientId), schema =>
             {
                 schema.Type = JsonObjectType.Integer;
             }));
 
-            document.TypeMappers.Add(new PrimitiveTypeMapper(typeof(ClientMetricId), schema =>
+            document.SchemaSettings.TypeMappers.Add(new PrimitiveTypeMapper(typeof(ClientMetricId), schema =>
             {
                 schema.Type = JsonObjectType.Integer;
             }));
