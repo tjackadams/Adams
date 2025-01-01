@@ -10,19 +10,20 @@
     <DefineConstants>STRONGLY_TYPED_ID_EMBED_ATTRIBUTES</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
-    <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NSwag.AspNetCore" Version="14.2.0" />
-    <PackageReference Include="NSwag.MSBuild" Version="14.2.0">
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="NSwag.AspNetCore" />
+    <PackageReference Include="NSwag.MSBuild">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="StronglyTypedId" Version="1.0.0-beta06">
+    <PackageReference Include="StronglyTypedId">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime;</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="FluentValidation" VersionOverride="11.11.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nexus.AspNetCore\Nexus.AspNetCore.csproj" />

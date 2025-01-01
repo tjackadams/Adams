@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nexus.Hub", "Nexus.Hub", "{D7A27FC4-81FF-473C-A514-F49E7CFBA4E0}"
 	ProjectSection(SolutionItems) = preProject
 		Nexus.Hub\Directory.Build.props = Nexus.Hub\Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nexus.Todo.Api", "Nexus.Hub\Nexus.Todo.Api\Nexus.Todo.Api.csproj", "{6FF12EE5-2C6B-4D04-BEC2-8FD540FB5314}"
