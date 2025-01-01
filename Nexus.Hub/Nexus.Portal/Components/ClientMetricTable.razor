@@ -14,8 +14,8 @@
     </MudGrid>
     <MudDataGrid Items="CurrentClientMetrics">
         <Columns>
-            <Column T="ClientMetric" Field="RecordedDate" FieldType="typeof(DateOnly)" Title="Recorded Date"></Column>
-            <Column T="ClientMetric" Field="RecordedValueMetric" FieldType="typeof(double)" Title="Recorded Value (KG)"></Column>
+            <PropertyColumn Property="x => x.RecordedDate" Title="Recorded Date"></PropertyColumn>
+            <PropertyColumn Property="x => x.RecordedValueMetric" Title="Recorded Value (KG)"></PropertyColumn>
         </Columns>
     </MudDataGrid>
 }

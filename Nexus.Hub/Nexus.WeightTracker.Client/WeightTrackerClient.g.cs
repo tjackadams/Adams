@@ -151,9 +151,8 @@ namespace Nexus.WeightTracker
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CreateClientAsync(CreateClientCommand data, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ClientViewModel> CreateClientAsync(CreateClientCommand data, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (data == null)
                 throw new System.ArgumentNullException("data");
@@ -199,11 +198,6 @@ namespace Nexus.WeightTracker
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            return default(void)!;
-                        }
-                        else
                         if (status_ == 201)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<ClientViewModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
@@ -211,7 +205,7 @@ namespace Nexus.WeightTracker
                             {
                                 throw new SwaggerException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new SwaggerException<ClientViewModel>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)
@@ -359,9 +353,8 @@ namespace Nexus.WeightTracker
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CreateClientMetricAsync(int clientId, CreateClientMetricCommand data, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ClientMetricViewModel> CreateClientMetricAsync(int clientId, CreateClientMetricCommand data, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (clientId == null)
                 throw new System.ArgumentNullException("clientId");
@@ -412,11 +405,6 @@ namespace Nexus.WeightTracker
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            return default(void)!;
-                        }
-                        else
                         if (status_ == 201)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<ClientMetricViewModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
@@ -424,7 +412,7 @@ namespace Nexus.WeightTracker
                             {
                                 throw new SwaggerException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new SwaggerException<ClientMetricViewModel>("A server side error occurred.", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ == 400)

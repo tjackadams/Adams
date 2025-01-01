@@ -12,8 +12,8 @@
         <MudAppBar Elevation="1">
             <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())" />
             <MudSpacer />
-            <MudSwitch @bind-Checked="_userPreference.IsDarkMode"
-                   @bind-Checked:after="@DarkModeToggle"
+            <MudSwitch Value="_userPreference.IsDarkMode"
+                   ValueChanged="@DarkModeToggle"
                    Color="Color.Primary" T="bool"
                    Label="@(_userPreference.IsDarkMode ? "Dark" : "Light")"
                    LabelPosition="LabelPosition.End" />

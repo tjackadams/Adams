@@ -14,9 +14,9 @@
     </MudItem>
     <MudItem xs="12">
         <MudStack Row="true" Justify="Justify.SpaceEvenly">
-            <MudSwitch @bind-Checked="@_settings.Uppercase" @bind-Checked:after="FormatAsync" Label="@(_settings.Uppercase ? "Uppercase" : "Lowercase")" T="bool"/>
-            <MudSwitch @bind-Checked="@_settings.Brackets" @bind-Checked:after="FormatAsync" Label="@(_settings.Brackets ? "Include Brackets" : "Exclude Brackets")" T="bool" />
-            <MudSwitch @bind-Checked="@_settings.Hyphens" @bind-Checked:after="FormatAsync" Label="@(_settings.Hyphens ? "Include Hyphens" : "Exclude Hyphens")" T="bool" />
+            <MudSwitch Value="@_settings.Uppercase" ValueChanged="FormatAsync" Label="@(_settings.Uppercase ? "Uppercase" : "Lowercase")" T="bool"/>
+            <MudSwitch Value="@_settings.Brackets" ValueChanged="FormatAsync" Label="@(_settings.Brackets ? "Include Brackets" : "Exclude Brackets")" T="bool" />
+            <MudSwitch Value="@_settings.Hyphens" ValueChanged="FormatAsync" Label="@(_settings.Hyphens ? "Include Hyphens" : "Exclude Hyphens")" T="bool" />
         </MudStack>
     </MudItem>
     <MudItem xs="12">

@@ -13,8 +13,7 @@ public static class ClientEndpoints
         var group = routes
             .MapGroup("clients")
             .RequireAuthorization(AuthorizationPolicyNames.Reader)
-            .WithTags(EndpointTags.Client)
-            .WithOpenApi();
+            .WithTags(EndpointTags.Client);
 
         group.Get<GetClientList.Query>("")
             .Produces<GetClientList.Response>()
